@@ -13,15 +13,7 @@ def chat_view(req: HttpRequest, channel: str) -> HttpResponse:
         # return redirect('home') # Send home if bad group request
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
-    if req.method == 'POST':
-        form = SendMessage(req.POST)
-        if form.is_valid():
-            newMessage = form.save(commit=False)
-            newMessage.user = req.user
-            newMessage.group = chatroom
-            form.save()
-            form = SendMessage()
-    # if req.htmx:
+    # if req.method == 'POST':
     #     form = SendMessage(req.POST)
     #     if form.is_valid():
     #         newMessage = form.save(commit=False)
@@ -29,7 +21,15 @@ def chat_view(req: HttpRequest, channel: str) -> HttpResponse:
     #         newMessage.group = chatroom
     #         form.save()
     #         form = SendMessage()
-    #         return render(req, 'message_partial.html', {'message': newMessage, 'user': req.user})
+    if req.htmx:
+        form = SendMessage(req.POST)
+        if form.is_valid():
+            newMessage = form.save(commit=False)
+            newMessage.user = req.user
+            newMessage.group = chatroom
+            form.save()
+            form = SendMessage()
+            return render(req, 'message_partial.html', {'message': newMessage, 'user': req.user})
 
     context["form"] = form
     return render(req, 'ChatHome.html', context)

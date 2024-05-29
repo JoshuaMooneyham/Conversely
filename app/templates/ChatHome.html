@@ -1,9 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversely</title>
+    <script src="{% static "scripts/htmx.min.js" %}"></script>
 </head>
 <body>
     <h1>Conversely</h1>
@@ -12,10 +15,10 @@
     {% include "message.html" %}
     {% endfor %}
     </div>
-    <form action="" method='POST'>
-    {% comment %} <form hx-post="{% url "chat_home" "Cohort2" %}"
+    {% comment %} <form action="" method='POST'> {% endcomment %}
+    <form hx-post="{% url "chat_home" "Cohort2" %}"
           hx-target="#messages_container"
-          hx-swap='beforeend'> {% endcomment %}
+          hx-swap='beforeend'>
         {% csrf_token %}
         {{ form }}
         <input type="submit">
