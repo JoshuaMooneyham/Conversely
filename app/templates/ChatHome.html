@@ -6,7 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversely</title>
-    <script src="{% static "scripts/htmx.min.js" %}"></script>
+    <script src="{% static "scripts/htmx.min.js" %}" defer></script>
+    <script src="{% static "scripts/script.js" %}" defer></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
 </head>
 <body>
     <h1>Conversely</h1>
@@ -16,12 +18,19 @@
     {% endfor %}
     </div>
     {% comment %} <form action="" method='POST'> {% endcomment %}
-    <form hx-post="{% url "chat_home" "Cohort2" %}"
-          hx-target="#messages_container"
-          hx-swap='beforeend'>
+    {% comment %} <form id='send-message'
+        hx-post="{% url "chat_home" "Cohort2" %}"
+        hx-target="#messages_container"
+        hx-swap='beforeend'
+        hx-trigger='keydown[code=="Enter" && !shiftKey]'
+        hx-on::after-request='this.reset()'> {% endcomment %}
+    <form id='send-message'
+        hx-ext="ws"
+        ws-connect='/ws/group/Cohort2'
+        ws-send
+        hx-trigger='keydown[code=="Enter" && !shiftKey]'>
         {% csrf_token %}
-        {{ form }}
-        <input type="submit">
+        {{ form.text }}
     </form>
 </body>
 </html>

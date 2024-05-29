@@ -6,11 +6,11 @@ from app.forms import *
 # Create your views here.
 def chat_view(req: HttpRequest, channel: str) -> HttpResponse:
     context = {}
-    try:
-        chatroom = Group.objects.get(name=channel)
-    except: 
-        pass
-        # return redirect('home') # Send home if bad group request
+    chatroom = Group.objects.get(name='Cohort2')
+    # try:
+    #     chatroom = Group.objects.get(name=channel)
+    # except: 
+    #     return redirect('home') # Send home if bad group request
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
     # if req.method == 'POST':
@@ -28,7 +28,6 @@ def chat_view(req: HttpRequest, channel: str) -> HttpResponse:
             newMessage.user = req.user
             newMessage.group = chatroom
             form.save()
-            form = SendMessage()
             return render(req, 'message_partial.html', {'message': newMessage, 'user': req.user})
 
     context["form"] = form

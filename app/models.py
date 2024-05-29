@@ -14,6 +14,7 @@ class Message(models.Model):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='messages')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages')
     text = models.TextField()
+    # text = models.CharField(max_length=400)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
