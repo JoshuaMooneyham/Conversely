@@ -1,0 +1,14 @@
+{% load static %}
+
+<div style="{% if message.user == user %}display:flex; flex-direction:column; width: 90vw; align-items:flex-end;{% endif %}">
+    <p>{{message.text}}</p>
+    <div style='display:flex'>
+        <p>{{message.user.username}}</p>
+        {% if message.user.profile.image %}
+        <img src="{{message.user.profile.image.url}}" style='height: 30px'>
+        {% else %}
+        <img src="{% static "images/default-user.jpg" %}" alt="" style='height: 30px'>
+        {% endif %}
+    </div>
+    <p>{{message.date_created.time}}</p>
+</div>

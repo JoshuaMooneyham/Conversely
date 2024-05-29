@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversely</title>
+</head>
+<body>
+    <h1>Conversely</h1>
+    <div id='messages_container'>
+    {% for message in messages %}
+    {% include "message.html" %}
+    {% endfor %}
+    </div>
+    <form action="" method='POST'>
+    {% comment %} <form hx-post="{% url "chat_home" "Cohort2" %}"
+          hx-target="#messages_container"
+          hx-swap='beforeend'> {% endcomment %}
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit">
+    </form>
+</body>
+</html>
