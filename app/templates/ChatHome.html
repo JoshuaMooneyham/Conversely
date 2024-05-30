@@ -23,5 +23,13 @@
         {{ form }}
         <input type="submit">
     </form>
+    <form enctype="multipart/form-data"
+        hx-post="{% url "chat-file-upload" channel %}"
+        x-target="#messages_container"
+        hx-swap="beforeend">
+        {% csrf_token %}
+        <input type="file" name="file">
+        <button type="submit">Submit File</button>
+    </form>
 </body>
 </html>

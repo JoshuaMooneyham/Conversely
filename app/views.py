@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, Http404
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 from app.models import *
 from app.forms import *
 
@@ -87,3 +89,26 @@ def get_or_create_chatroom(request, username):
         chatroom.users.add(other_user, request.user)
 
     return redirect("chatroom", chatroom.name)
+
+
+def chat_file_upload(request, channel):
+    try:
+        chatroom = Group.objects.get(name=channel)
+    except:
+        chatroom = None
+
+    if request.htmx and request.FILES:
+        file = request.FILES["file"]
+        message = Message.objects.create(
+            file=file,
+            user=request.user,
+            group=chatroom,
+        )
+
+        channel_layer = get_channel_layer()
+        event = {
+            "type": "message_handler",
+            "message_id": message.id,
+        }
+        async_to_sync(channel_layer.group_send)(channel, event)
+    return HttpResponse
