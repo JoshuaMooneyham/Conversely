@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
+# from environ import Env
+# env = Env()
+# Env.read_env()
+# ENVIRONMENT = env('ENVIRONMENT', default='production')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,10 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = env('SECRET_KEY')
 SECRET_KEY = 'django-insecure-7*9*aln#&naun_bl07vxsg-50o3d5n11n*gtnttel9mz8^+jc6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+    # DEBUG = True
+    DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -45,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,8 +144,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ASGI_APPLICATION = 'config.asgi.application'
 
 CHANNEL_LAYERS = {
+    # "default": { # <- Development
+    #     "BACKEND": "channels.layers.InMemoryChannelLayer"
+    # } 
+
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [('redis://default:fQYLVzlRjNdxvqBLQdLgqHKYuPAZNJBr@monorail.proxy.rlwy.net:10560')]
+        }
     }
 }
 
