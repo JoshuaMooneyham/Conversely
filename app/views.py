@@ -132,7 +132,11 @@ def chat_file_upload(request, channel):
 
 def login_view(request:HttpRequest):
     if request.user.is_authenticated:
-        return redirect('chat_home')
+        if 'just_signed_up' in request.session:
+            del request.session['just_signed_up']
+            return redirect('profile-config')
+        else:
+            return redirect('group_selection')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -156,17 +160,36 @@ def logout_view(request:HttpRequest):
 def group_selection_view(request:HttpRequest):
     return render(request, 'group_selection.html')
 
-def registration_view(request:HttpRequest):
-    if request.user.is_authenticated:
-        return redirect('group_selection')
-    
-    form = Create_User_Form(request.POST)
-
-    if form.is_valid():
-        form.save()
-
-        return redirect('group_selection')
+def registration_view(request: HttpRequest):    
+    if request.method == 'POST':
+        form = Create_User_Form(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                request.session['just_signed_up'] = True
+                return redirect('profile-config')
+            else:
+                messages.error(request, "Failed to log in. Please try again.")
+        else:
+            messages.info(request, form.errors)
     else:
-        messages.info(request, form.errors)
+        form = Create_User_Form()
 
-    return render(request, 'registration.html', {'form':form})
+    return render(request, 'registration.html', {'form': form})
+
+def make_profile_view(request: HttpRequest):
+    if request.method == 'POST':
+        form = Make_Profile_Form(request.POST)
+        if form.is_valid():
+            screen_name = form.cleaned_data['screen_name']
+            image = form.cleaned_data['image']
+            create_user_profile(request.user, screen_name, image)
+            return redirect('group_selection')
+    else:
+        form = Make_Profile_Form()
+
+    return render(request, 'make_profile.html', {'form': form})

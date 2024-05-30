@@ -42,3 +42,11 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"@{self.user.username}"
+
+
+
+############################################Create########################3
+def create_user_profile(user, screen_name, image):
+    return UserProfile.objects.create(user = user
+                               , screen_name = screen_name
+                               , image = image)
