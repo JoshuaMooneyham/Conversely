@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, Http404
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from app.models import *
 from app.forms import *
 
@@ -87,3 +89,44 @@ def get_or_create_chatroom(request, username):
         chatroom.users.add(other_user, request.user)
 
     return redirect("chatroom", chatroom.name)
+
+def login_view(request:HttpRequest):
+    if request.user.is_authenticated:
+        return redirect('chat_home')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('group_selection')
+        else:
+            messages.error(request, 'Incorrect username and password combination')
+    return render(request, 'login.html')
+
+
+
+def logout_view(request:HttpRequest):
+    logout(request)
+    return redirect('login')
+
+def group_selection_view(request:HttpRequest):
+    return render(request, 'group_selection.html')
+
+def registration_view(request:HttpRequest):
+    if request.user.is_authenticated:
+        return redirect('group_selection')
+    
+    form = Create_User_Form(request.POST)
+
+    if form.is_valid():
+        form.save()
+
+        return redirect('group_selection')
+    else:
+        messages.info(request, form.errors)
+
+    return render(request, 'registration.html', {'form':form})

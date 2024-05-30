@@ -1,0 +1,31 @@
+<form method = 'POST'>
+    {% csrf_token %}
+    <div>{{form.username}}</div>
+    <div>{{form.email}}</div>
+    <div>{{form.password1}}</div>
+    <div>{{form.password2}}</div>
+    <div><input type = 'submit' value = 'Register'>
+    
+    
+    
+</form>
+<p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      let usernameField = document.getElementsByName('username')[0];
+      let emailField = document.getElementsByName('email')[0];
+      let password1Field = document.getElementsByName('password1')[0];
+      let password2Field = document.getElementsByName('password2')[0];
+  
+      usernameField.placeholder = 'Username..';
+      emailField.placeholder = 'Email..';
+      password1Field.placeholder = 'Enter password...';
+      password2Field.placeholder = 'Re-enter Password...';
+  
+      usernameField.classList.add('form-control');
+      emailField.classList.add('form-control');
+      password1Field.classList.add('form-control');
+      password2Field.classList.add('form-control');
+    });
+  </script>
