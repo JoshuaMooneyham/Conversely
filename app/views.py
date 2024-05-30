@@ -1,18 +1,30 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, Http404
 from app.models import *
 from app.forms import *
 
+
 # Create your views here.
-def chat_view(req: HttpRequest, channel: str) -> HttpResponse:
+def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context = {}
-    chatroom = Group.objects.get(name='Cohort2')
-    # try:
-    #     chatroom = Group.objects.get(name=channel)
-    # except: 
-    #     return redirect('home') # Send home if bad group request
+    try:
+        chatroom = Group.objects.get(name=channel)
+    except:
+        pass
+        # return redirect('home') # Send home if bad group request
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
+
+    # Getting other user from private chat
+    other_user = None
+    if chatroom.is_private:
+        if req.user not in chatroom.users.all():
+            raise Http404()
+        for user in chatroom.users.all():
+            if user != req.user:
+                other_user = user
+                break
+
     # if req.method == 'POST':
     #     form = SendMessage(req.POST)
     #     if form.is_valid():
@@ -28,7 +40,50 @@ def chat_view(req: HttpRequest, channel: str) -> HttpResponse:
             newMessage.user = req.user
             newMessage.group = chatroom
             form.save()
-            return render(req, 'message_partial.html', {'message': newMessage, 'user': req.user})
+            form = SendMessage()
+            return render(
+                req, "message_partial.html", {"message": newMessage, "user": req.user}
+            )
 
     context["form"] = form
-    return render(req, 'ChatHome.html', context)
+    context["other_user"] = other_user
+    context["channel"] = channel
+    return render(req, "ChatHome.html", context)
+
+
+def profile_view(request, username):
+    context = {}
+    current_user = request.user
+
+    try:
+        user = User.objects.get(username=username)
+        profile = UserProfile.objects.get(user=user)
+    except:
+        user = None
+        profile = None
+
+    context["current_user"] = current_user
+    context["profile"] = profile
+    return render(request, "profile.html", context)
+
+
+def get_or_create_chatroom(request, username):
+    if request.user.username == username:
+        return redirect("chat_home")
+
+    other_user = User.objects.get(username=username)
+    my_chatrooms = request.user.chat_groups.filter(is_private=True)
+
+    if my_chatrooms.exists():
+        for chatroom in my_chatrooms:
+            if other_user in chatroom.users.all():
+                chatroom = chatroom
+                break
+            else:
+                chatroom = Group.objects.create(is_private=True)
+                chatroom.users.add(other_user, request.user)
+    else:
+        chatroom = Group.objects.create(is_private=True)
+        chatroom.users.add(other_user, request.user)
+
+    return redirect("chatroom", chatroom.name)
