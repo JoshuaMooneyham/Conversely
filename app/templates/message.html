@@ -14,5 +14,8 @@
         <img src="{% static "images/default-user.jpg" %}" alt="" style='height: 30px'>
         {% endif %}
     </div>
+    {% if message.user == user %}
+        <button id='delete-message' name='delete_message' hx-delete="{% url "delete_message" message.pk %}">Delete</button>
+    {% endif %}
     <p>{{message.date_created.time}}</p>
 </div>
