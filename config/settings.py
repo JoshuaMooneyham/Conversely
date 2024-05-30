@@ -154,3 +154,5 @@ CHANNEL_LAYERS = {
 LOGIN_REDIRECT_URL = "chat-page"
 
 LOGOUT_REDIRECT_URL = "login-user"
+
+CSRF_TRUSTED_ORIGINS = ["https://conversely-754b8951ae99.herokuapp.com"]
