@@ -30,6 +30,7 @@ urlpatterns = [
     path("profile/<str:username>/", profile_view, name="profile"),
     path("chat/<str:username>/", get_or_create_chatroom, name="private_chat"),
     path("chat/private/<str:channel>/", chat_view, name="chatroom"),
+    path("chat/fileupload/<str:channel>", chat_file_upload, name="chat-file-upload"),
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
 ]
