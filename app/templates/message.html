@@ -1,7 +1,11 @@
 {% load static %}
 
 <div style="{% if message.user == user %}display:flex; flex-direction:column; width: 90vw; align-items:flex-end;{% endif %}">
+    {% if message.text %}
     <p>{{message.text}}</p>
+    {% elif message.file %}
+    <img src="{{message.file.url}}" alt="">
+    {% endif %}
     <div style='display:flex'>
         <a href="{% url "profile" message.user.username %}">{{message.user.username}}</a>
         {% if message.user.profile.image %}
