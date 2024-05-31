@@ -1,5 +1,25 @@
+{% load static %}
 
-<a href="{% url 'logout' %}">Logout</a>
-{% block content %}
-<a href = {% url "chat_home" 'Cohort2'%}>Cohort 2</a>
-{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Conversely</title>
+        <link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
+        <script src="{% static "scripts/htmx.min.js" %}" defer></script>
+        <script src="{% static "scripts/script.js" %}" defer></script>
+        <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
+    </head>
+    <body>
+        <div class = 'topnav'>
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href='{% url "edit-profile" %}'>Edit Profile</a>
+            <a href = '{% url "group_selection" %}'>Home</a>
+        </div>
+        {% block content %}
+            <a href = {% url "chat_home" 'Cohort2'%}>Cohort 2</a>
+            <a href="create_group">Create Group</a>
+        {% endblock content %}
+    </body>
+</html>

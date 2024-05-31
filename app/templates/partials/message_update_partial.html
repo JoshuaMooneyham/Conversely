@@ -1,26 +1,33 @@
 {% load static %}
 
-<div class='message_wrapper' id="message_{{message.pk}}" style="{% if message.user == user %}display:flex; flex-direction:column; width: 90vw; align-items:flex-end;{% endif %}">
+<div class='message_wrapper' id="message_{{message.pk}}" style="{% if message.user == user %}display:flex; flex-direction:column; width: 90vw; align-items:flex-end;{% endif %}" hx-swap-oob="true">
     {% if message.text %}
     <p>{{message.text}}</p>
     {% elif message.file %}
     <img src="{{message.file.url}}" alt="">
     {% endif %}
-    <div style='display:flex'>
+    <div style='display:flex; position: relative; align-items: center;'>
         <a href="{% url "profile" message.user.username %}">{{message.user.username}}</a>
-        {% if message.user.profile.image %}
-        <img src="{{message.user.profile.image.url}}" style='height: 30px'>
-        {% else %}
-        <img src="{% static "images/default-user.jpg" %}" alt="" style='height: 30px'>
-        {% endif %}
+        <div class="image-container" style="position: relative; display: inline-block;">
+            {% if message.user.profile.image %}
+            <img src="{{message.user.profile.image.url}}" class="profile-image" style='height: 30px'>
+            {% else %}
+            <img src="{% static "images/default-user.jpg" %}" alt="" class="profile-image" style='height: 30px'>
+            {% endif %}
+            {% if message.user == user %}
+            <a href="{% url "edit-profile" %}" class="edit-link">
+                <img src="{% static "images/edit.png" %}" alt='edit'>
+            </a>
+            {% endif %}
+        </div>
     </div>
     {% if message.user == user %}
     <button class='delete-message'
         hx-post="{% url "delete_message" channel message.pk %}"
         hx-target="#message_{{message.pk}}">Delete</button>
-    {% if message.text %}
+        {% if message.text %}
         <button class='edit_message'>Edit</button>
-    {% endif %}
+        {% endif %}
     {% endif %}
     <p>{{message.date_created.time}}</p>
 </div>

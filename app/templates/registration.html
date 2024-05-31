@@ -1,15 +1,15 @@
-<form method = 'POST'>
-    {% csrf_token %}
-    <div>{{form.username}}</div>
-    <div>{{form.email}}</div>
-    <div>{{form.password1}}</div>
-    <div>{{form.password2}}</div>
-    <div><input type = 'submit' value = 'Register'>
-    
-    
-    
-</form>
-<p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+<div>
+  <form method = 'POST'>
+      {% csrf_token %}
+      <div>{{form.username}}</div>
+      <div>{{form.email}}</div>
+      <div>{{form.password1}}</div>
+      <div>{{form.password2}}</div>
+      <div><input type = 'submit' value = 'Register'>
+  </form>
+  <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {

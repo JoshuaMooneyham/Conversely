@@ -1,4 +1,5 @@
-{% load static %}
+{% extends "group_selection.html" %}
+{% comment %} {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,10 +10,15 @@
     <script src="{% static "scripts/htmx.min.js" %}" defer></script>
     <script src="{% static "scripts/script.js" %}" defer></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
-    <style>.hidden{display:none;}</style>
+    <link rel="stylesheet" href="{% static "styles/styles.css" %}">
 </head>
-<body>
+<body> {% endcomment %}
+
+{% block content %}
     <h1>Conversely</h1>
+    {% if chatroom.new_group_name %}
+    <h2>{{chatroom.new_group_name}}</h2>
+    {% endif %}
     <div id='messages_container'>
     {% for message in messages %}
     {% include "message.html" %}
@@ -58,5 +64,6 @@
     </script>
     {% comment %} {{ channel|json_script:"group_name" }}
     <script src="{% static "scripts/websocket.js" %}" defer></script> {% endcomment %}
-</body>
-</html>
+{% comment %} </body>
+</html> {% endcomment %}
+{% endblock content %}
