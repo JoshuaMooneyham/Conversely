@@ -1,6 +1,11 @@
-<h3>{{profile}}</h3>
-{% if current_user != profile.user %}
-<div class="chat-btn">
-  <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
-</div>
-{% endif %}
+{% extends "group_selection.html" %}
+
+{% block content %}
+  <h3>{{profile}}</h3>
+  {% if current_user != profile.user %}
+  <div class="chat-btn">
+    <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
+  </div>
+  {% endif %}
+{% endblock content %}
+

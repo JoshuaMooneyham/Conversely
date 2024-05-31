@@ -45,8 +45,24 @@ class UserProfile(models.Model):
 
 
 
-############################################Create########################3
+############################################Create########################
 def create_user_profile(user, screen_name, image):
     return UserProfile.objects.create(user = user
                                , screen_name = screen_name
                                , image = image)
+
+
+##########################################update#########################
+def update_profile_info(user, screen_name, image=None):
+        user.screen_name = screen_name
+        user.image = image
+        user.save()
+
+def update_user_email(user, email):
+        user.email = email
+        user.save()
+
+
+##########################################update#########################
+def delete_user_profile(user):
+    User.objects.get(username = user).delete()

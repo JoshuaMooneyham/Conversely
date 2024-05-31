@@ -31,6 +31,7 @@ urlpatterns = [
     path('group-selection/', group_selection_view, name = 'group_selection'),
     path('registration', registration_view, name = 'registration'),
     path('make-profile', make_profile_view, name = 'profile-config'),
+    path('update-profile', edit_profile_view, name = 'edit-profile'),
     path("<str:channel>/", chat_view, name="chat_home"),
     path("profile/<str:username>/", profile_view, name="profile"),
     path("chat/<str:username>/", get_or_create_chatroom, name="private_chat"),
