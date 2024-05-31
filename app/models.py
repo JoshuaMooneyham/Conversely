@@ -53,17 +53,23 @@ class UserProfile(models.Model):
 
 # ====={ Create }===== #
 def create_user_profile(user, screen_name, image):
-    return UserProfile.objects.create(user=user, screen_name=screen_name, image=image)
+    UserProfile.objects.create(user=user, screen_name=screen_name, image=image)
 
 # ====={ update }===== #
 def update_profile_info(user, screen_name, image=None):
-        user.screen_name = screen_name
-        user.image = image
-        user.save()
+    user.screen_name = screen_name
+    user.image = image
+    user.save()
 
 def update_user_email(user, email):
-        user.email = email
-        user.save()
+    user.email = email
+    user.save()
+
+def update_password(user, password):
+    if user.check_password(password):
+        return 'New password cannot be the same as the old password.'
+    user.set_password(password)
+    user.save()
 
 # ====={ delete }===== #
 def delete_user_profile(user):

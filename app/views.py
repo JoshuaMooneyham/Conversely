@@ -258,14 +258,20 @@ def edit_profile_view(request:HttpRequest):
     user = User.objects.get(username = request.user)
 
     if request.method == 'POST':
-        screen_name = user_profile.screen_name if not request.POST.get('screen_name') else request.POST.get('screen_name')
-        email = user.email if not request.POST.get('new_email') else request.POST.get('new_email')
-        image = request.FILES.get('image', user_profile.image)
+        new_screen_name = user_profile.screen_name if not request.POST.get('screen_name') else request.POST.get('screen_name')
+        new_email = user.email if not request.POST.get('new_email') else request.POST.get('new_email')
+        new_password = request.POST.get('password')
+        new_image = request.FILES.get('image', user_profile.image)
 
         if 'update' in request.POST:
+            if new_password:
+                update_password_result = update_password(user, new_password)
+                if isinstance(update_password_result, str):
+                    return render(request, 'update_profile.html', {'error': update_password_result})
+            
+            update_profile_info(user_profile, new_screen_name, new_image)
+            update_user_email(user, new_email)
 
-            update_profile_info(user_profile, screen_name, image)
-            update_user_email(user, email)
             return redirect('group_selection')
 
         elif 'delete' in request.POST:
