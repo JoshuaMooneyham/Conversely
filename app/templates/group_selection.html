@@ -13,10 +13,10 @@
     </head>
     <div class = 'topnav'>
         <a href="{% url 'logout' %}">Logout</a>
-        <a href='{% url "edit-profile" %}'>Edit Profile</a>
         <a href = '{% url "group_selection" %}'>Home</a>
     </div>
         {% block content %}
             <a href = {% url "chat_home" 'Cohort2'%}>Cohort 2</a>
+            <a href="create_group">Create Group</a>
         {% endblock content %}
 </html>

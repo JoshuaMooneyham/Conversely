@@ -1,11 +1,15 @@
-{% extends "group_selection.html" %}
-
-{% block content %}
-  <h3>{{profile}}</h3>
-  {% if current_user != profile.user %}
-  <div class="chat-btn">
-    <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
-  </div>
-  {% endif %}
-{% endblock content %}
-
+<h3>{{profile}}</h3>
+{% if current_user != profile.user %}
+<div class="chat-btn">
+  <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
+</div>
+{% else %}
+<a href="{% url "create_group" %}">Create Group</a>
+<div class="chat-groups">
+  {% for group in admin_groups %}
+    <a href="{% url "chatroom" group %}">{{group.new_group_name}}</a>
+    <button><a href="{% url "update_group" group.new_group_name %}">Edit</a></button>
+    <button><a href="{% url "delete_group" group.new_group_name %}">Delete</a></button>
+  {% endfor %}
+</div>
+{% endif %}
