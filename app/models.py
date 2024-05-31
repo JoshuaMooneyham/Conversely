@@ -41,7 +41,6 @@ class Message(models.Model):
             return None
 
     def __str__(self):
-        # return f"{self.user.username}: {self.text}" # <-- changed to test longer messages
         if self.text:
             return f'"{self.text[:10] + "..." if len(self.text) > 10 else self.text}" by {self.user.username} in {self.group.name}'
         elif self.file:
@@ -57,23 +56,36 @@ class UserProfile(models.Model):
         return f"@{self.user.username}"
 
 
+<<<<<<< HEAD
 ############################################Create########################
 def create_user_profile(user, screen_name, image):
     return UserProfile.objects.create(user=user, screen_name=screen_name, image=image)
+=======
+# ====={ Create }===== #
+def create_user_profile(user, screen_name, image):
+    UserProfile.objects.create(user=user, screen_name=screen_name, image=image)
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060
 
-
-##########################################update#########################
+# ====={ update }===== #
 def update_profile_info(user, screen_name, image=None):
     user.screen_name = screen_name
     user.image = image
     user.save()
+<<<<<<< HEAD
 
+=======
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060
 
 def update_user_email(user, email):
     user.email = email
     user.save()
 
+def update_password(user, password):
+    if user.check_password(password):
+        return 'New password cannot be the same as the old password.'
+    user.set_password(password)
+    user.save()
 
-##########################################update#########################
+# ====={ delete }===== #
 def delete_user_profile(user):
     User.objects.get(username=user).delete()

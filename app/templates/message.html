@@ -1,6 +1,6 @@
 {% load static %}
 
-<div style="{% if message.user == user %}display:flex; flex-direction:column; width: 90vw; align-items:flex-end;{% endif %}">
+<div class='message_wrapper' id="message_{{message.pk}}" style="{% if message.user == user %}display:flex; flex-direction:column; width: 90vw; align-items:flex-end;{% endif %}">
     {% if message.text %}
     <p>{{message.text}}</p>
     {% elif message.file %}
@@ -16,10 +16,18 @@
             {% endif %}
             {% if message.user == user %}
             <a href="{% url "edit-profile" %}" class="edit-link">
-                <img src = '{% static "images/edit.png" %}' alt = 'edit'>
+                <img src="{% static "images/edit.png" %}" alt='edit'>
             </a>
             {% endif %}
         </div>
     </div>
+    {% if message.user == user %}
+    <button class='delete-message'
+        hx-post="{% url "delete_message" channel message.pk %}"
+        hx-target="#message_{{message.pk}}">Delete</button>
+        {% if message.text %}
+        <button class='edit_message'>Edit</button>
+        {% endif %}
+    {% endif %}
     <p>{{message.date_created.time}}</p>
 </div>

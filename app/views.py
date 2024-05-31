@@ -16,8 +16,8 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     try:
         chatroom = Group.objects.get(name=channel)
     except:
-        pass
-        # return redirect('home') # Send home if bad group request
+        # pass
+        return redirect('group_selection') # Send home if bad group request
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
 
@@ -42,16 +42,21 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
             return render(
                 req, "message_partial.html", {"message": newMessage, "user": req.user}
             )
-
+        
     context["form"] = form
     context["other_user"] = other_user
     context["channel"] = channel
     context["chatroom"] = chatroom
     return render(req, "ChatHome.html", context)
 
+<<<<<<< HEAD
 
 @login_required(login_url="login")
 def profile_view(request, username):
+=======
+@login_required(login_url='login')
+def profile_view(request: HttpRequest, username):
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060
     context = {}
     current_user = request.user
 
@@ -67,12 +72,19 @@ def profile_view(request, username):
     context["current_user"] = current_user
     context["profile"] = profile
     context["admin_groups"] = admin_groups
+<<<<<<< HEAD
     print(profile)
     return render(request, "profile.html", context)
 
 
 @login_required(login_url="login")
 def get_or_create_chatroom(request, username):
+=======
+    return render(request, "profile.html", context)
+
+@login_required(login_url='login')
+def get_or_create_chatroom(request: HttpRequest, username):
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060
     if request.user.username == username:
         return redirect("chat_home")
 
@@ -93,6 +105,36 @@ def get_or_create_chatroom(request, username):
 
     return redirect("chatroom", chatroom.name)
 
+<<<<<<< HEAD
+
+@login_required(login_url="login")
+def chat_file_upload(request, channel):
+=======
+@login_required(login_url='login')
+def chat_file_upload(request: HttpRequest, channel):
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060
+    try:
+        chatroom = Group.objects.get(name=channel)
+    except:
+        chatroom = None
+
+    if request.htmx and request.FILES:
+        file = request.FILES["file"]
+        message = Message.objects.create(
+            file=file,
+            user=request.user,
+            group=chatroom,
+        )
+
+        channel_layer = get_channel_layer()
+        event = {
+            "type": "message_handler",
+            "message_id": message.id,
+        }
+        async_to_sync(channel_layer.group_send)(channel, event)
+    return HttpResponse
+
+<<<<<<< HEAD
 
 @login_required(login_url="login")
 def chat_file_upload(request, channel):
@@ -118,30 +160,9 @@ def chat_file_upload(request, channel):
     return HttpResponse
 
 
-@login_required(login_url="login")
-def chat_file_upload(request, channel):
-    try:
-        chatroom = Group.objects.get(name=channel)
-    except:
-        chatroom = None
+=======
 
-    if request.htmx and request.FILES:
-        file = request.FILES["file"]
-        message = Message.objects.create(
-            file=file,
-            user=request.user,
-            group=chatroom,
-        )
-
-        channel_layer = get_channel_layer()
-        event = {
-            "type": "message_handler",
-            "message_id": message.id,
-        }
-        async_to_sync(channel_layer.group_send)(channel, event)
-    return HttpResponse
-
-
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
         if "just_signed_up" in request.session:
@@ -163,6 +184,7 @@ def login_view(request: HttpRequest):
             messages.error(request, "Incorrect username and password combination")
     return render(request, "login.html")
 
+<<<<<<< HEAD
 
 @login_required(login_url="login")
 def logout_view(request: HttpRequest):
@@ -175,6 +197,18 @@ def group_selection_view(request: HttpRequest):
     return render(request, "group_selection.html")
 
 
+=======
+@login_required(login_url='login')
+def logout_view(request: HttpRequest):
+    logout(request)
+    return redirect("login")
+
+@login_required(login_url='login')
+def group_selection_view(request: HttpRequest):
+    return render(request, "group_selection.html")
+
+
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060
 def registration_view(request: HttpRequest):
     if request.method == "POST":
         form = Create_User_Form(request.POST)
@@ -211,6 +245,7 @@ def make_profile_view(request: HttpRequest):
 
     return render(request, "make_profile.html", {"form": form})
 
+<<<<<<< HEAD
 
 @login_required(login_url="login")
 def edit_profile_view(request: HttpRequest):
@@ -295,3 +330,104 @@ def delete_group_view(request: HttpRequest, group_name):
 
     selected_group.delete()
     return redirect(f"/profile/{request.user}")
+=======
+
+def create_group_view(request: HttpRequest):
+    context = {}
+    form = Create_Group_Form()
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST)
+        if form.is_valid():
+            new_group_chat = form.save(commit=False)
+            new_group_chat.admin = request.user
+            new_group_chat.save()
+            new_group_chat.users.add(request.user)
+            return redirect("chatroom", new_group_chat.name)
+
+    context["form"] = form
+    return render(request, "create_group.html", context)
+
+
+def update_group_view(request: HttpRequest, group_name):
+    context = {}
+
+    try:
+        selected_group = Group.objects.get(
+            admin=request.user, new_group_name=group_name
+        )
+    except:
+        selected_group = None
+
+    form = Create_Group_Form(instance=selected_group)
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST, instance=selected_group)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/profile/{request.user}")
+
+    context["form"] = form
+    return render(request, "create_group.html", context)
+
+
+def delete_group_view(request: HttpRequest, group_name):
+    try:
+        selected_group = Group.objects.get(
+            admin=request.user, new_group_name=group_name
+        )
+    except:
+        selected_group = None
+
+    selected_group.delete()
+    return redirect(f"/profile/{request.user}")
+
+def delete_message_view(req: HttpRequest, channel: str, messageId: int):
+    channel_layer = get_channel_layer()
+    event = {
+        "type": "delete_message",
+        "message_id": f'{messageId}',
+    }
+    async_to_sync(channel_layer.group_send)(channel, event)
+
+    return HttpResponse()
+
+def update_message_view(req: HttpRequest):
+    if req.method == "POST":
+        channel_layer = get_channel_layer()
+        event = {
+            "type": "update_message",
+            "message_id": req.POST.get('message_id'),
+            "text": req.POST.get('text'),
+        }
+        async_to_sync(channel_layer.group_send)(req.POST.get('channel'), event)
+        return HttpResponse()
+    
+@login_required(login_url='login')
+def edit_profile_view(request:HttpRequest):
+    user_profile = UserProfile.objects.get(user = request.user)
+    user = User.objects.get(username = request.user)
+
+    if request.method == 'POST':
+        new_screen_name = user_profile.screen_name if not request.POST.get('screen_name') else request.POST.get('screen_name')
+        new_email = user.email if not request.POST.get('new_email') else request.POST.get('new_email')
+        new_password = request.POST.get('password')
+        new_image = request.FILES.get('image', user_profile.image)
+
+        if 'update' in request.POST:
+            if new_password:
+                update_password_result = update_password(user, new_password)
+                if isinstance(update_password_result, str):
+                    return render(request, 'update_profile.html', {'error': update_password_result})
+            
+            update_profile_info(user_profile, new_screen_name, new_image)
+            update_user_email(user, new_email)
+
+            return redirect('group_selection')
+
+        elif 'delete' in request.POST:
+            delete_user_profile(request.user)
+            return redirect('login')
+
+    return render(request, 'update_profile.html', {'user':user})
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060

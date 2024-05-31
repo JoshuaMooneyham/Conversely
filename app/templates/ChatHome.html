@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {% extends "group_selection.html" %} {% block content %}
 <h1>Conversely</h1>
 {% if chatroom.new_group_name %}
@@ -24,3 +25,74 @@
   <button type="submit">Submit File</button>
 </form>
 {% endblock content %}
+=======
+{% extends "group_selection.html" %}
+{% comment %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversely</title>
+    <script src="{% static "scripts/htmx.min.js" %}" defer></script>
+    <script src="{% static "scripts/script.js" %}" defer></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
+    <link rel="stylesheet" href="{% static "styles/styles.css" %}">
+</head>
+<body> {% endcomment %}
+
+{% block content %}
+    <h1>Conversely</h1>
+    {% if chatroom.new_group_name %}
+    <h2>{{chatroom.new_group_name}}</h2>
+    {% endif %}
+    <div id='messages_container'>
+    {% for message in messages %}
+    {% include "message.html" %}
+    {% endfor %}
+    </div>
+    {% comment %} <form action="" method='POST'> {% endcomment %}
+    <div>
+        <form id='send-message'
+            hx-ext="ws"
+            ws-connect="/ws/group/{{channel}}"
+            ws-send
+            hx-trigger='keydown[code=="Enter" && !shiftKey]'>
+            {% csrf_token %}
+            {{ form.text }}
+        </form>
+        <form id="update-message"
+            hx-post="{% url "update_message" %}"
+            hx-target=""
+            hx-trigger='keydown[code=="Enter" && !shiftKey]'
+            hx-on::after-request="swapBars(); this.reset()"
+            class='hidden'>
+            {% csrf_token %}
+            {{ form.text }}
+            <input type="hidden" id='update_message_id' value='' name='message_id'>
+            <input type="hidden" value="{{channel}}" name='channel'>
+        </form>
+        <form enctype="multipart/form-data"
+            hx-post="{% url "chat-file-upload" channel %}"
+            hx-target="#messages_container"
+            hx-swap="beforeend"
+            hx-on::after-request="this.reset()">
+            {% csrf_token %}
+            <input type="file" name="file">
+            <button type="submit">Submit File</button>
+        </form>
+    </div>
+
+    <script>
+        addEventListener('htmx:configRequest', (e) => {
+            e.detail.headers['X-CSRFToken'] = "{{ csrf_token }}";
+            console.log(e.detail.headers)
+        })
+    </script>
+    {% comment %} {{ channel|json_script:"group_name" }}
+    <script src="{% static "scripts/websocket.js" %}" defer></script> {% endcomment %}
+{% comment %} </body>
+</html> {% endcomment %}
+{% endblock content %}
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060

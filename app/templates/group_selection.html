@@ -11,13 +11,20 @@
         <script src="{% static "scripts/script.js" %}" defer></script>
         <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
     </head>
-    <div class = 'topnav'>
-        <a href="{% url 'logout' %}">Logout</a>
-        <a href='{% url "edit-profile" %}'>Edit Profile</a>
-        <a href = '{% url "group_selection" %}'>Home</a>
-    </div>
+    <body>
+        <div class = 'topnav'>
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href='{% url "edit-profile" %}'>Edit Profile</a>
+            <a href = '{% url "group_selection" %}'>Home</a>
+        </div>
         {% block content %}
+<<<<<<< HEAD
             <a href = "{% url "chat_home" 'Cohort2'%}">Cohort 2</a>
             <a href="{% url "create_group" %}">Create Group</a>
+=======
+            <a href = {% url "chat_home" 'Cohort2'%}>Cohort 2</a>
+            <a href="create_group">Create Group</a>
+>>>>>>> feff129b62adfa782315deec5f0e5065b115e060
         {% endblock content %}
+    </body>
 </html>

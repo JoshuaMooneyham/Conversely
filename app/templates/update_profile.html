@@ -6,6 +6,7 @@
             {% csrf_token %}
             <div><input type = 'text' name = 'screen_name' placeholder = 'New Screen Name...'></div>
             <div><input type = 'email' name = 'new_email' placeholder = 'New Email...'></div>
+            <div><input id = 'password' type = 'text' name = 'password' placeholder = 'Enter New Password...'></div>
             <div><input type = 'file' name = 'image'></div>
             <div><input type = 'submit' name = 'update' value = 'Submit'></div>
         </form>
@@ -16,4 +17,18 @@
             <input type = 'Submit' value = 'Delete Profile' name ='delete'>
         </form>
     </div>
+    {% if error %}
+        <div>
+            {{error}}
+        </div>
+    {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInputField = document.getElementById('password')
+
+            passwordInputField.addEventListener('input', () => {
+                passwordInputField.type = (passwordInputField.value === '') ? 'text' : 'password';
+            });
+        });
+    </script>
 {% endblock content %}
