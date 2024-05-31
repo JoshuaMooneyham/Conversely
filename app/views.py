@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, Http404
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from app.models import *
 from app.forms import *
 
@@ -12,8 +14,8 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     try:
         chatroom = Group.objects.get(name=channel)
     except:
-        pass
-        # return redirect('home') # Send home if bad group request
+        # pass
+        return redirect('group_selection') # Send home if bad group request
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
 
@@ -38,7 +40,7 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
             return render(
                 req, "message_partial.html", {"message": newMessage, "user": req.user}
             )
-
+        
     context["form"] = form
     context["other_user"] = other_user
     context["channel"] = channel
@@ -104,3 +106,91 @@ def chat_file_upload(request, channel):
         }
         async_to_sync(channel_layer.group_send)(channel, event)
     return HttpResponse
+
+
+def chat_file_upload(request, channel):
+    try:
+        chatroom = Group.objects.get(name=channel)
+    except:
+        chatroom = None
+
+    if request.htmx and request.FILES:
+        file = request.FILES["file"]
+        message = Message.objects.create(
+            file=file,
+            user=request.user,
+            group=chatroom,
+        )
+
+        channel_layer = get_channel_layer()
+        event = {
+            "type": "message_handler",
+            "message_id": message.id,
+        }
+        async_to_sync(channel_layer.group_send)(channel, event)
+    return HttpResponse
+
+def login_view(request:HttpRequest):
+    if request.user.is_authenticated:
+        return redirect('chat_home')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('group_selection')
+        else:
+            messages.error(request, 'Incorrect username and password combination')
+    return render(request, 'login.html')
+
+
+
+def logout_view(request:HttpRequest):
+    logout(request)
+    return redirect('login')
+
+def group_selection_view(request:HttpRequest):
+    return render(request, 'group_selection.html')
+
+def registration_view(request:HttpRequest):
+    if request.user.is_authenticated:
+        return redirect('group_selection')
+    
+    form = Create_User_Form(request.POST)
+
+    if form.is_valid():
+        form.save()
+
+        return redirect('group_selection')
+    else:
+        messages.info(request, form.errors)
+
+    return render(request, 'registration.html', {'form':form})
+
+def delete_message_view(req: HttpRequest, channel: str, messageId: int):
+
+    channel_layer = get_channel_layer()
+    event = {
+        "type": "delete_message",
+        "message_id": f'{messageId}',
+    }
+    async_to_sync(channel_layer.group_send)(channel, event)
+
+    return HttpResponse()
+    # return render(req, "partials/message_delete_partial.html")
+
+def update_message_view(req: HttpRequest):
+    if req.method == "POST":
+        channel_layer = get_channel_layer()
+        event = {
+            "type": "update_message",
+            "message_id": req.POST.get('message_id'),
+            "text": req.POST.get('text'),
+        }
+        async_to_sync(channel_layer.group_send)(req.POST.get('channel'), event)
+        return HttpResponse()
+

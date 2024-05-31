@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_htmx',
     'channels',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
@@ -139,16 +140,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ASGI_APPLICATION = 'config.asgi.application'
 
 CHANNEL_LAYERS = {
-    # "default": { # <- Development
-    #     "BACKEND": "channels.layers.InMemoryChannelLayer"
-    # } 
+    "default": { # <- Development
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    } 
 
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [('redis://default:fQYLVzlRjNdxvqBLQdLgqHKYuPAZNJBr@monorail.proxy.rlwy.net:10560')]
-        }
-    }
+    # "default": {
+    #     "BACKEND": "channels_redis.core.RedisChannelLayer",
+    #     "CONFIG": {
+    #         "hosts": [('redis://default:fQYLVzlRjNdxvqBLQdLgqHKYuPAZNJBr@monorail.proxy.rlwy.net:10560')]
+    #     }
+    # }
 }
 
 LOGIN_REDIRECT_URL = "chat-page"

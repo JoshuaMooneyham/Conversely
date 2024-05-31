@@ -26,11 +26,17 @@ from app.views import *
 urlpatterns = [
     path("admin/", admin.site.urls),
     # path('auth/login/', LoginView.as_view, name='login')
+    path('', login_view, name = 'login'),
+    path('logout/', logout_view, name = 'logout'),
+    path('group-selection/', group_selection_view, name = 'group_selection'),
+    path('registration/', registration_view, name = 'registration'),
     path("<str:channel>/", chat_view, name="chat_home"),
     path("profile/<str:username>/", profile_view, name="profile"),
     path("chat/<str:username>/", get_or_create_chatroom, name="private_chat"),
     path("chat/private/<str:channel>/", chat_view, name="chatroom"),
-    path("chat/fileupload/<str:channel>", chat_file_upload, name="chat-file-upload"),
-    re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
-    re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
+    path("chat/fileupload/<str:channel>/", chat_file_upload, name="chat-file-upload"),
+    path("messages/delete/<str:channel>/<int:messageId>/", delete_message_view, name='delete_message'),
+    path("message/update/", update_message_view, name='update_message'),
+    re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}), # Serves Media Files in Production Environment
+    re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}), # Serves Static Files in Production Environment
 ]
