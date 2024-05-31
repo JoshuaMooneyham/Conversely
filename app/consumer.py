@@ -23,8 +23,22 @@ class Consumer(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_send)(self.group_name, event)
 
     def message_handler(self, event):
-        html = render_to_string('message_partial.html', context={'message': Message.objects.get(pk=event['message_id']), 'user': self.user})
+        html = render_to_string('partials/message_send_partial.html', context={'message': Message.objects.get(pk=event['message_id']), 'user': self.user, 'channel': self.group_name})
         self.send(text_data=html)
+
+    def delete_message(self, event):
+        message = Message.objects.get(pk=event['message_id'])
+        message.delete()
+        html = render_to_string('partials/message_delete_partial.html', context={'message_id': event['message_id']})
+        self.send(text_data=html)
+
+    def update_message(self, event):
+        message = Message.objects.get(pk=event['message_id'])
+        message.text = event['text']
+        message.save()
+        html = render_to_string('partials/message_update_partial.html', context={'message': message, "user": self.user, "channel": self.group_name})
+        self.send(text_data=html)
+        
 
 # class Consumer(AsyncWebsocketConsumer):
 #     async def connect(self):

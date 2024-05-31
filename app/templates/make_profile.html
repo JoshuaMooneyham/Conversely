@@ -1,0 +1,20 @@
+{% extends "group_selection.html" %}
+
+{% block content %}
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            <div>{{ form.screen_name }}</div>
+            <div>{{form.image}}</div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let screen_name = document.getElementsByName('screen_name')[0];
+            
+            screen_name.placeholder = 'Screen Name...'
+        });
+    </script>
+{% endblock content %}
