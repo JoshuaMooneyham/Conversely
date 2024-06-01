@@ -1,7 +1,9 @@
 {% load static %}
 
 <div class='message_wrapper' id="message_{{message.pk}}" style="{% if message.user == user %}display:flex; flex-direction:column; width: 90vw; align-items:flex-end;{% endif %}">
-    {% if message.text %}
+    {% if message.is_invitation %}
+    <p>Join this group! - <a href="{% url "accept_invite" message.text %}">{{message.text}}</a></p>
+    {% elif message.text %}
     <p>{{message.text}}</p>
     {% elif message.file %}
     <img src="{{message.file.url}}" alt="">

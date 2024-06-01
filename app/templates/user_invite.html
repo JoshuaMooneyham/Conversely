@@ -1,0 +1,7 @@
+{% for user in users %}
+<p>{{user}}</p>
+<button><a href="{% url "send_invite" chatroom.name user %}">Send Invite</a></button>
+{% endfor %}
+<div>
+    <a href="{% url "chatroom" chatroom.name %}">Done</a>
+</div>

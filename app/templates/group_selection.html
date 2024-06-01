@@ -10,6 +10,7 @@
         <script src="{% static "scripts/htmx.min.js" %}" defer></script>
         <script src="{% static "scripts/script.js" %}" defer></script>
         <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
+        <script src="https://kit.fontawesome.com/2734bda929.js" crossorigin="anonymous" defer></script>
     </head>
     <body>
         <div class = 'topnav'>
@@ -18,8 +19,13 @@
             <a href = '{% url "group_selection" %}'>Home</a>
         </div>
         {% block content %}
-            <a href = {% url "chat_home" 'Cohort2'%}>Cohort 2</a>
-            <a href="create_group">Create Group</a>
+            <a href="{% url "create_group" %}">Create Group</a>
+            <a href = "{% url "chat_home" 'Cohort2'%}">Cohort 2</a>
+            {% for group in groups  %}
+            {% if group.new_group_name %}
+            <a href="{% url "chatroom" group.name %}">{{group.new_group_name}}</a>
+            {% endif %}
+            {% endfor %}
         {% endblock content %}
     </body>
 </html>
