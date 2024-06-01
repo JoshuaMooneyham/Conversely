@@ -5,6 +5,7 @@
 <div class="chat-btn">
   <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
 </div>
+{% comment %} <a hx-post='{% url "" %}'></a> {% endcomment %}
 {% else %}
 <a href="{% url "create_group" %}">Create Group</a>
 <div class="chat-groups">

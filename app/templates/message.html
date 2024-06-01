@@ -6,7 +6,9 @@
     {% elif message.text %}
     <p>{{message.text}}</p>
     {% elif message.file %}
-    <img src="{{message.file.url}}" alt="">
+    <div class='message_file_container'>
+        <img class='message_file' src="{{message.file.url}}" alt="">
+    </div>
     {% endif %}
     <div style='display:flex; position: relative; align-items: center;'>
         <a href="{% url "profile" message.user.username %}">{{message.user.username}}</a>
@@ -30,6 +32,19 @@
         {% if message.text %}
         <button class='edit_message'>Edit</button>
         {% endif %}
+    {% elif user in message.group.moderators.all or user == message.group.admin %}
+    <button class='delete-message'
+        hx-post="{% url "delete_message" channel message.pk %}"
+        hx-target="#message_{{message.pk}}">Delete</button>
+    {% else %}
+    {% for groupObj in user.groups.all %}
+        {% if groupObj.name == "Admin" %}
+        <button class='delete-message'
+        hx-post="{% url "delete_message" channel message.pk %}"
+        hx-target="#message_{{message.pk}}">Delete</button>
+        {% endif %}
+    {% endfor %}
     {% endif %}
+    
     <p>{{message.date_created.time}}</p>
 </div>
