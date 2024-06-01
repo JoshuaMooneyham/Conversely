@@ -18,8 +18,10 @@
             <a href = '{% url "group_selection" %}'>Home</a>
         </div>
         {% block content %}
-            <a href = {% url "chat_home" 'Cohort2'%}>Cohort 2</a>
-            <a href="create_group">Create Group</a>
+            {% for group in groups %}
+                <div><a href = {% url "chat_home" group%}>{{group}}</a></div>
+            {% endfor %}
+            <div><a href="create_group">Create Group</a></div>
         {% endblock content %}
     </body>
 </html>

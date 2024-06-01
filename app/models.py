@@ -16,6 +16,7 @@ class Group(models.Model):
     )
     users = models.ManyToManyField(User, related_name="chat_groups", blank=True)
     is_private = models.BooleanField(default=False)
+    users_online = models.ManyToManyField(User, related_name = 'online', blank = True)
 
     def __str__(self):
         return self.name

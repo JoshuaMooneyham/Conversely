@@ -11,10 +11,19 @@ class Consumer(WebsocketConsumer):
         self.group_name = self.scope['url_route']['kwargs']['group_name'] # grabs group name from url
         self.group = get_object_or_404(Group, name=self.group_name)
         async_to_sync(self.channel_layer.group_add)(self.group_name, self.channel_name)
+
+        if self.user not in self.group.users_online.all():
+            self.group.users_online.add(self.user)
+            self.update_online_count()
+
         self.accept()
 
     def disconnect(self, close_code):
         async_to_sync(self.channel_layer.group_discard)(self.group_name, self.channel_name)
+
+        if self.user in self.group.users_online.all():
+            self.group.users_online.remove(self.user)
+            self.update_online_count()
 
     def receive(self, text_data):
         json_data = json.loads(text_data) # Convert text to python object
@@ -38,7 +47,21 @@ class Consumer(WebsocketConsumer):
         message.save()
         html = render_to_string('partials/message_update_partial.html', context={'message': message, "user": self.user, "channel": self.group_name})
         self.send(text_data=html)
-        
+
+    def update_online_count(self):
+        online_count = self.group.users_online.count()
+        event = {
+            'type': 'online_count_handler',
+            'online_count': online_count
+        }
+        async_to_sync(self.channel_layer.group_send)(self.group_name, event)
+
+    def online_count_handler(self, event):
+        online_count = event['online_count']
+
+        html = render_to_string("partials/online_count.html", {'online_count':online_count})
+        self.send(text_data=html)
+
 
 # class Consumer(AsyncWebsocketConsumer):
 #     async def connect(self):

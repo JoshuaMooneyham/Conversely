@@ -20,6 +20,8 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
         return redirect('group_selection') # Send home if bad group request
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
+    users = [i.username for i in chatroom.users.all()]
+    print(users)
 
     # Getting other user from private chat
     other_user = None
@@ -142,7 +144,8 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url='login')
 def group_selection_view(request: HttpRequest):
-    return render(request, "group_selection.html")
+    groups = Group.objects.all()
+    return render(request, "group_selection.html", {'groups':groups})
 
 
 def registration_view(request: HttpRequest):

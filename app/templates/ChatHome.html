@@ -1,21 +1,9 @@
 {% extends "group_selection.html" %}
-{% comment %} {% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conversely</title>
-    <script src="{% static "scripts/htmx.min.js" %}" defer></script>
-    <script src="{% static "scripts/script.js" %}" defer></script>
-    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
-    <link rel="stylesheet" href="{% static "styles/styles.css" %}">
-</head>
-<body> {% endcomment %}
-
 {% block content %}
     <h1>Conversely</h1>
+    <div>
+        <span id='online_count'></span> online
+    </div>
     {% if chatroom.new_group_name %}
     <h2>{{chatroom.new_group_name}}</h2>
     {% endif %}
