@@ -44,8 +44,9 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     #         return render(
     #             req, "partials/message_partial.html", {"message": newMessage, "user": req.user}
     #         )
-        
+
     context["form"] = form
+    context["current_user"] = req.user
     context["other_user"] = other_user
     context["channel"] = channel
     context["chatroom"] = chatroom
@@ -347,10 +348,41 @@ def send_invite_view(request: HttpRequest, channel, username):
 
 
 def accept_invite_view(request: HttpRequest, channel):
-    chatroom = Group.objects.get(name=channel)
+    try:
+        chatroom = Group.objects.get(name=channel)
+    except:
+        chatroom = None
 
     if request.user not in chatroom.users.all():
         chatroom.users.add(request.user)
         chatroom.save()
 
     return redirect("chatroom", chatroom.name)
+
+
+def group_management_view(request: HttpRequest, channel):
+    context = {}
+
+    try:
+        chatroom = Group.objects.get(name=channel)
+        users = chatroom.users.exclude(username=request.user)
+    except:
+        chatroom = None
+        users = None
+
+    context["chatroom"] = chatroom
+    context["users"] = users
+    return render(request, "group_management.html", context)
+
+
+def appoint_moderators_view(request: HttpRequest, channel, username):
+    try:
+        chatroom = Group.objects.get(name=channel)
+        user = User.objects.get(username=username)
+    except:
+        chatroom = None
+        user = None
+
+    chatroom.moderators.add(user)
+    chatroom.save()
+    return redirect("group_management", chatroom.name)
