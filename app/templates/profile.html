@@ -10,8 +10,6 @@
 <div class="chat-groups">
   {% for group in admin_groups %}
     <a href="{% url "chatroom" group.name %}">{{group.new_group_name}}</a>
-    <button><a href="{% url "update_group" group.new_group_name %}">Edit</a></button>
-    <button><a href="{% url "delete_group" group.new_group_name %}">Delete</a></button>
   {% endfor %}
 </div>
 {% endif %}

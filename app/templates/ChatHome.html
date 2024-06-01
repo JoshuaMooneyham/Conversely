@@ -6,6 +6,7 @@
     </div>
     {% if chatroom.new_group_name %}
     <h2>{{chatroom.new_group_name}}</h2>
+    <a href="{% url "group_management" chatroom.name %}">Manage</a>
     <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
     {% endif %}
     <div id='test_wrapper'>
