@@ -70,3 +70,18 @@
 .hidden {
     display: none;
 }
+
+#messages_container {
+    background-color: gray;
+    height: 50vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+/* textarea {
+    resize: none;
+    height: 20px;
+    max-height: 40px;
+    overflow: auto;
+} */
+

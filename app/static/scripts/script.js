@@ -3,6 +3,37 @@ let textBox = msgForm.querySelector('textarea');
 let updateMsgForm = document.getElementById('update-message');
 let updateTextBox = updateMsgForm.querySelector('textarea');
 let message;
+let scrollLock;
+
+let messageContainer = document.getElementById('messages_container');
+
+messageContainer.onscroll = (e) => {
+    // console.log(e.target.scrollTop + e.target.clientHeight, e.target.scrollHeight)
+    currentHeight = e.target.scrollTop + e.target.clientHeight;
+    maxHeight = e.target.scrollHeight;
+    scrollLock = maxHeight - currentHeight > 3;
+}
+
+let messageObserver = new MutationObserver((e) => {
+    // console.log(e);
+    if (!scrollLock) {
+        scrollToBottom()
+    }
+})
+
+messageObserver.observe(messageContainer, {childList: true})
+
+function scrollToBottom(behavior) {
+    messageContainer.scrollBy({'top': messageContainer.scrollHeight, "left": 0, "behavior": behavior})
+}
+
+scrollToBottom();
+// document.addEventListener('DOMContentLoaded', () => {
+// })
+
+messageContainer.onchange = (e) => {
+    console.log(e)
+}
 
 function swapBars() {
     msgForm.classList.toggle('hidden');
@@ -37,6 +68,5 @@ addEventListener("click", (e) => {
         document.getElementById('update_message_id').value = message.id.replace('message_', '');
         updateMsgForm.setAttribute('hx-target', `#${message.id}`);
         htmx.process(updateMsgForm);
-        console.log(updateTextBox.innerText)
     }
 })

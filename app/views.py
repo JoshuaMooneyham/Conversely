@@ -31,17 +31,17 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
                 other_user = user
                 break
 
-    if req.htmx:
-        form = SendMessage(req.POST)
-        if form.is_valid():
-            newMessage = form.save(commit=False)
-            newMessage.user = req.user
-            newMessage.group = chatroom
-            form.save()
-            form = SendMessage()
-            return render(
-                req, "message_partial.html", {"message": newMessage, "user": req.user}
-            )
+    # if req.htmx:
+    #     form = SendMessage(req.POST)
+    #     if form.is_valid():
+    #         newMessage = form.save(commit=False)
+    #         newMessage.user = req.user
+    #         newMessage.group = chatroom
+    #         form.save()
+    #         form = SendMessage()
+    #         return render(
+    #             req, "partials/message_partial.html", {"message": newMessage, "user": req.user}
+    #         )
         
     context["form"] = form
     context["other_user"] = other_user
@@ -111,7 +111,7 @@ def chat_file_upload(request: HttpRequest, channel):
             "message_id": message.id,
         }
         async_to_sync(channel_layer.group_send)(channel, event)
-    return HttpResponse
+    return HttpResponse()
 
 
 def login_view(request: HttpRequest):
