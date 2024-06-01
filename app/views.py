@@ -46,6 +46,7 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     #         )
 
     context["form"] = form
+    context["current_user"] = req.user
     context["other_user"] = other_user
     context["channel"] = channel
     context["chatroom"] = chatroom
