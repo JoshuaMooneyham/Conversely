@@ -2,6 +2,7 @@ let msgForm = document.getElementById('send-message');
 let textBox = msgForm.querySelector('textarea');
 let updateMsgForm = document.getElementById('update-message');
 let updateTextBox = updateMsgForm.querySelector('textarea');
+let TBB = document.getElementById('to-bottom-btn');
 let message;
 let scrollLock;
 
@@ -12,7 +13,14 @@ messageContainer.onscroll = (e) => {
     currentHeight = e.target.scrollTop + e.target.clientHeight;
     maxHeight = e.target.scrollHeight;
     scrollLock = maxHeight - currentHeight > 3;
+    if (!scrollLock) {
+        TBB.classList.add('hidden');
+    } else {
+        TBB.classList.remove('hidden');
+    }
 }
+
+TBB.onclick = () => {scrollToBottom('smooth')};
 
 let messageObserver = new MutationObserver((e) => {
     // console.log(e);
