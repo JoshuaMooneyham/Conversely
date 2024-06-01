@@ -46,6 +46,7 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     #         )
 
     context["form"] = form
+    context["current_user"] = req.user
     context["other_user"] = other_user
     context["channel"] = channel
     context["chatroom"] = chatroom
@@ -123,7 +124,7 @@ def chat_file_upload(request: HttpRequest, channel):
             "message_id": message.id,
         }
         async_to_sync(channel_layer.group_send)(channel, event)
-    return HttpResponse
+    return HttpResponse()
 
 
 def login_view(request: HttpRequest):
@@ -156,10 +157,8 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
-    groups = request.user.chat_groups.all()
-
-    context = {"groups": groups}
-    return render(request, "group_selection.html", context)
+    groups = Group.objects.all()
+    return render(request, "group_selection.html", {'groups':groups})
 
 
 def registration_view(request: HttpRequest):
@@ -292,7 +291,6 @@ def delete_group_view(request: HttpRequest, group_name):
 
     selected_group.delete()
     return redirect(f"/profile/{request.user}")
-
 
 def delete_message_view(req: HttpRequest, channel: str, messageId: int):
     channel_layer = get_channel_layer()

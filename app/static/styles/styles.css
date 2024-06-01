@@ -101,6 +101,11 @@
     font-size: 1.5em;
 }
 
+.message_file {
+    height: 200px;
+    max-width: 70vw;
+}
+
 /* textarea {
     resize: none;
     height: 20px;
