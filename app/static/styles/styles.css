@@ -70,3 +70,41 @@
 .hidden {
     display: none;
 }
+
+#messages_container {
+    background-color: gray;
+    height: 50vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+#test_wrapper {
+    position: relative;
+}
+
+#to-bottom-btn {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px;
+    border-radius: 50%;
+    border: none;  
+    transition: .3s; 
+}
+
+#to-bottom-btn:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+.fa-chevron-down{
+    font-size: 1.5em;
+}
+
+/* textarea {
+    resize: none;
+    height: 20px;
+    max-height: 40px;
+    overflow: auto;
+} */
+

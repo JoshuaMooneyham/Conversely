@@ -10,14 +10,14 @@ from app.forms import *
 
 
 # Create your views here.
-@login_required(login_url='login')
+@login_required(login_url="login")
 def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context = {}
     try:
         chatroom = Group.objects.get(name=channel)
     except:
         # pass
-        return redirect('group_selection') # Send home if bad group request
+        return redirect("group_selection")  # Send home if bad group request
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
     users = [i.username for i in chatroom.users.all()]
@@ -33,17 +33,17 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
                 other_user = user
                 break
 
-    if req.htmx:
-        form = SendMessage(req.POST)
-        if form.is_valid():
-            newMessage = form.save(commit=False)
-            newMessage.user = req.user
-            newMessage.group = chatroom
-            form.save()
-            form = SendMessage()
-            return render(
-                req, "message_partial.html", {"message": newMessage, "user": req.user}
-            )
+    # if req.htmx:
+    #     form = SendMessage(req.POST)
+    #     if form.is_valid():
+    #         newMessage = form.save(commit=False)
+    #         newMessage.user = req.user
+    #         newMessage.group = chatroom
+    #         form.save()
+    #         form = SendMessage()
+    #         return render(
+    #             req, "partials/message_partial.html", {"message": newMessage, "user": req.user}
+    #         )
         
     context["form"] = form
     context["other_user"] = other_user
@@ -51,7 +51,8 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context["chatroom"] = chatroom
     return render(req, "ChatHome.html", context)
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def profile_view(request: HttpRequest, username):
     context = {}
     current_user = request.user
@@ -68,9 +69,11 @@ def profile_view(request: HttpRequest, username):
     context["current_user"] = current_user
     context["profile"] = profile
     context["admin_groups"] = admin_groups
+    print(profile)
     return render(request, "profile.html", context)
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def get_or_create_chatroom(request: HttpRequest, username):
     if request.user.username == username:
         return redirect("chat_home")
@@ -92,8 +95,9 @@ def get_or_create_chatroom(request: HttpRequest, username):
 
     return redirect("chatroom", chatroom.name)
 
-@login_required(login_url='login')
-def chat_file_upload(request: HttpRequest, channel):
+
+@login_required(login_url="login")
+def chat_file_upload(request, channel):
     try:
         chatroom = Group.objects.get(name=channel)
     except:
@@ -113,7 +117,7 @@ def chat_file_upload(request: HttpRequest, channel):
             "message_id": message.id,
         }
         async_to_sync(channel_layer.group_send)(channel, event)
-    return HttpResponse
+    return HttpResponse()
 
 
 def login_view(request: HttpRequest):
@@ -137,12 +141,14 @@ def login_view(request: HttpRequest):
             messages.error(request, "Incorrect username and password combination")
     return render(request, "login.html")
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def logout_view(request: HttpRequest):
     logout(request)
     return redirect("login")
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
     groups = Group.objects.all()
     return render(request, "group_selection.html", {'groups':groups})
@@ -169,7 +175,8 @@ def registration_view(request: HttpRequest):
 
     return render(request, "registration.html", {"form": form})
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def make_profile_view(request: HttpRequest):
     if request.method == "POST":
         form = Make_Profile_Form(request.POST)
@@ -184,6 +191,48 @@ def make_profile_view(request: HttpRequest):
     return render(request, "make_profile.html", {"form": form})
 
 
+@login_required(login_url="login")
+def edit_profile_view(request: HttpRequest):
+    user_profile = UserProfile.objects.get(user=request.user)
+    user = User.objects.get(username=request.user)
+
+    if request.method == "POST":
+        new_screen_name = (
+            user_profile.screen_name
+            if not request.POST.get("screen_name")
+            else request.POST.get("screen_name")
+        )
+        new_email = (
+            user.email
+            if not request.POST.get("new_email")
+            else request.POST.get("new_email")
+        )
+        new_password = request.POST.get("password")
+        new_image = request.FILES.get("image", user_profile.image)
+
+        if "update" in request.POST:
+            if new_password:
+                update_password_result = update_password(user, new_password)
+                if isinstance(update_password_result, str):
+                    return render(
+                        request,
+                        "update_profile.html",
+                        {"error": update_password_result},
+                    )
+
+            update_profile_info(user_profile, new_screen_name, new_image)
+            update_user_email(user, new_email)
+
+            return redirect("group_selection")
+
+        elif "delete" in request.POST:
+            delete_user_profile(request.user)
+            return redirect("login")
+
+    return render(request, "update_profile.html", {"user": user})
+
+
+@login_required(login_url="login")
 def create_group_view(request: HttpRequest):
     context = {}
     form = Create_Group_Form()
@@ -201,6 +250,7 @@ def create_group_view(request: HttpRequest):
     return render(request, "create_group.html", context)
 
 
+@login_required(login_url="login")
 def update_group_view(request: HttpRequest, group_name):
     context = {}
 
@@ -223,6 +273,7 @@ def update_group_view(request: HttpRequest, group_name):
     return render(request, "create_group.html", context)
 
 
+@login_required(login_url="login")
 def delete_group_view(request: HttpRequest, group_name):
     try:
         selected_group = Group.objects.get(
@@ -233,52 +284,26 @@ def delete_group_view(request: HttpRequest, group_name):
 
     selected_group.delete()
     return redirect(f"/profile/{request.user}")
+    
 
 def delete_message_view(req: HttpRequest, channel: str, messageId: int):
     channel_layer = get_channel_layer()
     event = {
         "type": "delete_message",
-        "message_id": f'{messageId}',
+        "message_id": f"{messageId}",
     }
     async_to_sync(channel_layer.group_send)(channel, event)
 
     return HttpResponse()
+
 
 def update_message_view(req: HttpRequest):
     if req.method == "POST":
         channel_layer = get_channel_layer()
         event = {
             "type": "update_message",
-            "message_id": req.POST.get('message_id'),
-            "text": req.POST.get('text'),
+            "message_id": req.POST.get("message_id"),
+            "text": req.POST.get("text"),
         }
-        async_to_sync(channel_layer.group_send)(req.POST.get('channel'), event)
+        async_to_sync(channel_layer.group_send)(req.POST.get("channel"), event)
         return HttpResponse()
-    
-@login_required(login_url='login')
-def edit_profile_view(request:HttpRequest):
-    user_profile = UserProfile.objects.get(user = request.user)
-    user = User.objects.get(username = request.user)
-
-    if request.method == 'POST':
-        new_screen_name = user_profile.screen_name if not request.POST.get('screen_name') else request.POST.get('screen_name')
-        new_email = user.email if not request.POST.get('new_email') else request.POST.get('new_email')
-        new_password = request.POST.get('password')
-        new_image = request.FILES.get('image', user_profile.image)
-
-        if 'update' in request.POST:
-            if new_password:
-                update_password_result = update_password(user, new_password)
-                if isinstance(update_password_result, str):
-                    return render(request, 'update_profile.html', {'error': update_password_result})
-            
-            update_profile_info(user_profile, new_screen_name, new_image)
-            update_user_email(user, new_email)
-
-            return redirect('group_selection')
-
-        elif 'delete' in request.POST:
-            delete_user_profile(request.user)
-            return redirect('login')
-
-    return render(request, 'update_profile.html', {'user':user})

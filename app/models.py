@@ -19,7 +19,12 @@ class Group(models.Model):
     users_online = models.ManyToManyField(User, related_name = 'online', blank = True)
 
     def __str__(self):
-        return self.name
+        if self.new_group_name:
+            return self.new_group_name
+        elif self.is_private == True:
+            return f"Private chat: {self.name}"
+        else:
+            return self.name
 
 
 class Message(models.Model):
@@ -52,9 +57,10 @@ class UserProfile(models.Model):
         return f"@{self.user.username}"
 
 
-# ====={ Create }===== #
+############################################Create########################
 def create_user_profile(user, screen_name, image):
-    UserProfile.objects.create(user=user, screen_name=screen_name, image=image)
+    return UserProfile.objects.create(user=user, screen_name=screen_name, image=image)
+
 
 # ====={ update }===== #
 def update_profile_info(user, screen_name, image=None):
@@ -62,16 +68,19 @@ def update_profile_info(user, screen_name, image=None):
     user.image = image
     user.save()
 
+
 def update_user_email(user, email):
     user.email = email
     user.save()
 
+
 def update_password(user, password):
     if user.check_password(password):
-        return 'New password cannot be the same as the old password.'
+        return "New password cannot be the same as the old password."
     user.set_password(password)
     user.save()
 
+
 # ====={ delete }===== #
 def delete_user_profile(user):
-    User.objects.get(username = user).delete()
+    User.objects.get(username=user).delete()

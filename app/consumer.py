@@ -36,8 +36,11 @@ class Consumer(WebsocketConsumer):
         self.send(text_data=html)
 
     def delete_message(self, event):
-        message = Message.objects.get(pk=event['message_id'])
-        message.delete()
+        try:
+            message = Message.objects.get(pk=event['message_id'])
+            message.delete()
+        except:
+            pass
         html = render_to_string('partials/message_delete_partial.html', context={'message_id': event['message_id']})
         self.send(text_data=html)
 
