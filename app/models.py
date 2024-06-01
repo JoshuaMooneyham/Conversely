@@ -17,6 +17,7 @@ class Group(models.Model):
     moderators = models.ManyToManyField(User, blank=True)
     users = models.ManyToManyField(User, related_name="chat_groups", blank=True)
     is_private = models.BooleanField(default=False)
+    users_online = models.ManyToManyField(User, related_name = 'online', blank = True)
 
     def __str__(self):
         if self.new_group_name:

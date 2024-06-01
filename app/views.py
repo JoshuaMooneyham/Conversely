@@ -20,6 +20,8 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
         return redirect("group_selection")  # Send home if bad group request
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
+    users = [i.username for i in chatroom.users.all()]
+    print(users)
 
     # Getting other user from private chat
     other_user = None
@@ -31,18 +33,18 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
                 other_user = user
                 break
 
-    if req.htmx:
-        form = SendMessage(req.POST)
-        if form.is_valid():
-            newMessage = form.save(commit=False)
-            newMessage.user = req.user
-            newMessage.group = chatroom
-            form.save()
-            form = SendMessage()
-            return render(
-                req, "message_partial.html", {"message": newMessage, "user": req.user}
-            )
-
+    # if req.htmx:
+    #     form = SendMessage(req.POST)
+    #     if form.is_valid():
+    #         newMessage = form.save(commit=False)
+    #         newMessage.user = req.user
+    #         newMessage.group = chatroom
+    #         form.save()
+    #         form = SendMessage()
+    #         return render(
+    #             req, "partials/message_partial.html", {"message": newMessage, "user": req.user}
+    #         )
+        
     context["form"] = form
     context["other_user"] = other_user
     context["channel"] = channel
@@ -101,7 +103,11 @@ def chatroom_view(request: HttpRequest, username):
 
 
 @login_required(login_url="login")
+<<<<<<< HEAD
 def chat_file_upload(request: HttpRequest, channel):
+=======
+def chat_file_upload(request, channel):
+>>>>>>> c57f0993f76579f474aee49cc1270c03919662c4
     try:
         chatroom = Group.objects.get(name=channel)
     except:
@@ -121,7 +127,11 @@ def chat_file_upload(request: HttpRequest, channel):
             "message_id": message.id,
         }
         async_to_sync(channel_layer.group_send)(channel, event)
+<<<<<<< HEAD
     return HttpResponse
+=======
+    return HttpResponse()
+>>>>>>> c57f0993f76579f474aee49cc1270c03919662c4
 
 
 def login_view(request: HttpRequest):
@@ -154,10 +164,15 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
+<<<<<<< HEAD
     groups = request.user.chat_groups.all()
 
     context = {"groups": groups}
     return render(request, "group_selection.html", context)
+=======
+    groups = Group.objects.all()
+    return render(request, "group_selection.html", {'groups':groups})
+>>>>>>> c57f0993f76579f474aee49cc1270c03919662c4
 
 
 def registration_view(request: HttpRequest):
@@ -290,7 +305,11 @@ def delete_group_view(request: HttpRequest, group_name):
 
     selected_group.delete()
     return redirect(f"/profile/{request.user}")
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c57f0993f76579f474aee49cc1270c03919662c4
 
 def delete_message_view(req: HttpRequest, channel: str, messageId: int):
     channel_layer = get_channel_layer()
@@ -299,6 +318,10 @@ def delete_message_view(req: HttpRequest, channel: str, messageId: int):
         "message_id": f"{messageId}",
     }
     async_to_sync(channel_layer.group_send)(channel, event)
+<<<<<<< HEAD
+=======
+
+>>>>>>> c57f0993f76579f474aee49cc1270c03919662c4
     return HttpResponse()
 
 
@@ -312,6 +335,7 @@ def update_message_view(req: HttpRequest):
         }
         async_to_sync(channel_layer.group_send)(req.POST.get("channel"), event)
         return HttpResponse()
+<<<<<<< HEAD
 
 
 # Currently lists all users, would like it to list friends only
@@ -355,3 +379,5 @@ def accept_invite_view(request: HttpRequest, channel):
         chatroom.save()
 
     return redirect("chatroom", chatroom.name)
+=======
+>>>>>>> c57f0993f76579f474aee49cc1270c03919662c4

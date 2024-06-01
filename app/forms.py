@@ -26,10 +26,3 @@ class Create_Group_Form(forms.ModelForm):
     class Meta:
         model = Group
         fields = ["new_group_name"]
-
-    # this was supposed to assign the default image from the static folder but isn't working
-    # def set_profile_pic(self):
-    #     image = self.cleaned_data.get('image')
-    #     if not image:
-    #         self.cleaned_data['image'] = 'images/default-user.jpg'
-    #     return image
