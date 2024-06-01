@@ -3,6 +3,7 @@
     <h1>Conversely</h1>
     {% if chatroom.new_group_name %}
     <h2>{{chatroom.new_group_name}}</h2>
+    <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
     {% endif %}
     <div id='messages_container'>
     {% for message in messages %}

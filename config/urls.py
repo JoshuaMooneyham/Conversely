@@ -45,6 +45,13 @@ urlpatterns = [
     path("update/<str:group_name>/", update_group_view, name="update_group"),
     path("delete/<str:group_name>/", delete_group_view, name="delete_group"),
     path("create", create_group_view, name="create_group"),
+    path("<str:channel>/invite-users/", invite_user_list_view, name="invite_users"),
+    path(
+        "send-invite/<str:channel>/<str:username>/",
+        send_invite_view,
+        name="send_invite",
+    ),
+    path("accept-invite/<str:channel>/", accept_invite_view, name="accept_invite"),
     # Message Management
     path(
         "messages/delete/<str:channel>/<int:messageId>/",
@@ -58,7 +65,7 @@ urlpatterns = [
     path("<str:channel>/", chat_view, name="chat_home"),
     path("chat/group/<str:channel>/", chat_view, name="group_chatroom"),
     # Private Rooms
-    path("chat/<str:username>/", get_or_create_chatroom, name="private_chat"),
+    path("chat/<str:username>/", chatroom_view, name="private_chat"),
     path("chat/room/<str:channel>/", chat_view, name="chatroom"),
     path("chat/fileupload/<str:channel>", chat_file_upload, name="chat-file-upload"),
     path("create", create_group_view, name="create_group"),

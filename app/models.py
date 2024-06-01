@@ -14,6 +14,7 @@ class Group(models.Model):
         null=True,
         blank=True,
     )
+    moderators = models.ManyToManyField(User, blank=True)
     users = models.ManyToManyField(User, related_name="chat_groups", blank=True)
     is_private = models.BooleanField(default=False)
 
@@ -32,6 +33,7 @@ class Message(models.Model):
     text = models.TextField()
     file = models.FileField(upload_to="files/", blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
+    is_invitation = models.BooleanField(default=False)
 
     @property
     def filename(self):

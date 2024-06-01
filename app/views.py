@@ -71,18 +71,16 @@ def profile_view(request: HttpRequest, username):
     return render(request, "profile.html", context)
 
 
-@login_required(login_url="login")
 def get_or_create_chatroom(request: HttpRequest, username):
-    if request.user.username == username:
-        return redirect("chat_home")
-
+    chatroom = None
     other_user = User.objects.get(username=username)
-    my_chatrooms = request.user.chat_groups.filter(is_private=True)
+    my_private_chatrooms = request.user.chat_groups.filter(is_private=True)
 
-    if my_chatrooms.exists():
-        for chatroom in my_chatrooms:
-            if other_user in chatroom.users.all():
-                chatroom = chatroom
+    if my_private_chatrooms.exists():
+        for cr in my_private_chatrooms:
+            cr_users = cr.users.all()
+            if other_user in cr_users:
+                chatroom = cr
                 break
             else:
                 chatroom = Group.objects.create(is_private=True)
@@ -91,35 +89,19 @@ def get_or_create_chatroom(request: HttpRequest, username):
         chatroom = Group.objects.create(is_private=True)
         chatroom.users.add(other_user, request.user)
 
+    return chatroom
+
+
+@login_required(login_url="login")
+def chatroom_view(request: HttpRequest, username):
+
+    chatroom = get_or_create_chatroom(request, username)
+
     return redirect("chatroom", chatroom.name)
 
 
 @login_required(login_url="login")
 def chat_file_upload(request: HttpRequest, channel):
-    try:
-        chatroom = Group.objects.get(name=channel)
-    except:
-        chatroom = None
-
-    if request.htmx and request.FILES:
-        file = request.FILES["file"]
-        message = Message.objects.create(
-            file=file,
-            user=request.user,
-            group=chatroom,
-        )
-
-        channel_layer = get_channel_layer()
-        event = {
-            "type": "message_handler",
-            "message_id": message.id,
-        }
-        async_to_sync(channel_layer.group_send)(channel, event)
-    return HttpResponse
-
-
-@login_required(login_url="login")
-def chat_file_upload(request, channel):
     try:
         chatroom = Group.objects.get(name=channel)
     except:
@@ -172,18 +154,10 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
-    return render(request, "group_selection.html")
+    groups = request.user.chat_groups.all()
 
-
-@login_required(login_url="login")
-def logout_view(request: HttpRequest):
-    logout(request)
-    return redirect("login")
-
-
-@login_required(login_url="login")
-def group_selection_view(request: HttpRequest):
-    return render(request, "group_selection.html")
+    context = {"groups": groups}
+    return render(request, "group_selection.html", context)
 
 
 def registration_view(request: HttpRequest):
@@ -229,165 +203,6 @@ def edit_profile_view(request: HttpRequest):
     user = User.objects.get(username=request.user)
 
     if request.method == "POST":
-        screen_name = (
-            user_profile.screen_name
-            if not request.POST.get("screen_name")
-            else request.POST.get("screen_name")
-        )
-        email = (
-            user.email
-            if not request.POST.get("new_email")
-            else request.POST.get("new_email")
-        )
-        image = request.FILES.get("image", user_profile.image)
-
-        if "update" in request.POST:
-
-            update_profile_info(user_profile, screen_name, image)
-            update_user_email(user, email)
-            return redirect("group_selection")
-
-        elif "delete" in request.POST:
-            delete_user_profile(request.user)
-            return redirect("login")
-
-    return render(request, "update_profile.html", {"user": user})
-
-
-@login_required(login_url="login")
-def create_group_view(request: HttpRequest):
-    context = {}
-    form = Create_Group_Form()
-
-    if request.method == "POST":
-        form = Create_Group_Form(request.POST)
-        if form.is_valid():
-            new_group_chat = form.save(commit=False)
-            new_group_chat.admin = request.user
-            new_group_chat.save()
-            new_group_chat.users.add(request.user)
-            return redirect("chatroom", new_group_chat.name)
-
-    context["form"] = form
-    return render(request, "create_group.html", context)
-
-
-@login_required(login_url="login")
-def update_group_view(request: HttpRequest, group_name):
-    context = {}
-
-    try:
-        selected_group = Group.objects.get(
-            admin=request.user, new_group_name=group_name
-        )
-    except:
-        selected_group = None
-
-    form = Create_Group_Form(instance=selected_group)
-
-    if request.method == "POST":
-        form = Create_Group_Form(request.POST, instance=selected_group)
-        if form.is_valid():
-            form.save()
-            return redirect(f"/profile/{request.user}")
-
-    context["form"] = form
-    return render(request, "create_group.html", context)
-
-
-@login_required(login_url="login")
-def delete_group_view(request: HttpRequest, group_name):
-    try:
-        selected_group = Group.objects.get(
-            admin=request.user, new_group_name=group_name
-        )
-    except:
-        selected_group = None
-
-    selected_group.delete()
-    return redirect(f"/profile/{request.user}")
-
-
-def create_group_view(request: HttpRequest):
-    context = {}
-    form = Create_Group_Form()
-
-    if request.method == "POST":
-        form = Create_Group_Form(request.POST)
-        if form.is_valid():
-            new_group_chat = form.save(commit=False)
-            new_group_chat.admin = request.user
-            new_group_chat.save()
-            new_group_chat.users.add(request.user)
-            return redirect("chatroom", new_group_chat.name)
-
-    context["form"] = form
-    return render(request, "create_group.html", context)
-
-
-def update_group_view(request: HttpRequest, group_name):
-    context = {}
-
-    try:
-        selected_group = Group.objects.get(
-            admin=request.user, new_group_name=group_name
-        )
-    except:
-        selected_group = None
-
-    form = Create_Group_Form(instance=selected_group)
-
-    if request.method == "POST":
-        form = Create_Group_Form(request.POST, instance=selected_group)
-        if form.is_valid():
-            form.save()
-            return redirect(f"/profile/{request.user}")
-
-    context["form"] = form
-    return render(request, "create_group.html", context)
-
-
-def delete_group_view(request: HttpRequest, group_name):
-    try:
-        selected_group = Group.objects.get(
-            admin=request.user, new_group_name=group_name
-        )
-    except:
-        selected_group = None
-
-    selected_group.delete()
-    return redirect(f"/profile/{request.user}")
-
-
-def delete_message_view(req: HttpRequest, channel: str, messageId: int):
-    channel_layer = get_channel_layer()
-    event = {
-        "type": "delete_message",
-        "message_id": f"{messageId}",
-    }
-    async_to_sync(channel_layer.group_send)(channel, event)
-
-    return HttpResponse()
-
-
-def update_message_view(req: HttpRequest):
-    if req.method == "POST":
-        channel_layer = get_channel_layer()
-        event = {
-            "type": "update_message",
-            "message_id": req.POST.get("message_id"),
-            "text": req.POST.get("text"),
-        }
-        async_to_sync(channel_layer.group_send)(req.POST.get("channel"), event)
-        return HttpResponse()
-
-
-@login_required(login_url="login")
-def edit_profile_view(request: HttpRequest):
-    user_profile = UserProfile.objects.get(user=request.user)
-    user = User.objects.get(username=request.user)
-
-    if request.method == "POST":
         new_screen_name = (
             user_profile.screen_name
             if not request.POST.get("screen_name")
@@ -421,3 +236,122 @@ def edit_profile_view(request: HttpRequest):
             return redirect("login")
 
     return render(request, "update_profile.html", {"user": user})
+
+
+@login_required(login_url="login")
+def create_group_view(request: HttpRequest):
+    context = {}
+    form = Create_Group_Form()
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST)
+        if form.is_valid():
+            new_group_chat = form.save(commit=False)
+            new_group_chat.admin = request.user
+            new_group_chat.save()
+            new_group_chat.users.add(request.user)
+            return redirect("chatroom", new_group_chat.name)
+
+    context["form"] = form
+    return render(request, "create_group.html", context)
+
+
+@login_required(login_url="login")
+def update_group_view(request: HttpRequest, group_name):
+    context = {}
+
+    try:
+        selected_group = Group.objects.get(
+            admin=request.user, new_group_name=group_name
+        )
+    except:
+        selected_group = None
+
+    form = Create_Group_Form(instance=selected_group)
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST, instance=selected_group)
+        if form.is_valid():
+            form.save()
+            return redirect(f"/profile/{request.user}")
+
+    context["form"] = form
+    return render(request, "create_group.html", context)
+
+
+@login_required(login_url="login")
+def delete_group_view(request: HttpRequest, group_name):
+    try:
+        selected_group = Group.objects.get(
+            admin=request.user, new_group_name=group_name
+        )
+    except:
+        selected_group = None
+
+    selected_group.delete()
+    return redirect(f"/profile/{request.user}")
+
+
+def delete_message_view(req: HttpRequest, channel: str, messageId: int):
+    channel_layer = get_channel_layer()
+    event = {
+        "type": "delete_message",
+        "message_id": f"{messageId}",
+    }
+    async_to_sync(channel_layer.group_send)(channel, event)
+    return HttpResponse()
+
+
+def update_message_view(req: HttpRequest):
+    if req.method == "POST":
+        channel_layer = get_channel_layer()
+        event = {
+            "type": "update_message",
+            "message_id": req.POST.get("message_id"),
+            "text": req.POST.get("text"),
+        }
+        async_to_sync(channel_layer.group_send)(req.POST.get("channel"), event)
+        return HttpResponse()
+
+
+# Currently lists all users, would like it to list friends only
+def invite_user_list_view(request: HttpRequest, channel):
+    context = {}
+
+    try:
+        chatroom = Group.objects.get(name=channel)
+        users = User.objects.exclude(username=request.user)
+    except:
+        chatroom = None
+        users = None
+
+    context["users"] = users
+    context["chatroom"] = chatroom
+    return render(request, "user_invite.html", context)
+
+
+def send_invite_view(request: HttpRequest, channel, username):
+    try:
+        current_chatroom = Group.objects.get(name=channel)
+        private_chatroom = get_or_create_chatroom(request, username)
+    except:
+        current_chatroom = None
+        private_chatroom = None
+
+    message = Message.objects.create(
+        group=private_chatroom,
+        user=request.user,
+        text=current_chatroom.name,
+        is_invitation=True,
+    )
+    return redirect("invite_users", current_chatroom.name)
+
+
+def accept_invite_view(request: HttpRequest, channel):
+    chatroom = Group.objects.get(name=channel)
+
+    if request.user not in chatroom.users.all():
+        chatroom.users.add(request.user)
+        chatroom.save()
+
+    return redirect("chatroom", chatroom.name)
