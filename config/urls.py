@@ -46,24 +46,13 @@ urlpatterns = [
     path("update/<str:group_name>/", update_group_view, name="update_group"),
     path("delete/<str:group_name>/", delete_group_view, name="delete_group"),
     path("create", create_group_view, name="create_group"),
-    path(
-        "make-moderator/<str:channel>/<str:username>/",
-        appoint_moderators_view,
-        name="appoint_moderators",
-    ),
+    path("make-moderator/<str:channel>/<str:username>/", appoint_moderators_view, name="appoint_moderators"),
+    path("remove-moderator/<str:channel>/<str:username>/", remove_moderators_view, name="remove_moderators"),
     path("<str:channel>/invite-users/", invite_user_list_view, name="invite_users"),
-    path(
-        "send-invite/<str:channel>/<str:username>/",
-        send_invite_view,
-        name="send_invite",
-    ),
+    path("send-invite/<str:channel>/<str:username>/", send_invite_view, name="send_invite"),
     path("accept-invite/<str:channel>/", accept_invite_view, name="accept_invite"),
     # Message Management
-    path(
-        "messages/delete/<str:channel>/<int:messageId>/",
-        delete_message_view,
-        name="delete_message",
-    ),
+    path("messages/delete/<str:channel>/<int:messageId>/", delete_message_view, name="delete_message"),
     path("messages/update/", update_message_view, name="update_message"),
     path("chat/fileupload/<str:channel>/", chat_file_upload, name="chat-file-upload"),
     # User Navigation

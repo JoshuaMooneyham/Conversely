@@ -375,6 +375,7 @@ def group_management_view(request: HttpRequest, channel):
 
     context["chatroom"] = chatroom
     context["users"] = users
+    context["current_user"] = request.user
     return render(request, "group_management.html", context)
 
 
@@ -387,5 +388,18 @@ def appoint_moderators_view(request: HttpRequest, channel, username):
         user = None
 
     chatroom.moderators.add(user)
+    chatroom.save()
+    return redirect("group_management", chatroom.name)
+
+
+def remove_moderators_view(request: HttpRequest, channel, username):
+    try:
+        chatroom = Group.objects.get(name=channel)
+        user = User.objects.get(username=username)
+    except:
+        chatroom = None
+        user = None
+
+    chatroom.moderators.remove(user)
     chatroom.save()
     return redirect("group_management", chatroom.name)
