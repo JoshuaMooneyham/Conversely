@@ -18,6 +18,7 @@ class Group(models.Model):
     users = models.ManyToManyField(User, related_name="chat_groups", blank=True)
     is_private = models.BooleanField(default=False)
     users_online = models.ManyToManyField(User, related_name = 'online', blank = True)
+    banned_users = models.ManyToManyField(User, related_name='banned_from', blank=True)
 
     def __str__(self):
         if self.new_group_name:
@@ -54,6 +55,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     screen_name = models.CharField(max_length=50)
     image = models.ImageField(upload_to="", null=True, blank=True)
+    blocked_users = models.ManyToManyField(User, related_name='blocked_by', blank=True)
 
     def __str__(self):
         return f"@{self.user.username}"

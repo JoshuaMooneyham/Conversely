@@ -32,19 +32,7 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
             if user != req.user:
                 other_user = user
                 break
-
-    # if req.htmx:
-    #     form = SendMessage(req.POST)
-    #     if form.is_valid():
-    #         newMessage = form.save(commit=False)
-    #         newMessage.user = req.user
-    #         newMessage.group = chatroom
-    #         form.save()
-    #         form = SendMessage()
-    #         return render(
-    #             req, "partials/message_partial.html", {"message": newMessage, "user": req.user}
-    #         )
-
+    print(len(context['messages']))
     context["form"] = form
     context["current_user"] = req.user
     context["other_user"] = other_user
@@ -179,10 +167,8 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
-    groups = request.user.chat_groups.all()
-
-    context = {"groups": groups}
-    return render(request, "group_selection.html", context)
+    groups = Group.objects.all()
+    return render(request, "group_selection.html", {'groups':groups})
 
 
 def registration_view(request: HttpRequest):
