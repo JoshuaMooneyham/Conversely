@@ -146,7 +146,7 @@ def chat_file_upload(request: HttpRequest, channel):
             "message_id": message.id,
         }
         async_to_sync(channel_layer.group_send)(channel, event)
-    return HttpResponse()
+    return HttpResponse
 
 
 def login_view(request: HttpRequest):
@@ -179,8 +179,10 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
-    groups = Group.objects.all()
-    return render(request, "group_selection.html", {'groups':groups})
+    groups = request.user.chat_groups.all()
+
+    context = {"groups": groups}
+    return render(request, "group_selection.html", context)
 
 
 def registration_view(request: HttpRequest):
@@ -314,6 +316,7 @@ def delete_group_view(request: HttpRequest, group_name):
     selected_group.delete()
     return redirect(f"/profile/{request.user}")
 
+
 def delete_message_view(req: HttpRequest, channel: str, messageId: int):
     channel_layer = get_channel_layer()
     event = {
@@ -394,6 +397,7 @@ def group_management_view(request: HttpRequest, channel):
 
     context["chatroom"] = chatroom
     context["users"] = users
+    context["current_user"] = request.user
     return render(request, "group_management.html", context)
 
 
@@ -406,5 +410,18 @@ def appoint_moderators_view(request: HttpRequest, channel, username):
         user = None
 
     chatroom.moderators.add(user)
+    chatroom.save()
+    return redirect("group_management", chatroom.name)
+
+
+def remove_moderators_view(request: HttpRequest, channel, username):
+    try:
+        chatroom = Group.objects.get(name=channel)
+        user = User.objects.get(username=username)
+    except:
+        chatroom = None
+        user = None
+
+    chatroom.moderators.remove(user)
     chatroom.save()
     return redirect("group_management", chatroom.name)

@@ -20,13 +20,11 @@
         </div>
         {% block content %}
             <a href="{% url "create_group" %}">Create Group</a>
-            {% comment %} <a href = "{% url "chat_home" 'Cohort2'%}">Cohort 2</a> {% endcomment %}
+            <a href = "{% url "chat_home" 'Cohort2'%}">Cohort 2</a>
             {% for group in groups  %}
-                {% if group.new_group_name and user in group.users.all %}
-                    <a href="{% url "chatroom" group.name %}">{{group.new_group_name}}</a>
-                {% elif not group.is_private and not group.new_group_name %}
-                    <a href="{% url "chatroom" group.name %}">{{group.name}}</a>
-                {% endif %}
+            {% if group.new_group_name %}
+            <a href="{% url "chatroom" group.name %}">{{group.new_group_name}}</a>
+            {% endif %}
             {% endfor %}
         {% endblock content %}
     </body>
