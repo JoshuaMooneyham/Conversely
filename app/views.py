@@ -7,9 +7,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from app.models import *
 from app.forms import *
+from app.decorators import *
 
 
 # Create your views here.
+@group_members_only
 @login_required(login_url="login")
 def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context = {}
@@ -99,7 +101,7 @@ def get_or_create_chatroom(request: HttpRequest, username):
 def chatroom_view(request: HttpRequest, username):
 
     chatroom = get_or_create_chatroom(request, username)
-
+  
     return redirect("chatroom", chatroom.name)
 
 
@@ -124,9 +126,10 @@ def chat_file_upload(request: HttpRequest, channel):
             "message_id": message.id,
         }
         async_to_sync(channel_layer.group_send)(channel, event)
-    return HttpResponse
+    return HttpResponse()
 
 
+@unauthenticated_user
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
         if "just_signed_up" in request.session:
@@ -157,12 +160,10 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
-    groups = request.user.chat_groups.all()
+    groups = Group.objects.all()
+    return render(request, "group_selection.html", {'groups':groups})
 
-    context = {"groups": groups}
-    return render(request, "group_selection.html", context)
-
-
+@unauthenticated_user
 def registration_view(request: HttpRequest):
     if request.method == "POST":
         form = Create_User_Form(request.POST)
@@ -184,7 +185,7 @@ def registration_view(request: HttpRequest):
 
     return render(request, "registration.html", {"form": form})
 
-
+@unauthenticated_user
 @login_required(login_url="login")
 def make_profile_view(request: HttpRequest):
     if request.method == "POST":
@@ -258,43 +259,40 @@ def create_group_view(request: HttpRequest):
     context["form"] = form
     return render(request, "create_group.html", context)
 
-
+@admin_or_moderators_update_group
 @login_required(login_url="login")
-def update_group_view(request: HttpRequest, group_name):
+def update_group_view(request: HttpRequest, channel):
     context = {}
 
     try:
-        selected_group = Group.objects.get(
-            admin=request.user, new_group_name=group_name
-        )
+        chatroom = Group.objects.get(name=channel)
     except:
-        selected_group = None
+        chatroom = None
 
-    form = Create_Group_Form(instance=selected_group)
+    form = Create_Group_Form(instance=chatroom)
 
     if request.method == "POST":
-        form = Create_Group_Form(request.POST, instance=selected_group)
+        form = Create_Group_Form(request.POST, instance=chatroom)
         if form.is_valid():
             form.save()
-            return redirect(f"/profile/{request.user}")
+            return redirect("group_management", chatroom.name)
 
     context["form"] = form
     return render(request, "create_group.html", context)
 
+@admin_only_delete_group
+@login_required(login_url="login")
+def delete_group_view(request: HttpRequest, channel):
+    try:
+        chatroom = Group.objects.get(name=channel)
+    except:
+        chatroom = None
+
+    chatroom.delete()
+    return redirect("group_selection")
+
 
 @login_required(login_url="login")
-def delete_group_view(request: HttpRequest, group_name):
-    try:
-        selected_group = Group.objects.get(
-            admin=request.user, new_group_name=group_name
-        )
-    except:
-        selected_group = None
-
-    selected_group.delete()
-    return redirect(f"/profile/{request.user}")
-
-
 def delete_message_view(req: HttpRequest, channel: str, messageId: int):
     channel_layer = get_channel_layer()
     event = {
@@ -305,6 +303,7 @@ def delete_message_view(req: HttpRequest, channel: str, messageId: int):
     return HttpResponse()
 
 
+@login_required(login_url="login")
 def update_message_view(req: HttpRequest):
     if req.method == "POST":
         channel_layer = get_channel_layer()
@@ -318,6 +317,7 @@ def update_message_view(req: HttpRequest):
 
 
 # Currently lists all users, would like it to list friends only
+@login_required(login_url="login")
 def invite_user_list_view(request: HttpRequest, channel):
     context = {}
 
@@ -333,6 +333,7 @@ def invite_user_list_view(request: HttpRequest, channel):
     return render(request, "user_invite.html", context)
 
 
+@login_required(login_url="login")
 def send_invite_view(request: HttpRequest, channel, username):
     try:
         current_chatroom = Group.objects.get(name=channel)
@@ -350,6 +351,7 @@ def send_invite_view(request: HttpRequest, channel, username):
     return redirect("invite_users", current_chatroom.name)
 
 
+@login_required(login_url="login")
 def accept_invite_view(request: HttpRequest, channel):
     try:
         chatroom = Group.objects.get(name=channel)
@@ -363,6 +365,8 @@ def accept_invite_view(request: HttpRequest, channel):
     return redirect("chatroom", chatroom.name)
 
 
+@admin_or_moderators_group_management
+@login_required(login_url="login")
 def group_management_view(request: HttpRequest, channel):
     context = {}
 
@@ -379,6 +383,8 @@ def group_management_view(request: HttpRequest, channel):
     return render(request, "group_management.html", context)
 
 
+@admin_only_moderator_manager
+@login_required(login_url="login")
 def appoint_moderators_view(request: HttpRequest, channel, username):
     try:
         chatroom = Group.objects.get(name=channel)
@@ -392,6 +398,8 @@ def appoint_moderators_view(request: HttpRequest, channel, username):
     return redirect("group_management", chatroom.name)
 
 
+@admin_only_moderator_manager
+@login_required(login_url="login")
 def remove_moderators_view(request: HttpRequest, channel, username):
     try:
         chatroom = Group.objects.get(name=channel)
