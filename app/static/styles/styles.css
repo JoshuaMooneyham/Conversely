@@ -110,16 +110,6 @@
 
 .message_file {
     height: 200px;
-<<<<<<< HEAD
-    max-width: 70vw;
-}
-
-/* textarea {
-    resize: none;
-    height: 20px;
-    max-height: 40px;
-    overflow: auto;
-=======
     max-width: 100%;
     border-radius: .3rem;
 }
@@ -197,7 +187,6 @@
     opacity: 60%;
     transition: .3s;
     cursor: pointer;
->>>>>>> 37f0d2c429d0b67ed013531992cacd377b63ce34
 } */
 
 .speech-bubble p {

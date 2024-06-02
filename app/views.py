@@ -172,10 +172,6 @@ def logout_view(request: HttpRequest):
 def group_selection_view(request: HttpRequest):
     groups = Group.objects.all()
     return render(request, "group_selection.html", {'groups':groups})
-<<<<<<< HEAD
-=======
-
->>>>>>> 37f0d2c429d0b67ed013531992cacd377b63ce34
 
 @unauthenticated_user
 def registration_view(request: HttpRequest):
