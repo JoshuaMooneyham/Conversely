@@ -67,10 +67,32 @@ def profile_view(request: HttpRequest, username):
         profile = None
         admin_groups = None
 
+    if request.method == 'POST':
+        print(request.POST)
+        if 'block_user' in request.POST:
+            try:
+                block = User.objects.get(pk=request.POST['user_id'])
+                if block not in request.user.profile.blocked_users.all():
+                    request.user.profile.blocked_users.add(block)
+            except:
+                pass
+        elif 'unblock_user' in request.POST:
+            print('test')
+            try:
+                unblock = User.objects.get(pk=request.POST['user_id'])
+                print('bi')
+                if unblock in request.user.profile.blocked_users.all():
+                    request.user.profile.blocked_users.remove(unblock)
+                    print('gi')
+            except:
+                pass
+
+            
+
     context["current_user"] = current_user
     context["profile"] = profile
     context["admin_groups"] = admin_groups
-    print(profile)
+
     return render(request, "profile.html", context)
 
 

@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-7*9*aln#&naun_bl07vxsg-50o3d5n11n*gtnttel9mz8^+jc6"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -140,16 +140,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ASGI_APPLICATION = "config.asgi.application"
 
 CHANNEL_LAYERS = {
-    # "default": { # <- Development
-    #     "BACKEND": "channels.layers.InMemoryChannelLayer"
-    # } 
+    "default": { # <- Development
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    } 
 
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [('redis://default:fQYLVzlRjNdxvqBLQdLgqHKYuPAZNJBr@monorail.proxy.rlwy.net:10560')]
-        }
-    }
+    # "default": {
+    #     "BACKEND": "channels_redis.core.RedisChannelLayer",
+    #     "CONFIG": {
+    #         "hosts": [('redis://default:fQYLVzlRjNdxvqBLQdLgqHKYuPAZNJBr@monorail.proxy.rlwy.net:10560')]
+    #     }
+    # }
 }
 
 LOGIN_REDIRECT_URL = "chat-page"
