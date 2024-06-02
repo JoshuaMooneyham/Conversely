@@ -76,6 +76,13 @@
     height: 50vh;
     overflow-y: scroll;
     scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 50px;
+}
+
+.message_wrapper {
+    width: fit-content
 }
 
 #test_wrapper {
@@ -103,6 +110,7 @@
 
 .message_file {
     height: 200px;
+<<<<<<< HEAD
     max-width: 70vw;
 }
 
@@ -111,5 +119,87 @@
     height: 20px;
     max-height: 40px;
     overflow: auto;
+=======
+    max-width: 100%;
+    border-radius: .3rem;
+}
+
+.speech-bubble {
+    display: flex;
+    justify-content: center;
+	position: relative;
+	background: #5f034e;
+	border-radius: .4em;
+    padding: 10px;
+    margin: 10px;
+    height: fit-content;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.329);
+}
+
+.speech-bubble:after {
+	content: '';
+	position: absolute;
+	bottom: -10px;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-top-color: #5f034e;
+	border-bottom: 0;
+}
+
+.left .speech-bubble:after{
+    left: 0;
+	border-left: 0;
+}
+
+.right .speech-bubble:after{
+    right: 0;
+	border-right: 0;
+    border-top-color: #e45ad4;
+}
+
+.right .speech-bubble {
+    background-color: #e45ad4;
+}
+
+.right {
+    align-self: flex-end;
+}
+
+.message_profile_wrapper {
+    display: flex;
+    position: relative;
+    justify-content: left;
+    flex-direction: row-reverse;
+}
+
+.message_profile_you {
+    display: flex;
+    justify-content: right;
+}
+
+/* .blocked_message_wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(55, 55, 55);
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: .4em;
+    color: rgb(212, 212, 212);
+    margin: 5px 0;
+}
+
+.block-p {
+    margin: 0 auto;
+}
+
+.block-i:hover {
+    opacity: 60%;
+    transition: .3s;
+    cursor: pointer;
+>>>>>>> 37f0d2c429d0b67ed013531992cacd377b63ce34
 } */
 
+.speech-bubble p {
+    word-break: break-word;
+}

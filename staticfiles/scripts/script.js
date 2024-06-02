@@ -2,20 +2,46 @@ let msgForm = document.getElementById('send-message');
 let textBox = msgForm.querySelector('textarea');
 let updateMsgForm = document.getElementById('update-message');
 let updateTextBox = updateMsgForm.querySelector('textarea');
+let TBB = document.getElementById('to-bottom-btn');
 let message;
+let scrollLock;
 
-// function scrollToBottom() {
-//     window.scrollBy({
-//         "top": 99999999,
-//         "left": 0,
-//         "behavior": "smooth"
-//     })
-// }
+let messageContainer = document.getElementById('messages_container');
 
-// function scrollToBottom2() {
-//     const body = document.querySelector('body');
-//     body.scrollTop = body.scrollHeight;
-// }
+messageContainer.onscroll = (e) => {
+    // console.log(e.target.scrollTop + e.target.clientHeight, e.target.scrollHeight)
+    currentHeight = e.target.scrollTop + e.target.clientHeight;
+    maxHeight = e.target.scrollHeight;
+    scrollLock = maxHeight - currentHeight > 3;
+    if (!scrollLock) {
+        TBB.classList.add('hidden');
+    } else {
+        TBB.classList.remove('hidden');
+    }
+}
+
+TBB.onclick = () => {scrollToBottom('smooth')};
+
+let messageObserver = new MutationObserver((e) => {
+    // console.log(e);
+    if (!scrollLock) {
+        scrollToBottom()
+    }
+})
+
+messageObserver.observe(messageContainer, {childList: true})
+
+function scrollToBottom(behavior) {
+    messageContainer.scrollBy({'top': messageContainer.scrollHeight, "left": 0, "behavior": behavior})
+}
+
+scrollToBottom();
+// document.addEventListener('DOMContentLoaded', () => {
+// })
+
+messageContainer.onchange = (e) => {
+    console.log(e)
+}
 
 function swapBars() {
     msgForm.classList.toggle('hidden');
@@ -36,8 +62,6 @@ updateTextBox.onkeydown = (e) => {
 
 addEventListener("htmx:wsAfterSend", () => {
     textBox.value = '';
-    // scrollToBottom()
-    console.log('send')
 })
 
 addEventListener("click", (e) => {

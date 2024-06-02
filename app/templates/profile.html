@@ -2,10 +2,31 @@
 {% block content %}
 <h3>{{profile}}</h3>
 {% if current_user != profile.user %}
+<<<<<<< HEAD
 <div class="chat-btn">
   <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
 </div>
 {% comment %} <a hx-post='{% url "" %}'></a> {% endcomment %}
+=======
+  {% if user not in profile.blocked_users.all and profile.user not in user.profile.blocked_users.all %}
+  <div class="chat-btn">
+    <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
+  </div>
+  {% endif %}
+  {% if profile.user not in user.profile.blocked_users.all %}
+    <form action="" method='POST'>
+      {% csrf_token %}
+      <input type="hidden" value="{{profile.user.pk}}" name='user_id'>
+      <input type="submit" value='Block' name='block_user'>
+    </form>
+  {% else %}
+  <form action="" method='POST'>
+    {% csrf_token %}
+    <input type="hidden" value="{{profile.user.pk}}" name='user_id'>
+    <input type="submit" value='Unblock' name='unblock_user'>
+  </form>
+  {% endif %}
+>>>>>>> 37f0d2c429d0b67ed013531992cacd377b63ce34
 {% else %}
 <a href="{% url "create_group" %}">Create Group</a>
 <div class="chat-groups">
