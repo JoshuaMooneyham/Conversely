@@ -1,7 +1,8 @@
 {% load static %}
-{% if found_user %}
 
+{% if found_user %}
 <div id='account' hx-swap-oob='outerHTML'>
+    <button onclick='closePopup()' {% comment "" %}hx-post="{% url "close_popup" %}" {% endcomment %}>Close</button>
     {% if found_user.profile.image %}
     <img src="{{found_user.profile.image.url}}" alt="">
     {% else %}
@@ -27,7 +28,10 @@
         {% endif %}
     {% endfor %}
     {% endif %}
-
 </div>
+
+{% elif closePopup %}
+
+<div id='account' hx-swap-oob='outerHTML'></div>
 
 {% endif %}

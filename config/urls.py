@@ -68,7 +68,6 @@ urlpatterns = [
     # User Navigation
     path("group-selection/", group_selection_view, name="group_selection"),
 
-
     # ==={ Private Rooms }=== #
     path("chat/<str:username>/", chatroom_view, name="private_chat"),
     path("chat/room/<str:channel>/", chat_view, name="chatroom"),
