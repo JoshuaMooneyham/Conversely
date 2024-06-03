@@ -1,16 +1,17 @@
-{% extends "group_selection.html" %}
-{% load static %}
-
-{% block content %}
-<div class = 'form-container'>
-    <div class = 'send_invite'>    
-        {% for user in users %}
-        <p>{{user}}</p>
-        <button><a href="{% url "send_invite" chatroom.name user %}">Send Invite</a></button>
-        {% endfor %}
-        <div>
-            <a href="{% url "chatroom" chatroom.name %}">Done</a>
-        </div>
-    </div>
+{% extends "group_selection.html" %} {% block content %}
+<div class="invite_list">
+    {% for friend, active_invite in friend_invites.items %}
+    {% if  friend not in chatroom.users.all %}
+    <p>{{friend}}</p>
+        {% if active_invite == False %}
+        <button><a href="{% url "send_invite" chatroom.name friend %}">Send Invite</a></button>
+        {% else %}
+        <button><a href="{% url "cancel_invite" chatroom.name friend %}">Cancel</a></button>
+        {% endif %}
+    {% endif %}
+    {% endfor %}
+</div>
+<div>
+    <a href="{% url "chatroom" chatroom.name %}">Done</a>
 </div>
 {% endblock content %}

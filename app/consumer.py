@@ -48,7 +48,7 @@ class Consumer(WebsocketConsumer):
         message = Message.objects.get(pk=event['message_id'])
         message.text = event['text']
         message.save()
-        html = render_to_string('partials/message_update_partial.html', context={'message': message, "user": self.user, "channel": self.group_name})
+        html = render_to_string('message.html', context={'message': message, "user": self.user, "channel": self.group_name})
         self.send(text_data=html)
 
     def update_online_count(self):
@@ -67,6 +67,31 @@ class Consumer(WebsocketConsumer):
         html = render_to_string("partials/online_count.html", {'online_count':online_count})
         self.send(text_data=html)
 
+    def ban_user(self, event):
+        try:
+            user = User.objects.get(pk=event['user_id'])
+            if (user in self.group.banned_users.all()) == False:
+                self.group.banned_users.add(user)
+                self.group.save()
+                print(self.group, user, self.user)
+            if user in self.group.users.all():
+                self.group.users.remove(user)
+                self.group.save()
+            html = render_to_string("partials/ban_partial.html", {'found_user': user, 'user': self.user, 'group': self.group.name})
+            self.send(text_data=html)
+        except:
+            pass
+
+    def unban_user(self, event):
+        try:
+            user = User.objects.get(pk=event['user_id'])
+            if user in self.group.banned_users.all():
+                self.group.banned_users.remove(user)
+                self.group.save()
+            html = render_to_string("partials/unban_partial.html", {'found_user': user, 'user': self.user, 'group': self.group.name})
+            self.send(text_data=html)
+        except: 
+            pass
 
 # class Consumer(AsyncWebsocketConsumer):
 #     async def connect(self):

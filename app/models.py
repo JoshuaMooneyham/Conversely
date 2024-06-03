@@ -50,6 +50,13 @@ class Message(models.Model):
         elif self.file:
             return f'"{self.filename}" by {self.user.username} in {self.group.name}'
 
+class InviteNotification(models.Model):
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="invitations")
+
+    def __str__(self):
+        return f"{self.sender} invited {self.receiver} to {self.group.new_group_name}."
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
