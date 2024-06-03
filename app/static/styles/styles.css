@@ -528,3 +528,16 @@ button:focus {
     justify-content: center;
     align-items: center;
 }
+
+#account {
+    position: absolute;
+    width: 700px;
+    /* height: 300px; */
+    background-color: red;
+    left: calc(50% - 350px);
+    top: 200px;
+}
+
+#account img {
+    height: 200px;
+}
