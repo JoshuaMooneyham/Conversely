@@ -1,7 +1,12 @@
-{% extends "group_selection.html" %} {% block content %}
+{% extends "group_selection.html" %} 
+
+{% block content %}
+<div class ='form-container'>
 <div class="friend-lists-nav">
     <a href="{% url "friend_list" %}">All</a>
     <a href="{% url "friend_requests" %}">Pending</a>
+    <a href="{% url "search_users" %}">Find Friends</a>
 </div>
 {% block friends %}{% endblock friends %}
+</div>
 {% endblock content %}

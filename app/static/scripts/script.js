@@ -19,18 +19,17 @@ messageContainer.onscroll = (e) => {
     }
 }
 
-// let messages = [...document.getElementsByClassName('message_wrapper')];
-// messages.forEach((msg) => {
-//     let buttons = msg.querySelector('.message_buttons');
-//     msg.addEventListener('mouseover', (e) => {
-//         buttons.style.display = 'flex';
-//     })
-//     msg.addEventListener('mouseleave', (e) => {
-//         buttons.style.display = 'none';
-//     })
-// } )
-
 TBB.onclick = () => {scrollToBottom('smooth')};
+
+function handleHover() {
+    buttons.style.display = 'flex';
+}
+
+function handleUnhover() {
+    buttons.style.display = 'none';
+
+}
+
 
 let messageObserver = new MutationObserver((e) => {
     // console.log(e);
@@ -38,9 +37,12 @@ let messageObserver = new MutationObserver((e) => {
         scrollToBottom()
     }
 
+// DELETE
     let messages = [...document.getElementsByClassName('message_wrapper')];
     messages.forEach((msg) => {
         let buttons = msg.querySelector('.message_buttons');
+        msg.removeEventListener('mouseover', handleHover)
+        msg.removeEventListener('mouseleave', handleUnhover)
         msg.addEventListener('mouseover', (e) => {
             buttons.style.display = 'flex';
         })
@@ -50,6 +52,7 @@ let messageObserver = new MutationObserver((e) => {
     })
 })
 
+// DELETE
 let messages = [...document.getElementsByClassName('message_wrapper')];
 messages.forEach((msg) => {
     let buttons = msg.querySelector('.message_buttons');
@@ -68,8 +71,6 @@ function scrollToBottom(behavior) {
 }
 
 scrollToBottom();
-// document.addEventListener('DOMContentLoaded', () => {
-// })
 
 messageContainer.onchange = (e) => {
     console.log(e)

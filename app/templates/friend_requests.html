@@ -1,7 +1,11 @@
-{% extends "friend_management.html" %} {% block friends %}
+{% extends "friend_management.html" %} 
+
+{% block friends %}
+<div class = 'form-container>'>
 {% for friend_request in friend_requests_list %}
 <p>{{friend_request.sender}}</p>
 <button><a href="{% url "accept_friend" friend_request.sender %}">Accept</a></button>
 <button><a href="{% url "decline_friend" friend_request.sender %}">Decline</a></button>
 {% endfor %}
+</div>
 {% endblock friends %}
