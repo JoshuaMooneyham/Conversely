@@ -1,25 +1,31 @@
 {% extends "group_selection.html" %}
+
 {% block content %}
+<div id = 'chatroom_head'>
     <h1>Conversely</h1>
-    <div>
-        <span id='online_count'></span> online
+    <div id='online-count' class='offline'>
+        <span id='online_count'>0</span> online
     </div>
+</div>
+<div class ='container'>
+
     {% if chatroom.new_group_name %}
-    <h2>{{chatroom.new_group_name}}</h2>
-    <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
-    {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
-    <a href="{% url "group_management" chatroom.name %}">Manage</a>
+        <h2>{{chatroom.new_group_name}}</h2>
+        <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
+        {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
+            <a href="{% url "group_management" chatroom.name %}">Manage</a>
+        {% endif %}
     {% endif %}
-    {% endif %}
+
     <div id='test_wrapper'>
         <div id='messages_container'>
             {% for message in messages %}
-            {% include "message.html" %}
+                {% include "message.html" %}
             {% endfor %}
         </div>
         <button id='to-bottom-btn'><i class="fa-solid fa-chevron-down"></i></button>
     </div>
-    {% comment %} <form action="" method='POST'> {% endcomment %}
+
     <div>
         <form id='send-message'
             hx-ext="ws"
@@ -50,7 +56,7 @@
             <button type="submit">Submit File</button>
         </form>
     </div>
-
+</div>
     <script>
         addEventListener('htmx:configRequest', (e) => {
             e.detail.headers['X-CSRFToken'] = "{{ csrf_token }}";

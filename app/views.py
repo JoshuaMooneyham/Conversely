@@ -168,7 +168,8 @@ def logout_view(request: HttpRequest):
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
     groups = Group.objects.all()
-    return render(request, "group_selection.html", {'groups':groups})
+    user = User.objects.get(username = request.user)
+    return render(request, "group_selection.html", {'groups':groups, 'user':user})
 
 
 def registration_view(request: HttpRequest):
@@ -195,23 +196,27 @@ def registration_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def make_profile_view(request: HttpRequest):
-    if request.method == "POST":
-        form = Make_Profile_Form(request.POST)
-        if form.is_valid():
-            screen_name = form.cleaned_data["screen_name"]
-            image = form.cleaned_data["image"]
-            create_user_profile(request.user, screen_name, image)
-            return redirect("group_selection")
-    else:
-        form = Make_Profile_Form()
+    # if request.user.is_authenticated:
+    #     return redirect('group_selection')
+    # else:
+        if request.method == "POST":
+            form = Make_Profile_Form(request.POST)
+            if form.is_valid():
+                screen_name = form.cleaned_data["screen_name"]
+                image = form.cleaned_data["image"]
+                create_user_profile(request.user, screen_name, image)
+                return redirect("group_selection")
+        else:
+            form = Make_Profile_Form()
 
-    return render(request, "make_profile.html", {"form": form})
+        return render(request, "make_profile.html", {"form": form})
 
 
 @login_required(login_url="login")
 def edit_profile_view(request: HttpRequest):
     user_profile = UserProfile.objects.get(user=request.user)
     user = User.objects.get(username=request.user)
+    user_profile = UserProfile.objects.get(user = request.user)
 
     if request.method == "POST":
         new_screen_name = (
@@ -240,13 +245,13 @@ def edit_profile_view(request: HttpRequest):
             update_profile_info(user_profile, new_screen_name, new_image)
             update_user_email(user, new_email)
 
-            return redirect("group_selection")
+            return redirect("edit-profile")
 
         elif "delete" in request.POST:
             delete_user_profile(request.user)
             return redirect("login")
 
-    return render(request, "update_profile.html", {"user": user})
+    return render(request, "update_profile.html", {"user": user_profile})
 
 
 @login_required(login_url="login")
@@ -332,6 +337,7 @@ def invite_user_list_view(request: HttpRequest, channel):
     try:
         chatroom = Group.objects.get(name=channel)
         users = User.objects.exclude(username=request.user)
+        print(users)
     except:
         chatroom = None
         users = None

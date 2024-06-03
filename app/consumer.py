@@ -52,6 +52,8 @@ class Consumer(WebsocketConsumer):
         self.send(text_data=html)
 
     def update_online_count(self):
+        users_online = [i.username for i in self.group.users_online.all()]
+        print(f'HIiiiiiiii {users_online}')
         online_count = self.group.users_online.count()
         event = {
             'type': 'online_count_handler',
