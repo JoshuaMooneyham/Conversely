@@ -47,14 +47,14 @@
                 sideNav.style.transition = 'width 0.5s, margin-left 0.5s';
                 sideNav.style.width = '250px';
                 mainContent.style.transition = 'margin-left 0.5s';
-                {% comment %} mainContent.style.marginLeft = '250px'; {% endcomment %}
+                mainContent.style.marginLeft = '250px';
             });
         
             closeBtn.addEventListener('click', () => {
                 sideNav.style.transition = 'width 0.5s, margin-left 0.5s';
                 sideNav.style.width = '0';
                 mainContent.style.transition = 'margin-left 0.5s';
-                {% comment %} mainContent.style.marginLeft = '0'; {% endcomment %}
+                mainContent.style.marginLeft = '0';
             });
         });
     </script>

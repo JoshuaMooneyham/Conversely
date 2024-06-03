@@ -77,7 +77,9 @@ def profile_view(request: HttpRequest, username):
                     print('gi')
             except:
                 pass
-
+    print(user.email)
+    # context['user'] = UserProfile.objects.get(user = request.user)
+    context["profile_info"] = user
     context["profile"] = profile
     context["friend_request_from_current_user"] = friend_request_from_current_user
     context["friend_request_from_other_user"] = friend_request_from_other_user

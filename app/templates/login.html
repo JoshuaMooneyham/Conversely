@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
 </head>
     <body>
-        <div class ='app-name'>
-            <h1>Conversely</h1>
-        </div>
+        <div class = 'form-container'>
+            <div class ='app-name'>
+                <h1>Conversely</h1>
+            </div>
         <div class ='login-template'>
             <form method = 'POST'>
                 {% csrf_token %}
@@ -21,5 +22,6 @@
             </form>
             <div>Don't have an account? <a href="{% url 'registration' %}">Sign Up</a></div>
         </div>
+    </div>
     </body>
 </html>
