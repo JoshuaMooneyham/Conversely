@@ -37,16 +37,6 @@ let messageObserver = new MutationObserver((e) => {
     if (!scrollLock) {
         scrollToBottom()
     }
-    // let showBlockedMsg = [...document.getElementsByClassName('block-i')];
-        
-    // showBlockedMsg.forEach((iTag) => {
-    //     iTag.onclick = (e) => {
-    //         let content = e.target.closest('div').querySelector('.blocked-content');
-    //         content.classList.toggle('hidden');
-    //         e.target.innerText = e.target.innerText === 'Hide' ? 'Show' : 'Hide' ;
-    //         }
-    //     }
-    // )
 })
 
 messageObserver.observe(messageContainer, {childList: true})
@@ -97,16 +87,14 @@ addEventListener("click", (e) => {
         document.getElementById('update_message_id').value = message.id.replace('message_', '');
         updateMsgForm.setAttribute('hx-target', `#${message.id}`);
         htmx.process(updateMsgForm);
+    } else {
+        let account = document.getElementById('account');
+        if (!e.target === account || ![...account.childNodes].includes(e.target)) {
+            account.classList.add('hidden');
+        }
     }
 })
 
-// let showBlockedMsg = [...document.getElementsByClassName('block-i')];
-        
-// showBlockedMsg.forEach((iTag) => {
-//     iTag.onclick = (e) => {
-//         let content = e.target.closest('div').querySelector('.blocked-content');
-//         content.classList.toggle('hidden');
-//         e.target.innerText = e.target.innerText === 'Hide' ? 'Show' : 'Hide' ;
-//         }
-//     }
-// )
+function closePopup() {
+    document.getElementById('account').classList.add('hidden');
+}
