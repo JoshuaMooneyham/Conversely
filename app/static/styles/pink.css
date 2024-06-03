@@ -11,7 +11,7 @@
 }
 
 body {
-    background-color: #f6dcac;
+    background-color: #ffcad6;
 }
 
 .image-container {
@@ -130,11 +130,11 @@ body {
 .right .speech-bubble:after {
     right: 0;
     border-right: 0;
-    border-top-color: #01204e;
+    border-top-color: #b1a591;
 }
 
 .right .speech-bubble {
-    background-color: #01204e;
+    background-color: #b1a591;
 }
 
 .right {
@@ -149,7 +149,7 @@ body {
 }
 
 .message_profile_wrapper a {
-    color: #01204e;
+    color: #b1a591;
 }
 
 .message_profile_you {
@@ -202,7 +202,7 @@ body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #f85525;
+    background-color: #322431;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -212,14 +212,14 @@ body {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 1.2em;
-    color: #f6dcac;
+    color: #ffcad6;
     display: block;
     transition: 0.3s;
 }
 
 .side-nav a:hover {
-    background-color: #f6dcac;
-    color: #01204e;
+    background-color: #ffcad6;
+    color: #322431;
 }
 
 .side-nav .close-btn {
@@ -229,7 +229,7 @@ body {
     font-size: 2em;
     margin-left: 50px;
     cursor: pointer;
-    color: #faa968;
+    color: #f594b7;
 }
 
 .open-btn {
@@ -241,13 +241,13 @@ body {
     padding: 0.1em .5em;
     border: none;
     border-radius: 5px;
-    background-color: #faa968;
+    background-color: #f594b7;
     color: white;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .open-btn:hover {
-    background-color: #f85525;
+    background-color: #322431;
     color: #fff;
 }
 
@@ -256,7 +256,7 @@ body {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background-color: #f85525;
+    background-color: #322431;
     border-radius: 50%;
     margin-right: 5px;
     vertical-align: middle;
@@ -266,7 +266,7 @@ body {
 #online-count.online::before {
 
 
-    background-color: #faa968;
+    background-color: #f594b7;
 }
 
 .login-template,
@@ -274,9 +274,9 @@ body {
     max-width: 400px;
     width: 100%;
     padding: 1em;
-    box-shadow: 1px 1px #f85525;
+    box-shadow: 1px 1px #322431;
     border-radius: 5px;
-    background-color: #028391;
+    background-color: #df6f93;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -288,7 +288,7 @@ body {
     max-width: 400px;
     width: 100%;
     padding: 1em;
-    box-shadow: 1px 1px #f85525;
+    box-shadow: 1px 1px #322431;
     /* border-radius: 5px; */
     background-color: #028391;
     display: flex;
@@ -309,7 +309,7 @@ body {
 
 .profile-update-form input[type='submit']:hover,
 .profile-delete-form input[type='submit']:hover {
-    background-color: #faa968;
+    background-color: #f594b7;
 }
 
 .login-template input[type="text"],
@@ -323,8 +323,8 @@ body {
     padding: 0.5em;
     margin: 0.5em 0;
     box-sizing: border-box;
-    /* border: 1px solid #faa968; */
-    color: #01204e;
+    /* border: 1px solid #f594b7; */
+    color: #b1a591;
 }
 
 
@@ -338,20 +338,20 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #f85525;
+    background-color: #322431;
     transition: background-color 0.3s;
 }
 
 .login-template a,
 .signup-template a {
-    color: #f85525;
+    color: #322431;
     text-decoration: none;
 }
 
 .login-template a:hover,
 .signup-template a:hover {
     text-decoration: underline;
-    color: #faa968;
+    color: #f594b7;
 }
 
 .login-template input[type="submit"]:hover,
@@ -371,7 +371,7 @@ body {
 
 .login-template input:hover,
 .signup-template input[type='submit']:hover {
-    background-color: #faa968;
+    background-color: #f594b7;
 }
 
 .login-template form,
@@ -388,7 +388,7 @@ body {
 
 #chatroom_head h1 {
     margin-bottom: 0;
-    color: #faa968;
+    color: #f594b7;
 }
 
 .app-name {
@@ -399,7 +399,7 @@ body {
 .app-name h1 {
     margin: 0;
     font-size: 2.5em;
-    color: #f85525;
+    color: #322431;
     animation: fadeIn 1.5s ease-in-out forwards;
 }
 
@@ -426,7 +426,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #faa968;
+    background-color: #f594b7;
     border-radius: 50%;
     margin: 10px;
 }
@@ -441,19 +441,19 @@ body {
 .user-info {
     padding: 1em;
     flex-grow: 1;
-    color: #faa968;
+    color: #f594b7;
 }
 
 .user-info p {
     margin: 0.5em 0;
-    color: #faa968;
+    color: #f594b7;
 }
 
 .user-card {
     width: 100%;
-    border: 1px solid #f85525;
+    border: 1px solid #322431;
     border-radius: 5px;
-    background-color: #028391;
+    background-color: #f594b7;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -466,18 +466,18 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #f85525;
+    background-color: #322431;
     color: white;
     transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
     color: whitesmoke;
-    background-color: #01204e;
+    background-color: #b1a591;
 }
 
 button:focus {
-    background-color: #faa968;
+    background-color: #f594b7;
     color: white;
 }
 
@@ -507,22 +507,22 @@ button:focus {
 .user-profile {
     height: 60vh;
     width: 35%;
-    border: 2px solid #f85525;
+    border: 2px solid #322431;
     border-radius: 10px;
     padding: 1em;
-    background-color: #028391;
+    background-color: #f594b7;
     color: white;
 }
 
 .user-profile div {
-    border: 2px solid #f85525;
+    border: 2px solid #322431;
     border-radius: 5px;
     padding: 0.5em;
     margin-bottom: 1em;
 }
 
 .profile-buttons {
-    background: #f85525;
+    background: #322431;
     color: white;
     border: none;
     padding: 0.5em 1em;
@@ -536,22 +536,6 @@ button:focus {
     align-items: center;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* DELETE IF YOU WANT */
-
 #account {
     position: absolute;
     width: 700px;
@@ -559,111 +543,12 @@ button:focus {
     background-color: red;
     left: calc(50% - 350px);
     top: 200px;
-    height: 500px;
 }
 
 #account img {
     height: 200px;
 }
 
-.search-bar {
-    width: 600px;
-    background-color: #f85525;
-    border-radius: 30px;
-    margin-bottom: 10px;
-}
-
-.search-bar .row {
-    display: flex;
-    align-items: center;
-    padding: 5px 20px;
-}
-
-::placeholder {
-    color: #afacac;
-}
-
-.search-bar input {
-    height: 30px;
-    width: 100%;
-    background: transparent;
-    border: 0;
-    outline: 0;
-    font-size: 18px;
-    color: white;
-}
-
-.search-results ul {
-    width: 600px;
-    background-color: #faa968;
-    border-radius: 10px;
-}
-
-.search-results ul a {
-    text-decoration: none;
-    color: black;
-}
-
-.search-results ul li {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px 20px;
-    gap: 10px;
-    list-style-type: none;
-}
-
-.search-results ul li:hover {
-    background-color: #028391;
-    border-radius: 10px;
-}
-
-.search-results ul li img {
-    height: 60px;
-    width: 60px;
-    border-radius: 50px;
-}
-
 .side-nav a {
     font-family: 'VT323', monospace;
-}
-
-
-
-.message_wrapper {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-.message_buttons {
-    display: none;
-    /* position: absolute; */
-    bottom: 15px;
-    right: 15px;
-    border-radius: .3rem;
-    overflow: hidden;
-    width: fit-content;
-}
-
-.right .message_buttons {
-    align-self: flex-end;
-}
-
-.edit_message {
-    padding: 10px;
-    margin: 0;
-    background-color: aliceblue;
-    color: #01204e;
-    border-radius: 0;
-}
-
-.delete-message {
-    padding: 10px;
-    margin: 0;
-    background-color: rgb(194, 15, 15);
-    border-radius: 0;
-}
-
-.message_wrapper:hover + .message_buttons, .message_buttons:hover {
-    display: flex;
 }

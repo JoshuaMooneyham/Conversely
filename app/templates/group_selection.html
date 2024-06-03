@@ -18,19 +18,20 @@
     <div class="side-nav" id="sideNav">
         <a href="#" class="close-btn" id="closeBtn">&times;</a>
         <a href="{% url 'group_selection' %}"><i class="fas fa-home"></i> Home</a>
-        <a href="{% url 'edit-profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a>
-        <a href="{% url "friend_list" %}"><i class="fas fa-user-friends"> Friends</i></a>
-        <a href="{% url "invitations" %}"><i class= "fas fa-envelope-open"> Invites</i></a>
+        <a href="{% url 'edit-profile' %}"><i class="fas fa-user-edit"></i> Profile</a>
+        <a href="{% url "friend_list" %}"><i class="fas fa-user-friends"></i> Friends</a>
+        <a href="{% url "invitations" %}"><i class= "fas fa-envelope-open"></i> Invites</a>
+        <a href="{% url 'edit-profile' %}"><i class="fas fa-paint-brush"></i>  Theme</a>
         <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
         <div class="content" id="mainContent">
         {% block content %}
+            {% comment %} <a href = "{% url "chat_home" 'Cohort2'%}">Cohort 2</a> {% endcomment %}
+        <div class = 'form-container'>
             <p id='createGroup'>Create Group</p>
             <div id='createGroupForm' class='hidden'>
                 {% include "create_group.html" %}
             </div>
-            {% comment %} <a href = "{% url "chat_home" 'Cohort2'%}">Cohort 2</a> {% endcomment %}
-        <div class = 'form-container'>
             {% for group in groups  %}
                 {% if group.new_group_name and user in group.users.all %}
                     <div class="group"><a href="{% url "chatroom" group.name %}">{{ group.new_group_name }}</a></div>

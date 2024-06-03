@@ -1,6 +1,11 @@
 {% extends "friend_management.html" %} {% block friends %}
-{% for friend in friend_list.friends.all %}
-<p>{{friend}}</p>
-<button><a href="{% url "remove_friend" friend %}">Remove Friend</a></button>
-{% endfor %}
+{% if friend_list.friends.all.count == 0 %}
+<p>You currently have no friends.</p>
+<a href="{% url "search_users" %}">Go find friends!</a>
+{% else %}
+    {% for friend in friend_list.friends.all %}
+    <p>{{friend}}</p>
+    <button><a href="{% url "remove_friend" friend %}">Remove Friend</a></button>
+    {% endfor %}
+{% endif %}
 {% endblock friends %}

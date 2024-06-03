@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 * {
     margin: 0;
     padding: 0;
+    font-family: 'VT323', monospace;
 }
 
 .content {
@@ -8,7 +11,7 @@
 }
 
 body {
-    background-color: #6ecbf5;
+    background-color: #586AE2;
 }
 
 .image-container {
@@ -20,7 +23,6 @@ body {
 .profile-image {
     height: 30px;
     width: 30px;
-    /* border: 1px solid #e0d9f6; */
 }
 
 .edit-link {
@@ -52,8 +54,8 @@ body {
 }
 
 #messages_container {
-    background-color: #e0d9f6;
-    height: 60vh;
+    background-color: #E0D9F6;
+    height: 70vh;
     overflow-y: scroll;
     scrollbar-width: none;
     display: flex;
@@ -78,7 +80,8 @@ body {
     border-radius: 50%;
     border: none;
     transition: .3s;
-    background-color: #c252e1;
+    background-color: #cdc0fa;
+    color: #2a2356;
 }
 
 #to-bottom-btn:hover {
@@ -100,13 +103,13 @@ body {
     display: flex;
     justify-content: center;
     position: relative;
-    background: #2a2356;
+    background: #586ae2;
     border-radius: .4em;
     padding: 10px;
     margin: 10px;
     height: fit-content;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.329);
-    color: #e0d9f6;
+    color: #2a2356;
 }
 
 .speech-bubble:after {
@@ -116,7 +119,7 @@ body {
     width: 0;
     height: 0;
     border: 20px solid transparent;
-    border-top-color: #2a2356;
+    border-top-color: #586ae2;
     border-bottom: 0;
 }
 
@@ -146,9 +149,34 @@ body {
     flex-direction: row-reverse;
 }
 
+.message_profile_wrapper a {
+    color: #6ecbf5;
+}
+
 .message_profile_you {
     display: flex;
     justify-content: right;
+}
+
+.blocked_message_wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(55, 55, 55);
+    width: calc(100% - 20px);
+    padding: 10px;
+    border-radius: .4em;
+    color: rgb(212, 212, 212);
+    margin: 5px 0;
+}
+
+.block-p {
+    margin: 0 auto;
+}
+
+.block-i:hover {
+    opacity: 60%;
+    transition: .3s;
+    cursor: pointer;
 }
 
 .speech-bubble p {
@@ -156,229 +184,16 @@ body {
 }
 
 #send-message textarea,
-#send-message textarea {
+#update-message textarea {
     width: 100%;
     margin: auto;
-    position: fixed;
-    bottom: 2px;
-    border-radius: 15px;
+    /* position: fixed; */
+    bottom: 1px;
     resize: none;
-}
-
-Continuing from where we left off: ```css .side-nav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #6ecbf5;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
-
-.side-nav a {
-    padding: 10px 15px;
-    text-decoration: none;
-    font-size: 1.2em;
-    color: #e0d9f6;
-    display: block;
-    transition: 0.3s;
-}
-
-.side-nav a:hover {
-    background-color: #e0d9f6;
-    color: #2a2356;
-}
-
-.side-nav .close-btn {
-    position: absolute;
-    top: 0;
-    right: 10px;
-    font-size: 2em;
-    margin-left: 50px;
-    cursor: pointer;
-    color: #c252e1;
-}
-
-.open-btn {
-    font-size: 1.5em;
-    cursor: pointer;
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    padding: 0.1em .5em;
-    border: none;
-    border-radius: 5px;
-    background-color: #c252e1;
+    height: 60px;
+    background-color: #e0d9f6a5;
+    border-radius: 355px;
     color: white;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.open-btn:hover {
-    background-color: #586ae2;
-    color: #fff;
-}
-
-#online-count::before {
-    content: '';
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background-color: #c252e1;
-    border-radius: 50%;
-    margin-right: 5px;
-    vertical-align: middle;
-    transition: background-color 0.3s ease;
-}
-
-#online-count.online::before {
-    background-color: #2a2356;
-}
-
-.login-template,
-.signup-template,
-.profile-update-form,
-.profile-delete-form {
-    max-width: 400px;
-    width: 100%;
-    padding: 1em;
-    border: 1px solid #c252e1;
-    border-radius: 5px;
-    background-color: #586ae2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.login-template input[type="text"],
-.login-template input[type="password"],
-.signup-template input[type="text"],
-.signup-template input[type="email"],
-.signup-template input[type="password"],
-.input-text,
-.input-file {
-    width: 100%;
-    padding: 0.5em;
-    margin: 0.5em 0;
-    box-sizing: border-box;
-    border: 1px solid #6ecbf5;
-    color: #2a2356;
-}
-
-.login-template input[type="submit"],
-.signup-template input[type="submit"],
-.btn-submit,
-.btn-delete {
-    width: 100%;
-    padding: 0.5em;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #c252e1;
-    transition: background-color 0.3s;
-}
-
-.login-template a,
-.signup-template a {
-    color: #c252e1;
-    text-decoration: none;
-}
-
-.login-template a:hover,
-.signup-template a:hover {
-    text-decoration: underline;
-}
-
-.login-template input[type="submit"]:focus,
-.signup-template input[type="submit"]:focus,
-.btn-submit:focus,
-.btn-delete:focus {
-    background-color: #6ecbf5;
-}
-
-.login-template input[type="submit"]:focus,
-.signup-template {
-
-    div,
-    .error-message {
-        width: 100%;
-        text-align: center;
-        margin-top: 1em;
-        color: #c252e1;
-    }
-}
-
-#chatroom_head {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-#chatroom_head h1 {
-    margin-bottom: 0;
-    color: #c252e1;
-}
-
-.app-name {
-    margin-bottom: 2em;
-    text-align: center;
-}
-
-.app-name h1 {
-    margin: 0;
-    font-size: 2.5em;
-    color: #6ecbf5;
-    animation: fadeIn 1.5s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.profile-pic {
-    flex-shrink: 0;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #c252e1;
-    border-radius: 50%;
-    margin: 10px;
-}
-
-.profile-pic img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.user-info {
-    padding: 1em;
-    flex-grow: 1;
-    color: #c252e1;
-}
-
-.user-info p {
-    margin: 0.5em 0;
-    color: #c252e1;
 }
 
 .side-nav {
@@ -388,7 +203,7 @@ Continuing from where we left off: ```css .side-nav {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #6ecbf5;
+    background-color: #2a2356;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -405,7 +220,7 @@ Continuing from where we left off: ```css .side-nav {
 
 .side-nav a:hover {
     background-color: #e0d9f6;
-    color: #2a2356;
+    color: #2e90bd;
 }
 
 .side-nav .close-btn {
@@ -415,7 +230,7 @@ Continuing from where we left off: ```css .side-nav {
     font-size: 2em;
     margin-left: 50px;
     cursor: pointer;
-    color: #c252e1;
+    color: #586ae2;
 }
 
 .open-btn {
@@ -427,13 +242,13 @@ Continuing from where we left off: ```css .side-nav {
     padding: 0.1em .5em;
     border: none;
     border-radius: 5px;
-    background-color: #c252e1;
+    background-color: #283483;
     color: white;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .open-btn:hover {
-    background-color: #586ae2;
+    background-color: #2a2356;
     color: #fff;
 }
 
@@ -442,7 +257,7 @@ Continuing from where we left off: ```css .side-nav {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background-color: #c252e1;
+    background-color: #2a2356;
     border-radius: 50%;
     margin-right: 5px;
     vertical-align: middle;
@@ -450,22 +265,52 @@ Continuing from where we left off: ```css .side-nav {
 }
 
 #online-count.online::before {
-    background-color: #2a2356;
+
+
+    background-color: #586ae2;
 }
 
 .login-template,
-.signup-template,
+.signup-template {
+    max-width: 400px;
+    width: 100%;
+    padding: 1em;
+    box-shadow: 1px 1px #2a2356;
+    border-radius: 5px;
+    background-color: #c252e1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .profile-update-form,
 .profile-delete-form {
     max-width: 400px;
     width: 100%;
     padding: 1em;
-    border: 1px solid #c252e1;
-    border-radius: 5px;
-    background-color: #586ae2;
+    box-shadow: 1px 1px #2a2356;
+    /* border-radius: 5px; */
+    background-color: #c252e1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+}
+
+.profile-update-form {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.profile-delete-form {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.profile-update-form input[type='submit']:hover,
+.profile-delete-form input[type='submit']:hover {
+    background-color: #586ae2;
 }
 
 .login-template input[type="text"],
@@ -479,9 +324,10 @@ Continuing from where we left off: ```css .side-nav {
     padding: 0.5em;
     margin: 0.5em 0;
     box-sizing: border-box;
-    border: 1px solid #6ecbf5;
-    color: #2a2356;
+    /* border: 1px solid #586ae2; */
+    color: #6ecbf5;
 }
+
 
 .login-template input[type="submit"],
 .signup-template input[type="submit"],
@@ -493,14 +339,30 @@ Continuing from where we left off: ```css .side-nav {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #c252e1;
+    background-color: #2a2356;
     transition: background-color 0.3s;
 }
 
 .login-template a,
 .signup-template a {
-    color: #c252e1;
+    color: #2a2356;
     text-decoration: none;
+}
+
+.login-template a:hover,
+.signup-template a:hover {
+    text-decoration: underline;
+    color: #586ae2;
+}
+
+.login-template input[type="submit"]:hover,
+.signup-template input[type="submit"]:hover,
+.btn-submit:hover,
+.btn-delete:hover .login-template div,
+.signup-template div,
+.error-message {
+    width: 100%;
+    text-align: center;
 }
 
 .login-template a:hover,
@@ -508,23 +370,14 @@ Continuing from where we left off: ```css .side-nav {
     text-decoration: underline;
 }
 
-.login-template input[type="submit"]:focus,
-.signup-template input[type="submit"]:focus,
-.btn-submit:focus,
-.btn-delete:focus {
-    background-color: #6ecbf5;
+.login-template input:hover,
+.signup-template input[type='submit']:hover {
+    background-color: #586ae2;
 }
 
-.login-template input[type="submit"]:focus,
-.signup-template {
-
-    div,
-    .error-message {
-        width: 100%;
-        text-align: center;
-        margin-top: 1em;
-        color: #c252e1;
-    }
+.login-template form,
+.signup-template form {
+    margin-bottom: 1em;
 }
 
 #chatroom_head {
@@ -536,7 +389,7 @@ Continuing from where we left off: ```css .side-nav {
 
 #chatroom_head h1 {
     margin-bottom: 0;
-    color: #c252e1;
+    color: #2A2356;
 }
 
 .app-name {
@@ -547,7 +400,7 @@ Continuing from where we left off: ```css .side-nav {
 .app-name h1 {
     margin: 0;
     font-size: 2.5em;
-    color: #6ecbf5;
+    color: #2a2356;
     animation: fadeIn 1.5s ease-in-out forwards;
 }
 
@@ -574,7 +427,7 @@ Continuing from where we left off: ```css .side-nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #c252e1;
+    background-color: #586ae2;
     border-radius: 50%;
     margin: 10px;
 }
@@ -589,20 +442,19 @@ Continuing from where we left off: ```css .side-nav {
 .user-info {
     padding: 1em;
     flex-grow: 1;
-    color: #c252e1;
+    color: #586ae2;
 }
 
 .user-info p {
     margin: 0.5em 0;
-    color: #c252e1;
+    color: #586ae2;
 }
 
 .user-card {
-    /* max-width: 400px;*/
     width: 100%;
-    border: 1px solid #c252e1;
+    border: 1px solid #2a2356;
     border-radius: 5px;
-    background-color: #586ae2;
+    background-color: #c252e1;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -615,21 +467,85 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #c252e1;
+    background-color: #2a2356;
     color: white;
     transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
+    color: whitesmoke;
     background-color: #6ecbf5;
-    color: #fff;
 }
 
 button:focus {
-    background-color: #6ecbf5;
+    background-color: #586ae2;
     color: white;
 }
 
-.delete-message button {
-    height: 50px;
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.user-profile {
+    height: 80vh;
+    width: 40%;
+    border: solid orangered;
+}
+
+.user-profile div {
+    border: solid orangered;
+    margin-bottom: 1em;
+}
+
+.profile-buttons {
+    background: orangered;
+}
+
+.user-profile {
+    height: 60vh;
+    width: 35%;
+    border: 2px solid #2a2356;
+    border-radius: 10px;
+    padding: 1em;
+    background-color: #c252e1;
+    color: white;
+}
+
+.user-profile div {
+    border: 2px solid #2a2356;
+    border-radius: 5px;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+
+.profile-buttons {
+    background: #2a2356;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.center-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#account {
+    position: absolute;
+    width: 700px;
+    /* height: 300px; */
+    background-color: red;
+    left: calc(50% - 350px);
+    top: 200px;
+}
+
+#account img {
+    height: 200px;
 }
