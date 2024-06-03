@@ -632,9 +632,11 @@ def unban_user(request: HttpRequest, userId: int, channel: str):
         return HttpResponse()
     
 def search_users_view(request: HttpRequest):
+    context = {}
     if request.method == "POST":
         search = request.POST['search']
-        searched = User.objects.filter(body_contains = search)
-        return render(request, "search_users.html")
-    else:
-        return render(request, "search_users.html", {})
+        searched = User.objects.filter(username__contains = search)
+    
+        context["search"] = search
+        context["searched"] = searched
+    return render(request, "search_users.html", context)

@@ -63,7 +63,7 @@ urlpatterns = [
     path("<str:username>/accept-friend", accept_friend_request_view, name="accept_friend"),
     path("<str:username>/decline-friend", decline_friend_request_view, name="decline_friend"),
     path("<str:username>/cancel-request", cancel_friend_request_view, name="cancel_request"),
-    path("search/", search_users_view, name="search_users"), 
+    path("search_users", search_users_view, name="search_users"),
 
     # User Navigation
     path("group-selection/", group_selection_view, name="group_selection"),

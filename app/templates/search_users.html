@@ -1,7 +1,21 @@
-{% extends "group_selection.html" %} {% block content %}
+{% extends "friend_management.html" %} {% block friends %}
 <form method=POST>
     {% csrf_token %}
     <input type="input" placeholder="Search" name="search">
     <button type="submit">Search</button>
 </form>
-{% endblock content %}
+<div class="search-results">
+    {% if searched %}
+    {% for result in searched %}
+    <div class="found-user-profiles">
+        {% if result.profile.image %}
+        <img src="{{result.profile.image.url}}" alt="">
+        {% endif %}
+        <a href="{% url "profile" result.profile.user %}">{{result.profile.user}}</a>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No users containing that exists...</p>
+    {% endif %} 
+</div>
+{% endblock friends %}
