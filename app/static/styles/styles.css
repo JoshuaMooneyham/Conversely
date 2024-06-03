@@ -542,3 +542,61 @@ button:focus {
 #account img {
     height: 200px;
 }
+
+.search-bar {
+    width: 600px;
+    background-color: #f85525;
+    border-radius: 30px;
+    margin-bottom: 10px;
+}
+
+.search-bar .row {
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+}
+
+::placeholder {
+    color: #afacac;
+}
+
+.search-bar input {
+    height: 30px;
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 18px;
+    color: white;
+}
+
+.search-results ul {
+    width: 600px;
+    background-color: #faa968;
+    border-radius: 10px;
+}
+
+.search-results ul a {
+    text-decoration: none;
+    color: black;
+}
+
+.search-results ul li {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px 20px;
+    gap: 10px;
+    list-style-type: none;
+}
+
+.search-results ul li:hover {
+    background-color: #028391;
+    border-radius: 10px;
+}
+
+.search-results ul li img {
+    height: 60px;
+    width: 60px;
+    border-radius: 50px;
+}
+
