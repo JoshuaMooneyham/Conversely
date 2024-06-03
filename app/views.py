@@ -462,6 +462,24 @@ def remove_moderators_view(request: HttpRequest, channel, username):
 
 
 @login_required(login_url="login")
+def leave_group_view(request: HttpRequest, channel):
+    try:
+        chatroom = Group.objects.get(name=channel)
+    except:
+        pass
+
+    if request.user in chatroom.moderators.all():
+        chatroom.moderators.remove(request.user)
+        chatroom.users.remove(request.user)
+        chatroom.save()
+    elif request.user != chatroom.admin and  request.user in chatroom.users.all():
+        chatroom.users.remove(request.user)
+        chatroom.save()
+
+    return redirect("group_selection")
+
+
+@login_required(login_url="login")
 def send_friend_request_view(request: HttpRequest, username):
     try:
         sender = User.objects.get(username=request.user)
