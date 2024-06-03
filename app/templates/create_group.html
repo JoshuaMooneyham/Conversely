@@ -3,10 +3,12 @@
 
 
 {% block content %}
-<form method="POST">
-  {% csrf_token %} {{form}}
-  <button type="submit">Create Group</button>
-  {% comment %} <input type="checkbox"> {% endcomment %}
-</form>
+<div class ='form-container'>
+  <form method="POST">
+    {% csrf_token %} {{form}}
+    <button type="submit">Create Group</button>
+    {% comment %} <input type="checkbox"> {% endcomment %}
+  </form>
+</div>
 {% endblock content %}
 
