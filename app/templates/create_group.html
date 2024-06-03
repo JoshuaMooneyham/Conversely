@@ -1,5 +1,12 @@
+{% extends "group_selection.html" %}
+{% load static %}
+
+
+{% block content %}
 <form method="POST">
   {% csrf_token %} {{form}}
   <button type="submit">Create Group</button>
   {% comment %} <input type="checkbox"> {% endcomment %}
 </form>
+{% endblock content %}
+

@@ -1,9 +1,14 @@
 {% extends "group_selection.html" %}
+
 {% block content %}
+<div id = 'chatroom_head'>
     <h1>Conversely</h1>
-    <div>
-        <span id='online_count'></span> online
+    <div id='online-count' class='offline'>
+        <span id='online_count'>0</span> online
     </div>
+</div>
+<div class ='container'>
+
     {% if chatroom.new_group_name %}
     <h2>{{chatroom.new_group_name}}</h2>
     <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
@@ -14,10 +19,11 @@
         <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
         {% endif %}
     {% endif %}
+
     <div id='test_wrapper'>
         <div id='messages_container'>
             {% for message in messages %}
-            {% include "message.html" %}
+                {% include "message.html" %}
             {% endfor %}
         </div>
         <button id='to-bottom-btn'><i class="fa-solid fa-chevron-down"></i></button>
@@ -52,7 +58,7 @@
             <button type="submit">Submit File</button>
         </form>
     </div>
-
+</div>
     <script>
         addEventListener('htmx:configRequest', (e) => {
             e.detail.headers['X-CSRFToken'] = "{{ csrf_token }}";

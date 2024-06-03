@@ -2,35 +2,63 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Conversely</title>
-        <link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
-        <script src="{% static "scripts/htmx.min.js" %}" defer></script>
-        <script src="{% static "scripts/script.js" %}" defer></script>
-        <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
-        <script src="https://kit.fontawesome.com/2734bda929.js" crossorigin="anonymous" defer></script>
-    </head>
-    <body>
-        <div class = 'topnav'>
-            <a href="{% url 'logout' %}">Logout</a>
-            <a href='{% url "edit-profile" %}'>Edit Profile</a>
-            <a href = '{% url "group_selection" %}'>Home</a>
-            <a href="{% url "friend_list" %}">Friends</a>
-            <a href="{% url "invitations" %}">Invites</a>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversely</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="{% static "scripts/htmx.min.js" %}" defer></script>
+    <script src="{% static "scripts/script.js" %}" defer></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js" defer></script>
+    <script src="https://kit.fontawesome.com/2734bda929.js" crossorigin="anonymous" defer></script>
+</head>
+<body>
+
+    <div class="side-nav" id="sideNav">
+        <a href="#" class="close-btn" id="closeBtn">&times;</a>
+        <a href="{% url 'group_selection' %}"><i class="fas fa-home"></i> Home</a>
+        <a href="{% url 'edit-profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a>
+        <a href="{% url 'create_group' %}"><i class="fas fa-users"></i> Create Group</a>
+        <a href="{% url "friend_list" %}">Friends</a>
+        <a href="{% url "invitations" %}">Invites</a>
+        <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+        <div class="content" id="mainContent">
         {% block content %}
-            <a href="{% url "create_group" %}">Create Group</a>
-            {% comment %} <a href = "{% url "chat_home" 'Cohort2'%}">Cohort 2</a> {% endcomment %}
-            {% for group in groups  %}
+            {% for group in groups %}
                 {% if group.new_group_name and user in group.users.all %}
-                    <a href="{% url "chatroom" group.name %}">{{group.new_group_name}}</a>
+                    <div class="group"><a href="{% url "chatroom" group.name %}">{{ group.new_group_name }}</a></div>
                 {% elif not group.is_private and not group.new_group_name %}
-                    <a href="{% url "chatroom" group.name %}">{{group.name}}</a>
+                    <div class="group"><a href="{% url "chatroom" group.name %}">{{ group.name }}</a></div>
                 {% endif %}
             {% endfor %}
             <div class="friend-requests"></div>
         {% endblock content %}
-    </body>
+    </div>
+    {% comment %} </div> {% endcomment %}
+    <button class="open-btn" id="openBtn">&#9776;</button>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const openBtn = document.getElementById('openBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const sideNav = document.getElementById('sideNav');
+            const mainContent = document.getElementById('mainContent');
+        
+            openBtn.addEventListener('click', () => {
+                sideNav.style.transition = 'width 0.5s, margin-left 0.5s';
+                sideNav.style.width = '250px';
+                mainContent.style.transition = 'margin-left 0.5s';
+                {% comment %} mainContent.style.marginLeft = '250px'; {% endcomment %}
+            });
+        
+            closeBtn.addEventListener('click', () => {
+                sideNav.style.transition = 'width 0.5s, margin-left 0.5s';
+                sideNav.style.width = '0';
+                mainContent.style.transition = 'margin-left 0.5s';
+                {% comment %} mainContent.style.marginLeft = '0'; {% endcomment %}
+            });
+        });
+    </script>
+</body>
 </html>
