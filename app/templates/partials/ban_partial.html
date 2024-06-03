@@ -1,0 +1,15 @@
+<button id='ban_user_btn' hx-swap-oob='outerHTML' hx-post="{% url "unban_user" found_user.pk group %}">Unban User</button>
+<button id='unban_user' hx-swap-oob='outerHTML' hx-post="{% url "unban_user" found_user.pk group %}">Unban User</button>
+
+{% if found_user != user %}
+<script id='script-testing' hx-swap-oob='outerHTML'>
+    console.log('Youve been not banned')
+</script>
+{% else %}
+<div id='messages_container' hx-swap-oob='innerHTML'>
+    Bye Bye
+</div>
+<script id='script-testing' hx-swap-oob='outerHTML'>
+    window.location.reload(true);
+</script>
+{% endif %}

@@ -1,0 +1,7 @@
+{% extends "group_selection.html" %} {% block content %}
+<form method=POST>
+    {% csrf_token %}
+    <input type="input" placeholder="Search" name="search">
+    <button type="submit">Search</button>
+</form>
+{% endblock content %}

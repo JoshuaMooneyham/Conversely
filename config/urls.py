@@ -36,11 +36,9 @@ urlpatterns = [
     path("update-profile", edit_profile_view, name="edit-profile"),
 
     # Group Management
-    path("create", create_group_view, name="create_group"),
     path("<str:channel>/manage", group_management_view, name="group_management"),
     path("update/<str:channel>/", update_group_view, name="update_group"),
     path("delete/<str:channel>/", delete_group_view, name="delete_group"),
-    path("create", create_group_view, name="create_group"),
     path("make-moderator/<str:channel>/<str:username>/", appoint_moderators_view, name="appoint_moderators"),
     path("remove-moderator/<str:channel>/<str:username>/", remove_moderators_view, name="remove_moderators"),
     path("<str:channel>/invite-users/", invite_user_list_view, name="invite_users"),
@@ -65,6 +63,7 @@ urlpatterns = [
     path("<str:username>/accept-friend", accept_friend_request_view, name="accept_friend"),
     path("<str:username>/decline-friend", decline_friend_request_view, name="decline_friend"),
     path("<str:username>/cancel-request", cancel_friend_request_view, name="cancel_request"),
+    path("search/", search_users_view, name="search_users"), 
 
     # User Navigation
     path("group-selection/", group_selection_view, name="group_selection"),
@@ -73,6 +72,11 @@ urlpatterns = [
     # ==={ Private Rooms }=== #
     path("chat/<str:username>/", chatroom_view, name="private_chat"),
     path("chat/room/<str:channel>/", chat_view, name="chatroom"),
+    
+    # ==={ User Account Popup}=== #
+    path("popup/<int:userId>/<str:channel>/", get_user_account, name="get_user_account"),
+    path("ban/<int:userId>/<str:channel>/", ban_user, name="ban_user"),
+    path("unban/<int:userId>/<str:channel>/", unban_user, name="unban_user"),
 
     # ==={ File Serving }=== #
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
