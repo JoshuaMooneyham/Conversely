@@ -19,9 +19,8 @@
         <a href="#" class="close-btn" id="closeBtn">&times;</a>
         <a href="{% url 'group_selection' %}"><i class="fas fa-home"></i> Home</a>
         <a href="{% url 'edit-profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a>
-        {% comment %} <a href="{% url 'create_group' %}"><i class="fas fa-users"></i> Create Group</a> {% endcomment %}
-        <a href="{% url "friend_list" %}">Friends</a>
-        <a href="{% url "invitations" %}">Invites</a>
+        <a href="{% url "friend_list" %}"><i class="fas fa-user-friends"> Friends</i></a>
+        <a href="{% url "invitations" %}"><i class= "fas fa-envelope-open"> Invites</i></a>
         <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
         <div class="content" id="mainContent">
