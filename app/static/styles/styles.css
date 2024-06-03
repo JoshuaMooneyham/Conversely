@@ -529,6 +529,22 @@ button:focus {
     align-items: center;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* DELETE IF YOU WANT */
+
 #account {
     position: absolute;
     width: 700px;
@@ -536,8 +552,49 @@ button:focus {
     background-color: red;
     left: calc(50% - 350px);
     top: 200px;
+    height: 500px;
 }
 
 #account img {
     height: 200px;
+}
+
+
+.message_wrapper {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.message_buttons {
+    display: none;
+    /* position: absolute; */
+    bottom: 15px;
+    right: 15px;
+    border-radius: .3rem;
+    overflow: hidden;
+    width: fit-content;
+}
+
+.right .message_buttons {
+    align-self: flex-end;
+}
+
+.edit_message {
+    padding: 10px;
+    margin: 0;
+    background-color: aliceblue;
+    color: #01204e;
+    border-radius: 0;
+}
+
+.delete-message {
+    padding: 10px;
+    margin: 0;
+    background-color: rgb(194, 15, 15);
+    border-radius: 0;
+}
+
+.message_wrapper:hover + .message_buttons, .message_buttons:hover {
+    display: flex;
 }

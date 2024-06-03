@@ -23,27 +23,28 @@
     {% else %}
             <p class='message_profile_you'>You</p>
     {% endif %}
+    <div class='message_buttons'>
     {% if message.user == user %}
-    <button class='delete-message'
-        hx-post="{% url "delete_message" channel message.pk %}"
-        hx-target="#message_{{message.pk}}">Delete</button>
+        <button class='delete-message'
+            hx-post="{% url "delete_message" channel message.pk %}"
+            hx-target="#message_{{message.pk}}"><i class="fa-solid fa-trash-can"></i></button>
         {% if message.text %}
-        <button class='edit_message'>Edit</button>
+            <button class='edit_message'><i class="fa-solid fa-pencil"></i></button>
         {% endif %}
     {% elif user in message.group.moderators.all or user == message.group.admin %}
-    <button class='delete-message'
-        hx-post="{% url "delete_message" channel message.pk %}"
-        hx-target="#message_{{message.pk}}">Delete</button>
-    {% else %}
-    {% for groupObj in user.groups.all %}
-        {% if groupObj.name == "Admin" %}
         <button class='delete-message'
-        hx-post="{% url "delete_message" channel message.pk %}"
-        hx-target="#message_{{message.pk}}">Delete</button>
-        {% endif %}
-    {% endfor %}
+            hx-post="{% url "delete_message" channel message.pk %}"
+            hx-target="#message_{{message.pk}}"><i class="fa-solid fa-trash-can"></i></button>
+    {% else %}
+        {% for groupObj in user.groups.all %}
+            {% if groupObj.name == "Admin" %}
+                <button class='delete-message'
+                    hx-post="{% url "delete_message" channel message.pk %}"
+                    hx-target="#message_{{message.pk}}"><i class="fa-solid fa-trash-can"></i></button>
+            {% endif %}
+        {% endfor %}
     {% endif %}
-    
+    </div>
     <p>{{message.date_created.time}}</p>
 </div>
 {% endif %}

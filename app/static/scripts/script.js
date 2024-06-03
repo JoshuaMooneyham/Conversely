@@ -19,16 +19,16 @@ messageContainer.onscroll = (e) => {
     }
 }
 
-// let showBlockedMsg = [...document.getElementsByClassName('block-i')];
-        
-// showBlockedMsg.forEach((iTag) => {
-//     iTag.onclick = (e) => {
-//         let content = e.target.closest('div').querySelector('.blocked-content');
-//         content.classList.toggle('hidden');
-//         e.target.innerText = e.target.innerText === 'Hide' ? 'Show' : 'Hide' ;
-//         }
-//     }
-// )
+// let messages = [...document.getElementsByClassName('message_wrapper')];
+// messages.forEach((msg) => {
+//     let buttons = msg.querySelector('.message_buttons');
+//     msg.addEventListener('mouseover', (e) => {
+//         buttons.style.display = 'flex';
+//     })
+//     msg.addEventListener('mouseleave', (e) => {
+//         buttons.style.display = 'none';
+//     })
+// } )
 
 TBB.onclick = () => {scrollToBottom('smooth')};
 
@@ -37,6 +37,28 @@ let messageObserver = new MutationObserver((e) => {
     if (!scrollLock) {
         scrollToBottom()
     }
+
+    let messages = [...document.getElementsByClassName('message_wrapper')];
+    messages.forEach((msg) => {
+        let buttons = msg.querySelector('.message_buttons');
+        msg.addEventListener('mouseover', (e) => {
+            buttons.style.display = 'flex';
+        })
+        msg.addEventListener('mouseleave', (e) => {
+            buttons.style.display = 'none';
+        })
+    })
+})
+
+let messages = [...document.getElementsByClassName('message_wrapper')];
+messages.forEach((msg) => {
+    let buttons = msg.querySelector('.message_buttons');
+    msg.addEventListener('mouseover', (e) => {
+        buttons.style.display = 'flex';
+    })
+    msg.addEventListener('mouseleave', (e) => {
+        buttons.style.display = 'none';
+    })
 })
 
 messageObserver.observe(messageContainer, {childList: true})
@@ -77,7 +99,7 @@ addEventListener("htmx:wsAfterSend", () => {
 
 addEventListener("click", (e) => {
     if (e.target.classList.contains('edit_message')) {
-        message = e.target.closest('div');
+        message = e.target.closest('div').parentElement;
         if (updateMsgForm.classList.contains('hidden')) {
             swapBars()
         }
