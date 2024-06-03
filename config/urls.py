@@ -52,6 +52,16 @@ urlpatterns = [
     path("messages/update/", update_message_view, name="update_message"),
     path("chat/fileupload/<str:channel>/", chat_file_upload, name="chat-file-upload"),
 
+    #Friend Management
+    path("friend-management", friend_management_view, name="friend_management"),
+    path("friend-list", all_friends_view, name="friend_list"),
+    path("friend-requests", friend_requests_view, name="friend_requests"),
+    path("<str:username>/add-friend", send_friend_request_view, name="add_friend"),
+    path("<str:username>/remove-friend", remove_friend_review, name="remove_friend"),
+    path("<str:username>/accept-friend", accept_friend_request_view, name="accept_friend"),
+    path("<str:username>/decline-friend", decline_friend_request_view, name="decline_friend"),
+    path("<str:username>/cancel-request", cancel_friend_request_view, name="cancel_request"),
+
     # User Navigation
     path("group-selection/", group_selection_view, name="group_selection"),
 

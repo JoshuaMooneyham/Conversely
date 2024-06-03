@@ -17,6 +17,7 @@
             <a href="{% url 'logout' %}">Logout</a>
             <a href='{% url "edit-profile" %}'>Edit Profile</a>
             <a href = '{% url "group_selection" %}'>Home</a>
+            <a href="{% url "friend_list" %}">Friends</a>
         </div>
         {% block content %}
             <a href="{% url "create_group" %}">Create Group</a>
@@ -28,6 +29,7 @@
                     <a href="{% url "chatroom" group.name %}">{{group.name}}</a>
                 {% endif %}
             {% endfor %}
+            <div class="friend-requests"></div>
         {% endblock content %}
     </body>
 </html>

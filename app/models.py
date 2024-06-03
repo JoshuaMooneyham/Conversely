@@ -55,10 +55,18 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     screen_name = models.CharField(max_length=50)
     image = models.ImageField(upload_to="", null=True, blank=True)
+    friends = models.ManyToManyField(User, related_name="friends", blank=True )
     blocked_users = models.ManyToManyField(User, related_name='blocked_by', blank=True)
 
     def __str__(self):
         return f"@{self.user.username}"
+    
+class FriendRequest(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender")
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receiver")
+
+    def __str__(self):
+        return f"{self.sender} to {self.receiver}"
 
 
 ############################################Create########################
