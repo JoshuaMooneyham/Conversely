@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 * {
     margin: 0;
     padding: 0;
+    font-family: 'VT323', monospace;
 }
 
 .content {
@@ -183,10 +186,13 @@ body {
 #update-message textarea {
     width: 100%;
     margin: auto;
-    position: fixed;
+    /* position: fixed; */
     bottom: 1px;
     resize: none;
     height: 60px;
+    background-color: #079caca5;
+    border-radius: 355px;
+    color: white;
 }
 
 .side-nav {
@@ -541,4 +547,8 @@ button:focus {
 
 #account img {
     height: 200px;
+}
+
+.side-nav a {
+    font-family: 'VT323', monospace;
 }
