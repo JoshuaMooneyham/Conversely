@@ -3,10 +3,10 @@
 <h2>{{chatroom.new_group_name}}</h2>
 
 {% if current_user == chatroom.admin %}
-    <button><a href="{% url "update_group" chatroom.new_group_name %}">Edit</a></button>
-    <button><a href="{% url "delete_group" chatroom.new_group_name %}">Delete</a></button>
+<button><a href="{% url "update_group" chatroom.name %}">Edit</a></button>
+<button><a href="{% url "delete_group" chatroom.name %}">Delete</a></button>
 {% elif current_user in chatroom.moderators.all %}
-    <button><a href="{% url "update_group" chatroom.new_group_name %}">Edit</a></button>
+<button><a href="{% url "update_group" chatroom.name %}">Edit</a></button>
 {% endif %}
 <h3>Admin</h3>
 <p>{{chatroom.admin}}</p>

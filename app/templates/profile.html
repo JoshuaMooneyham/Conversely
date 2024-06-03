@@ -17,11 +17,34 @@
   </div>
 </div>
 <h3>{{profile}}</h3>
-{% if current_user != profile.user %}
+{% if user != profile.user %}
   {% if user not in profile.blocked_users.all and profile.user not in user.profile.blocked_users.all %}
   <div class="chat-btn">
     <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
   </div>
+    {% if user not in profile.friends.all and friend_request_from_current_user == False and friend_request_from_other_user == False %}
+      <div class="add-friend-btn">
+        <a href="{% url "add_friend" profile.user %}">Add Friend</a>
+      </div>
+    {% elif user not in profile.friends.all and friend_request_from_current_user == True and friend_request_from_other_user == False %}
+      <div class="cancel-request-btn">
+        <a href="{% url "cancel_request" profile.user %}">Cancel</a>
+      </div>
+    {% elif user not in profile.friends.all and friend_request_from_current_user == False and friend_request_from_other_user == True %}
+    <div class="accept-decline-containter">
+      <div class="accept-friend-btn">
+        <a href="{% url "accept_friend" profile.user %}">Accept</a>
+      </div>
+      <div class="decline-friend-btn">
+        <a href="{% url "decline_friend" profile.user %}">Decline</a>
+      </div>
+    {% else %}
+    <div class="remove-friend-btn">
+      <a href="{% url "remove_friend" profile.user %}">Remove Friend</a>
+    </div>
+    </div>
+    {% endif %}
+ 
   {% endif %}
   {% if profile.user not in user.profile.blocked_users.all %}
     <form action="" method='POST'>
@@ -37,11 +60,5 @@
   </form>
   {% endif %}
 {% else %}
-<a href="{% url "create_group" %}">Create Group</a>
-<div class="chat-groups">
-  {% for group in admin_groups %}
-    <a href="{% url "chatroom" group.name %}">{{group.new_group_name}}</a>
-  {% endfor %}
-</div>
 {% endif %}
 {% endblock content %}

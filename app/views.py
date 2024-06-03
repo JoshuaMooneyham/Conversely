@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest, HttpResponse, Http404
+from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.contrib.auth import authenticate, login, logout
@@ -7,9 +7,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from app.models import *
 from app.forms import *
+from app.decorators import *
 
 
 # Create your views here.
+@group_members_only
 @login_required(login_url="login")
 def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context = {}
@@ -44,16 +46,15 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
 @login_required(login_url="login")
 def profile_view(request: HttpRequest, username):
     context = {}
-    current_user = request.user
 
     try:
         user = User.objects.get(username=username)
         profile = UserProfile.objects.get(user=user)
-        admin_groups = current_user.group_chats.all()
+        friend_request_from_current_user = FriendRequest.objects.filter(sender=request.user, receiver=user).exists()
+        friend_request_from_other_user = FriendRequest.objects.filter(sender=user, receiver=request.user).exists()
     except:
-        user = None
-        profile = None
-        admin_groups = None
+        pass
+        
 
     if request.method == 'POST':
         print(request.POST)
@@ -75,11 +76,9 @@ def profile_view(request: HttpRequest, username):
             except:
                 pass
 
-            
-
-    context["current_user"] = current_user
     context["profile"] = profile
-    context["admin_groups"] = admin_groups
+    context["friend_request_from_current_user"] = friend_request_from_current_user
+    context["friend_request_from_other_user"] = friend_request_from_other_user
 
     return render(request, "profile.html", context)
 
@@ -109,7 +108,7 @@ def get_or_create_chatroom(request: HttpRequest, username):
 def chatroom_view(request: HttpRequest, username):
 
     chatroom = get_or_create_chatroom(request, username)
-
+  
     return redirect("chatroom", chatroom.name)
 
 
@@ -134,9 +133,10 @@ def chat_file_upload(request: HttpRequest, channel):
             "message_id": message.id,
         }
         async_to_sync(channel_layer.group_send)(channel, event)
-    return HttpResponse
+    return HttpResponse()
 
 
+@unauthenticated_user
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
         if "just_signed_up" in request.session:
@@ -171,7 +171,7 @@ def group_selection_view(request: HttpRequest):
     user = User.objects.get(username = request.user)
     return render(request, "group_selection.html", {'groups':groups, 'user':user})
 
-
+@unauthenticated_user
 def registration_view(request: HttpRequest):
     if request.method == "POST":
         form = Create_User_Form(request.POST)
@@ -193,7 +193,7 @@ def registration_view(request: HttpRequest):
 
     return render(request, "registration.html", {"form": form})
 
-
+@unauthenticated_user
 @login_required(login_url="login")
 def make_profile_view(request: HttpRequest):
     # if request.user.is_authenticated:
@@ -271,43 +271,40 @@ def create_group_view(request: HttpRequest):
     context["form"] = form
     return render(request, "create_group.html", context)
 
-
+@admin_or_moderators_update_group
 @login_required(login_url="login")
-def update_group_view(request: HttpRequest, group_name):
+def update_group_view(request: HttpRequest, channel):
     context = {}
 
     try:
-        selected_group = Group.objects.get(
-            admin=request.user, new_group_name=group_name
-        )
+        chatroom = Group.objects.get(name=channel)
     except:
-        selected_group = None
+        chatroom = None
 
-    form = Create_Group_Form(instance=selected_group)
+    form = Create_Group_Form(instance=chatroom)
 
     if request.method == "POST":
-        form = Create_Group_Form(request.POST, instance=selected_group)
+        form = Create_Group_Form(request.POST, instance=chatroom)
         if form.is_valid():
             form.save()
-            return redirect(f"/profile/{request.user}")
+            return redirect("group_management", chatroom.name)
 
     context["form"] = form
     return render(request, "create_group.html", context)
 
+@admin_only_delete_group
+@login_required(login_url="login")
+def delete_group_view(request: HttpRequest, channel):
+    try:
+        chatroom = Group.objects.get(name=channel)
+    except:
+        chatroom = None
+
+    chatroom.delete()
+    return redirect("group_selection")
+
 
 @login_required(login_url="login")
-def delete_group_view(request: HttpRequest, group_name):
-    try:
-        selected_group = Group.objects.get(
-            admin=request.user, new_group_name=group_name
-        )
-    except:
-        selected_group = None
-
-    selected_group.delete()
-    return redirect(f"/profile/{request.user}")
-
-
 def delete_message_view(req: HttpRequest, channel: str, messageId: int):
     channel_layer = get_channel_layer()
     event = {
@@ -318,6 +315,7 @@ def delete_message_view(req: HttpRequest, channel: str, messageId: int):
     return HttpResponse()
 
 
+@login_required(login_url="login")
 def update_message_view(req: HttpRequest):
     if req.method == "POST":
         channel_layer = get_channel_layer()
@@ -331,6 +329,7 @@ def update_message_view(req: HttpRequest):
 
 
 # Currently lists all users, would like it to list friends only
+@login_required(login_url="login")
 def invite_user_list_view(request: HttpRequest, channel):
     context = {}
 
@@ -347,6 +346,7 @@ def invite_user_list_view(request: HttpRequest, channel):
     return render(request, "user_invite.html", context)
 
 
+@login_required(login_url="login")
 def send_invite_view(request: HttpRequest, channel, username):
     try:
         current_chatroom = Group.objects.get(name=channel)
@@ -364,6 +364,7 @@ def send_invite_view(request: HttpRequest, channel, username):
     return redirect("invite_users", current_chatroom.name)
 
 
+@login_required(login_url="login")
 def accept_invite_view(request: HttpRequest, channel):
     try:
         chatroom = Group.objects.get(name=channel)
@@ -377,6 +378,8 @@ def accept_invite_view(request: HttpRequest, channel):
     return redirect("chatroom", chatroom.name)
 
 
+@admin_or_moderators_group_management
+@login_required(login_url="login")
 def group_management_view(request: HttpRequest, channel):
     context = {}
 
@@ -393,6 +396,8 @@ def group_management_view(request: HttpRequest, channel):
     return render(request, "group_management.html", context)
 
 
+@admin_only_moderator_manager
+@login_required(login_url="login")
 def appoint_moderators_view(request: HttpRequest, channel, username):
     try:
         chatroom = Group.objects.get(name=channel)
@@ -406,6 +411,8 @@ def appoint_moderators_view(request: HttpRequest, channel, username):
     return redirect("group_management", chatroom.name)
 
 
+@admin_only_moderator_manager
+@login_required(login_url="login")
 def remove_moderators_view(request: HttpRequest, channel, username):
     try:
         chatroom = Group.objects.get(name=channel)
@@ -417,3 +424,108 @@ def remove_moderators_view(request: HttpRequest, channel, username):
     chatroom.moderators.remove(user)
     chatroom.save()
     return redirect("group_management", chatroom.name)
+
+def send_friend_request_view(request: HttpRequest, username):
+    try:
+        sender = User.objects.get(username=request.user)
+        receiver = User.objects.get(username=username)
+    except:
+        sender = None
+        receiver = None
+
+    FriendRequest.objects.create(sender=sender, receiver=receiver)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def remove_friend_review(request: HttpRequest, username):
+    try:
+        other_user = User.objects.get(username=username)
+        current_user = User.objects.get(username=request.user) 
+        other_user_friend_list = UserProfile.objects.get(user=other_user)
+        current_user_friend_list = UserProfile.objects.get(user=current_user)
+    except:
+        other_user = None
+        current_user = None
+        other_user_friend_list = None
+        current_user = None
+
+    if other_user in current_user_friend_list.friends.all() and current_user in other_user_friend_list.friends.all():
+        current_user_friend_list.friends.remove(other_user)
+        other_user_friend_list.friends.remove(current_user)
+    
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def accept_friend_request_view(request: HttpRequest, username):
+    try:
+        sender = User.objects.get(username=username)
+        receiver = User.objects.get(username=request.user) 
+        friend_request = FriendRequest.objects.get(sender=sender, receiver=receiver)
+        sender_friends_list = UserProfile.objects.get(user=sender)
+        receiver_friends_list=UserProfile.objects.get(user=receiver)
+    except:
+        sender = None
+        receiver = None
+        friend_request = None
+        sender_friends_list = None
+        receiver_friends_list = None
+
+    if friend_request != None:
+        receiver_friends_list.friends.add(sender)
+        sender_friends_list.friends.add(receiver)
+        friend_request.delete()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def decline_friend_request_view(request: HttpRequest, username):
+    try:
+        sender = User.objects.get(username=username)
+        receiver = User.objects.get(username=request.user) 
+        friend_request = FriendRequest.objects.get(sender=sender, receiver=receiver)
+    except:
+        sender = None
+        receiver = None
+        friend_request = None
+
+    if friend_request != None:
+        friend_request.delete()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def cancel_friend_request_view(request: HttpRequest, username):
+    try:
+        sender = User.objects.get(username=request.user)
+        receiver = User.objects.get(username=username) 
+        friend_request = FriendRequest.objects.get(sender=sender, receiver=receiver)
+    except:
+        sender = None
+        receiver = None
+        friend_request = None
+
+    if friend_request != None:
+        friend_request.delete()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def friend_management_view(request: HttpRequest):
+    return render(request, "friend_management.html")
+
+def all_friends_view(request: HttpRequest):
+    context = {}
+
+    try:
+        friend_list = UserProfile.objects.get(user=request.user)
+    except:
+        friend_list = None
+
+    context["friend_list"] = friend_list
+    return render(request, "all_friends.html", context)
+
+def friend_requests_view(request: HttpRequest):
+    context = {}
+
+    try:
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+    except:
+        friend_requests_list = None
+
+    context["friend_requests_list"] = friend_requests_list
+    return render(request, "friend_requests.html", context)

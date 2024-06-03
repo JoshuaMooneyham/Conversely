@@ -1,0 +1,6 @@
+{% extends "friend_management.html" %} {% block friends %}
+{% for friend in friend_list.friends.all %}
+<p>{{friend}}</p>
+<button><a href="{% url "remove_friend" friend %}">Remove Friend</a></button>
+{% endfor %}
+{% endblock friends %}
