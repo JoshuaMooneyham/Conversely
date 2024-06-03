@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect, HttpResponseRedirect
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.contrib.auth import authenticate, login, logout
@@ -8,9 +8,11 @@ from django.contrib import messages
 from app.models import *
 from app.forms import *
 from app.decorators import *
+from app.decorators import *
 
 
 # Create your views here.
+@group_members_only
 @group_members_only
 @login_required(login_url="login")
 def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
