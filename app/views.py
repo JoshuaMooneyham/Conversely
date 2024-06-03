@@ -269,6 +269,25 @@ def edit_profile_view(request: HttpRequest):
 
     return render(request, "update_profile.html", {"user": user_profile})
 
+
+@login_required(login_url="login")
+def create_group_view(request: HttpRequest):
+    context = {}
+    form = Create_Group_Form()
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST)
+        if form.is_valid():
+            new_group_chat = form.save(commit=False)
+            new_group_chat.admin = request.user
+            new_group_chat.new_group_name = request.POST.get('new_group_name')
+            new_group_chat.save()
+            new_group_chat.users.add(request.user)
+            return redirect("chatroom", new_group_chat.name)
+
+    context["form"] = form
+    return render(request, "create_group.html", context)
+
 @admin_or_moderators_update_group
 @login_required(login_url="login")
 def update_group_view(request: HttpRequest, channel):
