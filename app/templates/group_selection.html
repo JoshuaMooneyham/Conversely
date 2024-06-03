@@ -20,16 +20,28 @@
             <a href="{% url "friend_list" %}">Friends</a>
         </div>
         {% block content %}
-            <a href="{% url "create_group" %}">Create Group</a>
+            <p id='createGroup'>Create Group</p>
+            <div id='createGroupForm' class='hidden'>
+                {% include "create_group.html" %}
+            </div>
             {% comment %} <a href = "{% url "chat_home" 'Cohort2'%}">Cohort 2</a> {% endcomment %}
             {% for group in groups  %}
                 {% if group.new_group_name and user in group.users.all %}
                     <a href="{% url "chatroom" group.name %}">{{group.new_group_name}}</a>
-                {% elif not group.is_private and not group.new_group_name %}
+                {% elif not group.is_private and not group.new_group_name and user not in group.banned_users.all %}
                     <a href="{% url "chatroom" group.name %}">{{group.name}}</a>
                 {% endif %}
             {% endfor %}
             <div class="friend-requests"></div>
         {% endblock content %}
+
+        <script>
+            let createGroup = document.getElementById('createGroup');
+            let createGroupForm = document.getElementById('createGroupForm');
+            createGroup.onclick = function () {
+                createGroupForm.classList.remove('hidden');
+            }
+        </script>
+
     </body>
 </html>

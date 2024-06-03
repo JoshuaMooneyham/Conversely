@@ -18,8 +18,11 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     try:
         chatroom = Group.objects.get(name=channel)
     except:
-        # pass
         return redirect("group_selection")  # Send home if bad group request
+    
+    if req.user in chatroom.banned_users.all():
+        return redirect('group_selection')
+
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
     users = [i.username for i in chatroom.users.all()]
@@ -34,7 +37,7 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
             if user != req.user:
                 other_user = user
                 break
-    print(len(context['messages']))
+
     context["form"] = form
     context["current_user"] = req.user
     context["other_user"] = other_user
@@ -168,7 +171,18 @@ def logout_view(request: HttpRequest):
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
     groups = Group.objects.all()
-    return render(request, "group_selection.html", {'groups':groups})
+    form = Create_Group_Form()
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST)
+        if form.is_valid():
+            new_group_chat = form.save(commit=False)
+            new_group_chat.admin = request.user
+            new_group_chat.save()
+            new_group_chat.users.add(request.user)
+            return redirect("chatroom", new_group_chat.name)
+
+    return render(request, "group_selection.html", {'groups':groups, 'form': form})
 
 @unauthenticated_user
 def registration_view(request: HttpRequest):
@@ -247,24 +261,6 @@ def edit_profile_view(request: HttpRequest):
             return redirect("login")
 
     return render(request, "update_profile.html", {"user": user})
-
-
-@login_required(login_url="login")
-def create_group_view(request: HttpRequest):
-    context = {}
-    form = Create_Group_Form()
-
-    if request.method == "POST":
-        form = Create_Group_Form(request.POST)
-        if form.is_valid():
-            new_group_chat = form.save(commit=False)
-            new_group_chat.admin = request.user
-            new_group_chat.save()
-            new_group_chat.users.add(request.user)
-            return redirect("chatroom", new_group_chat.name)
-
-    context["form"] = form
-    return render(request, "create_group.html", context)
 
 @admin_or_moderators_update_group
 @login_required(login_url="login")
@@ -523,3 +519,33 @@ def friend_requests_view(request: HttpRequest):
 
     context["friend_requests_list"] = friend_requests_list
     return render(request, "friend_requests.html", context)
+
+def get_user_account(request: HttpRequest, userId: int, channel: str):
+    try:
+        user = User.objects.get(pk=f'{userId}')
+        group = Group.objects.get(name=channel)
+    except:
+        user = None
+        group = None
+
+    return render(request, 'partials/account_popup_partial.html', {'found_user': user, 'group': group})
+
+def ban_user(request: HttpRequest, userId: int, channel: str):
+    if request.method == "POST":
+        channel_layer = get_channel_layer()
+        event = {
+            "type": "ban_user",
+            "user_id": userId
+        }
+        async_to_sync(channel_layer.group_send)(channel, event)
+        return HttpResponse()
+
+def unban_user(request: HttpRequest, userId: int, channel: str):
+    if request.method == "POST":
+        channel_layer = get_channel_layer()
+        event = {
+            "type": "unban_user",
+            "user_id": userId
+        }
+        async_to_sync(channel_layer.group_send)(channel, event)
+        return HttpResponse()

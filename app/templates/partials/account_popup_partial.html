@@ -1,0 +1,33 @@
+{% load static %}
+{% if found_user %}
+
+<div id='account' hx-swap-oob='outerHTML'>
+    {% if found_user.profile.image %}
+    <img src="{{found_user.profile.image.url}}" alt="">
+    {% else %}
+    <img src="{% static "images/default-user.jpg" %}" alt="">
+    {% endif %}
+    <p>{{found_user.profile.screen_name}}</p>
+    <p>@{{found_user.username}}</p>
+    <a href="{% url "profile" found_user.username %}"><button>View Profile</button></a>
+    {% if user == group.admin or user in group.moderators.all and found_user not in group.moderators.all %}
+        {% if found_user not in group.banned_users.all %}
+            <button id='ban_user_btn' hx-post="{% url "ban_user" found_user.pk group%}">Ban from Chat</button>
+        {% else %}
+            <button id='unban_btn' hx-post="{% url "unban_user" found_user.pk group%}">Unban User</button>
+        {% endif %}
+    {% else %}
+    {% for groupObj in user.groups.all %}
+        {% if groupObj.name == "Admin" %}
+            {% if found_user not in group.banned_users.all %}
+                <button id='ban_user_btn' hx-post="{% url "ban_user" found_user.pk group%}">Ban from Chat</button>
+            {% else %}
+                <button id='unban_btn' hx-post="{% url "unban_user" found_user.pk group%}">Unban User</button>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+</div>
+
+{% endif %}

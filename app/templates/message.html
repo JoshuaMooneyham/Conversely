@@ -12,18 +12,13 @@
         {% endif %}
     </div>
     {% if user != message.user %}
-    <div class='message_profile_wrapper'>
-        <a href="{% url "profile" message.user.username %}">{{message.user.username}}</a>
+    <div class='message_profile_wrapper' hx-post="{% url "get_user_account" message.user.pk message.group.name %}" hx-target='#account'>
+        <p class='popup_account'>{{message.user.username}}</p>
         <div class="image-container" style="position: relative; display: inline-block;">
             {% if message.user.profile.image %}
             <img src="{{message.user.profile.image.url}}" class="profile-image" style='height: 30px'>
             {% else %}
             <img src="{% static "images/default-user.jpg" %}" alt="" class="profile-image" style='height: 30px'>
-            {% endif %}
-            {% if message.user == user %}
-            <a href="{% url "edit-profile" %}" class="edit-link">
-                <img src="{% static "images/edit.png" %}" alt='edit'>
-            </a>
             {% endif %}
         </div>
     </div>
