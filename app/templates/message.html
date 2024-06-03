@@ -1,30 +1,28 @@
 {% load static %}
 
-<div class='message_wrapper' id="message_{{message.pk}}" style="{% if message.user == user %}display:flex; flex-direction:column; width: 90vw; align-items:flex-end;{% endif %}">
-    {% if message.is_invitation %}
-    <p>Join this group! - <a href="{% url "accept_invite" message.text %}">{{message.text}}</a></p>
-    {% elif message.text %}
+{% if message.user == user or message.user not in user.profile.blocked_users.all %}
+<div class="message_wrapper {% if user == message.user %}right{% else %}left{% endif %}" id="message_{{message.pk}}">
+    <div class="speech-bubble {% if user == message.user %}{% endif %}">
+    {% if message.text %}
     <p>{{message.text}}</p>
     {% elif message.file %}
-    <div class='message_file_container'>
-        <img class='message_file' src="{{message.file.url}}" alt="">
-    </div>
+    <img class='message_file' src="{{message.file.url}}" alt="">
     {% endif %}
-    <div style='display:flex; position: relative; align-items: center;'>
-        <a href="{% url "profile" message.user.username %}">{{message.user.username}}</a>
+    </div>
+    {% if user != message.user %}
+    <div class='message_profile_wrapper' hx-post="{% url "get_user_account" message.user.pk message.group.name %}" hx-target='#account'>
+        <p class='popup_account'>{{message.user.username}}</p>
         <div class="image-container" style="position: relative; display: inline-block;">
             {% if message.user.profile.image %}
             <img src="{{message.user.profile.image.url}}" class="profile-image" style='height: 30px'>
             {% else %}
             <img src="{% static "images/default-user.jpg" %}" alt="" class="profile-image" style='height: 30px'>
             {% endif %}
-            {% if message.user == user %}
-            <a href="{% url "edit-profile" %}" class="edit-link">
-                <img src="{% static "images/edit.png" %}" alt='edit'>
-            </a>
-            {% endif %}
         </div>
     </div>
+    {% else %}
+            <p class='message_profile_you'>You</p>
+    {% endif %}
     {% if message.user == user %}
     <button class='delete-message'
         hx-post="{% url "delete_message" channel message.pk %}"
@@ -48,3 +46,4 @@
     
     <p>{{message.date_created.time}}</p>
 </div>
+{% endif %}

@@ -1,16 +1,28 @@
-{% extends "group_selection.html" %} {% block content %}
+{% extends "group_selection.html" %} 
+
+{% block content %}
 <h2>{{chatroom.new_group_name}}</h2>
-<button><a href="{% url "update_group" chatroom.new_group_name %}">Edit</a></button>
-<button><a href="{% url "delete_group" chatroom.new_group_name %}">Delete</a></button>
-<h3>Moderators</h3>
-{% for moderator in chatroom.moderators.all %}
-<p>{{moderator}}</p>
-{% endfor %}
-<h3>Users</h3>
-{% for user in users %}
-<p>{{user}}</p>
-{% if user not in chatroom.moderators.all %}
-<button><a href="{% url "appoint_moderators" chatroom.name user %}">Appoint as Moderator</a></button>
-{% endif %}
-{% endfor %}
+    {% if current_user == chatroom.admin %}
+    <button><a href="{% url "update_group" chatroom.name %}">Edit</a></button>
+    <button><a href="{% url "delete_group" chatroom.name %}">Delete</a></button>
+    {% elif current_user in chatroom.moderators.all %}
+    <button><a href="{% url "update_group" chatroom.name %}">Edit</a></button>
+    {% endif %}
+    <h3>Admin</h3>
+    <p>{{chatroom.admin}}</p>
+    <h3>Moderators</h3>
+    {% for moderator in chatroom.moderators.all %}
+        <p>{{moderator}}</p>
+        {% if current_user == chatroom.admin %}
+            <button><a href="{% url "remove_moderators" chatroom.name moderator %}">Remove Role</a></button>
+        {% endif %}
+    {% endfor %}
+    <h3>Other Users</h3>
+    {% for user in users %}
+        {% if user not in chatroom.moderators.all and user != chatroom.admin %}
+            <p>{{user}}</p>
+            <button><a href="{% url "appoint_moderators" chatroom.name user %}">Appoint as Moderator</a></button>
+        {% endif %}
+    {% endfor %}
+
 {% endblock content %}

@@ -1,34 +1,66 @@
 {% extends "group_selection.html" %}
+{% load static %}
 
 {% block content %}
-    <div>
-        <form method = 'POST' enctype='multipart/form-data'>
-            {% csrf_token %}
-            <div><input type = 'text' name = 'screen_name' placeholder = 'New Screen Name...'></div>
-            <div><input type = 'email' name = 'new_email' placeholder = 'New Email...'></div>
-            <div><input id = 'password' type = 'text' name = 'password' placeholder = 'Enter New Password...'></div>
-            <div><input type = 'file' name = 'image'></div>
-            <div><input type = 'submit' name = 'update' value = 'Submit'></div>
-        </form>
-    </div>
-    <div>
-        <form method = 'POST'>
-            {% csrf_token %}
-            <input type = 'Submit' value = 'Delete Profile' name ='delete'>
-        </form>
-    </div>
-    {% if error %}
-        <div>
-            {{error}}
-        </div>
-    {% endif %}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const passwordInputField = document.getElementById('password')
 
-            passwordInputField.addEventListener('input', () => {
-                passwordInputField.type = (passwordInputField.value === '') ? 'text' : 'password';
-            });
+<div class = 'form-container'>
+<div class="profile-update-form">
+    <div class="user-card">
+        <div class="profile-pic">
+            {% if user.image %}
+                <img src="{{ user.image.url }}" alt="Profile Picture">
+            {% else %}
+                <img src="{% static "images/default-user.jpg" %}" alt="Profile Picture">
+            {% endif %}
+            
+
+        </div>
+        <div class="user-info">
+            <p>{{ user.user }}</p>
+            <p>{{ user.screen_name }}</p>
+        </div>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" name="screen_name" placeholder="New Screen Name..." class="input-text">
+        </div>
+        <div class="form-group">
+            <input type="email" name="new_email" placeholder="New Email..." class="input-text">
+        </div>
+        <div class="form-group">
+            <input id="password" type="text" name="password" placeholder="Enter New Password..." class="input-text">
+        </div>
+        <div class="form-group">
+            <input type="file" name="image" class="input-file">
+        </div>
+        <div class="form-group">
+            <input type="submit" name="update" value="Submit" class="btn-submit">
+        </div>
+    </form>
+</div>
+
+<div class="profile-delete-form">
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete Profile" name="delete" class="btn-delete">
+    </form>
+</div>
+
+{% if error %}
+    <div class="error-message">
+        {{ error }}
+    </div>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const passwordInputField = document.getElementById('password');
+
+        passwordInputField.addEventListener('input', () => {
+            passwordInputField.type = (passwordInputField.value === '') ? 'text' : 'password';
         });
-    </script>
+    });
+</script>
+</div>
 {% endblock content %}

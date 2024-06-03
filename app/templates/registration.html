@@ -1,26 +1,42 @@
-<div>
-  <form method = 'POST'>
-      {% csrf_token %}
-      <div>{{form.username}}</div>
-      <div>{{form.email}}</div>
-      <div>{{form.password1}}</div>
-      <div>{{form.password2}}</div>
-      <div><input type = 'submit' value = 'Register'>
-  </form>
-  <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+</head>
+<body>
+    <div class = 'form-container'>
+    <div class='app-name'>
+        <h1>Conversely</h1>
+    </div>
+    <div class='signup-template'>
+        <form method='POST'>
+            {% csrf_token %}
+            <div>{{form.username}}</div>
+            <div>{{form.email}}</div>
+            <div>{{form.password1}}</div>
+            <div>{{form.password2}}</div>
+            <div><input type='submit' value='Register'></div>
+        </form>
+        <div>Already have an account? <a href="{% url 'login' %}">Login</a></div>
+    </div>
 </div>
-
-
+</body>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      let usernameField = document.getElementsByName('username')[0];
-      let emailField = document.getElementsByName('email')[0];
-      let password1Field = document.getElementsByName('password1')[0];
-      let password2Field = document.getElementsByName('password2')[0];
-  
-      usernameField.placeholder = 'Username..';
-      emailField.placeholder = 'Email..';
-      password1Field.placeholder = 'Enter password...';
-      password2Field.placeholder = 'Re-enter Password...';
-    });
-  </script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let usernameField = document.getElementsByName('username')[0];
+    let emailField = document.getElementsByName('email')[0];
+    let password1Field = document.getElementsByName('password1')[0];
+    let password2Field = document.getElementsByName('password2')[0];
+
+    usernameField.placeholder = 'Username..';
+    emailField.placeholder = 'Email..';
+    password1Field.placeholder = 'Enter password...';
+    password2Field.placeholder = 'Re-enter Password...';
+  });
+</script>
+</html>

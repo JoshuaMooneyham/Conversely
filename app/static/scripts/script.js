@@ -5,7 +5,6 @@ let updateTextBox = updateMsgForm.querySelector('textarea');
 let TBB = document.getElementById('to-bottom-btn');
 let message;
 let scrollLock;
-
 let messageContainer = document.getElementById('messages_container');
 
 messageContainer.onscroll = (e) => {
@@ -19,6 +18,17 @@ messageContainer.onscroll = (e) => {
         TBB.classList.remove('hidden');
     }
 }
+
+// let showBlockedMsg = [...document.getElementsByClassName('block-i')];
+        
+// showBlockedMsg.forEach((iTag) => {
+//     iTag.onclick = (e) => {
+//         let content = e.target.closest('div').querySelector('.blocked-content');
+//         content.classList.toggle('hidden');
+//         e.target.innerText = e.target.innerText === 'Hide' ? 'Show' : 'Hide' ;
+//         }
+//     }
+// )
 
 TBB.onclick = () => {scrollToBottom('smooth')};
 
@@ -62,6 +72,7 @@ updateTextBox.onkeydown = (e) => {
 
 addEventListener("htmx:wsAfterSend", () => {
     textBox.value = '';
+    scrollToBottom()
 })
 
 addEventListener("click", (e) => {
@@ -76,5 +87,14 @@ addEventListener("click", (e) => {
         document.getElementById('update_message_id').value = message.id.replace('message_', '');
         updateMsgForm.setAttribute('hx-target', `#${message.id}`);
         htmx.process(updateMsgForm);
+    } else {
+        let account = document.getElementById('account');
+        if (!e.target === account || ![...account.childNodes].includes(e.target)) {
+            account.classList.add('hidden');
+        }
     }
 })
+
+function closePopup() {
+    document.getElementById('account').classList.add('hidden');
+}
