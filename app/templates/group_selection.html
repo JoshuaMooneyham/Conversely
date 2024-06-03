@@ -19,11 +19,13 @@
         <a href="#" class="close-btn" id="closeBtn">&times;</a>
         <a href="{% url 'group_selection' %}"><i class="fas fa-home"></i> Home</a>
         <a href="{% url 'edit-profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a>
+        <a href="{% url 'friend_list' %}"><i class="fas fa-user-friends"></i> Friends</a>
         <a href="{% url 'create_group' %}"><i class="fas fa-users"></i> Create Group</a>
         <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
         <div class="content" id="mainContent">
         {% block content %}
+        <div class = 'form-container'>
             {% for group in groups %}
                 {% if group.new_group_name and user in group.users.all %}
                     <div class="group"><a href="{% url "chatroom" group.name %}">{{ group.new_group_name }}</a></div>
@@ -34,6 +36,7 @@
             <div class="friend-requests"></div>
         {% endblock content %}
     </div>
+</div>
     {% comment %} </div> {% endcomment %}
     <button class="open-btn" id="openBtn">&#9776;</button>
     <script>

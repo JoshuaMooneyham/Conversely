@@ -250,7 +250,7 @@ body {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background-color: #faa968;
+    background-color: #f85525;
     border-radius: 50%;
     margin-right: 5px;
     vertical-align: middle;
@@ -259,7 +259,8 @@ body {
 
 #online-count.online::before {
 
-    background-color: #f85525;
+
+    background-color: #faa968;
 }
 
 .login-template,

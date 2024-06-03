@@ -2,20 +2,28 @@
 
 {% block content %}
 <div id = 'chatroom_head'>
-    <h1>Conversely</h1>
-    <div id='online-count' class='offline'>
-        <span id='online_count'>0</span> online
-    </div>
-</div>
-<div class ='container'>
-
-    {% if chatroom.new_group_name %}
-        <h2>{{chatroom.new_group_name}}</h2>
+    {% if chatroom.new_group_name != None %}
+            <h1>{{chatroom.new_group_name}}</h1>
+            <div id='online-count' class='offline'>
+                <span id='online_count'>0</span> online
+            </div>
+            <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
+        {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
+            <a href="{% url "group_management" chatroom.name %}">Manage</a>
+        {% endif %}
+    {% else %}
+        <h1>{{chatroom.name}}</h1>
+        <div id='online-count' class='offline'>
+            <span id='online_count'>0</span> online
+        </div>
         <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
         {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
             <a href="{% url "group_management" chatroom.name %}">Manage</a>
         {% endif %}
     {% endif %}
+
+</div>
+<div class ='container'>
 
     <div id='test_wrapper'>
         <div id='messages_container'>

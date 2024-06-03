@@ -268,6 +268,7 @@ def create_group_view(request: HttpRequest):
         if form.is_valid():
             new_group_chat = form.save(commit=False)
             new_group_chat.admin = request.user
+            new_group_chat.new_group_name = request.POST.get('new_group_name')
             new_group_chat.save()
             new_group_chat.users.add(request.user)
             return redirect("chatroom", new_group_chat.name)
