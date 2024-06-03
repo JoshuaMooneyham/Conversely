@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, Http404, HttpResponseRedirect, HttpResponseRedirect
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.contrib.auth import authenticate, login, logout
@@ -8,9 +8,11 @@ from django.contrib import messages
 from app.models import *
 from app.forms import *
 from app.decorators import *
+from app.decorators import *
 
 
 # Create your views here.
+@group_members_only
 @group_members_only
 @login_required(login_url="login")
 def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
@@ -78,7 +80,9 @@ def profile_view(request: HttpRequest, username):
                     print('gi')
             except:
                 pass
-
+    print(user.email)
+    # context['user'] = UserProfile.objects.get(user = request.user)
+    context["profile_info"] = user
     context["profile"] = profile
     context["friend_request_from_current_user"] = friend_request_from_current_user
     context["friend_request_from_other_user"] = friend_request_from_other_user
@@ -209,23 +213,27 @@ def registration_view(request: HttpRequest):
 @unauthenticated_user
 @login_required(login_url="login")
 def make_profile_view(request: HttpRequest):
-    if request.method == "POST":
-        form = Make_Profile_Form(request.POST)
-        if form.is_valid():
-            screen_name = form.cleaned_data["screen_name"]
-            image = form.cleaned_data["image"]
-            create_user_profile(request.user, screen_name, image)
-            return redirect("group_selection")
-    else:
-        form = Make_Profile_Form()
+    # if request.user.is_authenticated:
+    #     return redirect('group_selection')
+    # else:
+        if request.method == "POST":
+            form = Make_Profile_Form(request.POST)
+            if form.is_valid():
+                screen_name = form.cleaned_data["screen_name"]
+                image = form.cleaned_data["image"]
+                create_user_profile(request.user, screen_name, image)
+                return redirect("group_selection")
+        else:
+            form = Make_Profile_Form()
 
-    return render(request, "make_profile.html", {"form": form})
+        return render(request, "make_profile.html", {"form": form})
 
 
 @login_required(login_url="login")
 def edit_profile_view(request: HttpRequest):
     user_profile = UserProfile.objects.get(user=request.user)
     user = User.objects.get(username=request.user)
+    user_profile = UserProfile.objects.get(user = request.user)
 
     if request.method == "POST":
         new_screen_name = (
@@ -254,13 +262,13 @@ def edit_profile_view(request: HttpRequest):
             update_profile_info(user_profile, new_screen_name, new_image)
             update_user_email(user, new_email)
 
-            return redirect("group_selection")
+            return redirect("edit-profile")
 
         elif "delete" in request.POST:
             delete_user_profile(request.user)
             return redirect("login")
 
-    return render(request, "update_profile.html", {"user": user})
+    return render(request, "update_profile.html", {"user": user_profile})
 
 @admin_or_moderators_update_group
 @login_required(login_url="login")
@@ -327,6 +335,7 @@ def invite_user_list_view(request: HttpRequest, channel):
     try:
         chatroom = Group.objects.get(name=channel)
         users = User.objects.exclude(username=request.user)
+        print(users)
     except:
         chatroom = None
         users = None

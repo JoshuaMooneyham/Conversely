@@ -1,7 +1,14 @@
-{% for user in users %}
-<p>{{user}}</p>
-<button><a href="{% url "send_invite" chatroom.name user %}">Send Invite</a></button>
-{% endfor %}
-<div>
-    <a href="{% url "chatroom" chatroom.name %}">Done</a>
+{% extends "group_selection.html" %}
+{% load static %}
+
+{% block content %}
+<div class = 'send_invite'>    
+    {% for user in users %}
+    <p>{{user}}</p>
+    <button><a href="{% url "send_invite" chatroom.name user %}">Send Invite</a></button>
+    {% endfor %}
+    <div>
+        <a href="{% url "chatroom" chatroom.name %}">Done</a>
+    </div>
 </div>
+{% endblock content %}
