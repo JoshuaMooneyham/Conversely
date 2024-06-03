@@ -51,6 +51,9 @@
         <a href="{% url "decline_friend" profile.user %}">Decline</a>
       </div>
     {% else %}
+    <div class="chat-btn">
+      <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
+    </div>
     <div class="remove-friend-btn">
       <a href="{% url "remove_friend" profile.user %}">Remove Friend</a>
     </div>

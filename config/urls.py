@@ -43,7 +43,11 @@ urlpatterns = [
     path("remove-moderator/<str:channel>/<str:username>/", remove_moderators_view, name="remove_moderators"),
     path("<str:channel>/invite-users/", invite_user_list_view, name="invite_users"),
     path("send-invite/<str:channel>/<str:username>/", send_invite_view, name="send_invite"),
+    path("cancel-invite/<str:channel>/<str:username>/", cancel_invite_view, name="cancel_invite"),
     path("accept-invite/<str:channel>/", accept_invite_view, name="accept_invite"),
+    path("decline-invite/<str:channel>/", decline_invite_view, name="decline_invite"),
+    path("invitations", invitations_view, name="invitations"),
+    path("leave/<str:channel>/", leave_group_view, name="leave_chatroom"),
 
     # Message Management
     path("messages/delete/<str:channel>/<int:messageId>/", delete_message_view, name="delete_message"),
