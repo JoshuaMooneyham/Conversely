@@ -432,7 +432,7 @@ button:focus {
     align-items: center;
     height: 100vh;
     flex-direction: column;
-    border: solid red;
+    /* border: solid red; */
 }
 
 .user-profile {
