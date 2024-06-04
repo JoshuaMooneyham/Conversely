@@ -3,6 +3,7 @@ let textBox = msgForm.querySelector('textarea');
 let updateMsgForm = document.getElementById('update-message');
 let updateTextBox = updateMsgForm.querySelector('textarea');
 let TBB = document.getElementById('to-bottom-btn');
+let file_upload_form = document.getElementById('file_input_form');
 let message;
 let scrollLock;
 let messageContainer = document.getElementById('messages_container');
@@ -91,6 +92,7 @@ function swapBars() {
     if (!msgForm.classList.contains('hidden')) {
         textBox.focus();
     }
+    file_upload_form.classList.toggle('hidden');
 }
 
 textBox.onkeydown = (e) => {
@@ -136,4 +138,20 @@ addEventListener("click", (e) => {
 
 function closePopup() {
     document.getElementById('account').classList.add('hidden');
+}
+
+let file_upload = document.getElementById('file_input');
+let file_btn = document.getElementById('file_upload_btn');
+let submit_file_btn = document.getElementById('submit_file_btn');
+file_btn.onclick = function () {
+    file_upload.click()
+}
+
+file_upload.onchange = () => {
+    console.log(file_upload)
+    if (file_upload.value !== '') {
+        submit_file_btn.classList.remove('hidden');
+    } else {
+        submit_file_btn.classList.add('hidden');
+    }
 }
