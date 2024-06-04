@@ -57,13 +57,14 @@
                 hx-post="{% url "chat-file-upload" channel %}"
                 hx-target="#messages_container"
                 hx-swap="beforeend"
-                hx-on::after-request="this.reset()">
+                hx-on::after-request="this.reset(), document.getElementById('submit_file_btn').classList.add('hidden')">
                 {% csrf_token %}
-                <input type="file" name="file">
-                <button type="submit">Submit File</button>
+                <div id='file_upload_btn'><i class="fa-solid fa-plus"></i></div>
+                <input id='file_input' type="file" name="file">
+                <button id='submit_file_btn' class='submit_file_btn hidden' type="submit"><i class="fa-solid fa-paper-plane"></i></button>
             </form>
         </div>
-</div>
+    </div>
         <div id='account' class='account-plate-styles hidden'></div>
     </div>
     <script>

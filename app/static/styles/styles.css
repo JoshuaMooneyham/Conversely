@@ -57,7 +57,7 @@ body {
 #messages_container {
     background-color: #af330d5e;
     /* background-color: #0000007a; */
-    height: 70vh;
+    height: calc(100vh - 170px);
     overflow-y: scroll;
     scrollbar-width: none;
     display: flex;
@@ -434,6 +434,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.3em;
+    height: 50px;
 }
 
 .profile-pic {
@@ -555,7 +557,33 @@ button:focus {
 }
 
 
-/* Friend List */
+
+
+
+
+
+/* NOT A FRONT-END GUY */
+
+.result-container {
+    width: 600px;
+    height: 400px;
+    background-color: #faa968;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border-radius: 10px;
+}
+
+.result-container img {
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+}
+
+.result-container .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
 .friend-lists-nav {
     margin-top: -500px;
@@ -575,20 +603,7 @@ button:focus {
    text-decoration: underline;
 }
 
-.friend-list {
-    width: 600px;
-    background-color: #faa968;
-    border-radius: 10px;
-}
-
-.friend-list .wrapper {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-
-.friend-list ul li {
+.result-container ul li {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -597,19 +612,16 @@ button:focus {
     list-style-type: none;
 }
 
-.friend-list ul li img {
+.result-container ul li img {
     height: 60px;
     width: 60px;
     border-radius: 50px;
 }
 
-.friend-list ul li a {
+.result-container ul li a {
     color: white;
     text-decoration: none;
 }
-
-
-/* Group Management */
 
 .group-management {
     width: 600px;
@@ -649,6 +661,14 @@ button:focus {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.invites {
+    text-align: center;
+}
+
+.invites h3 {
+    font-size: 40px;
 }
 
 
@@ -749,11 +769,15 @@ button:focus {
     position: fixed;
 }
 
-#search-results ul {
+#search-results {
     width: 600px;
+    height: 400px;
     background-color: #faa968;
+    overflow-y: scroll;
+    scrollbar-width: none;
     border-radius: 10px;
 }
+
 
 #search-results ul a {
     text-decoration: none;
@@ -1039,15 +1063,11 @@ button:focus {
     position: relative;
 }
 
-.hidden {
-    display: none;
-}
-
 #close_message_edit {
     position: absolute;
-    right: 15px;
+    right: 20px;
     top: 8px;
-    background-color: #f85525;
+    background-color: #079cac;
     width: 45px;
     height: 45px;
     display: flex;
@@ -1060,11 +1080,64 @@ button:focus {
     cursor: pointer;
 }
 
-#close_message_edit:hover {
+#close_message_edit:hover, #file_upload_btn:hover, #submit_file_btn:hover {
     color: whitesmoke;
     background-color: #01204e;
 }
 
 #file_input_form {
-    margin-top: 20px;
+    position: absolute;
+    width: 70%;
+    /* background-color: rgba(255, 0, 0, 0.219); */
+    height: 1px;
+}
+
+#file_input_form input{
+    position: relative;
+    left: -99999999999999px;
+}
+
+#file_upload_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background-color: #079cac;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: .3s;
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    font-size: 20px;
+}
+
+.submit_file_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background-color: #079cac;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: .3s;
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    font-size: 20px;
+}
+
+#submit_file_btn .fa-paper-plane {
+    position: relative;
+    right: 1.5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.container { 
+    height: calc(100% - 100px);
 }
