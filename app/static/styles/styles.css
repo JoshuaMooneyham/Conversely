@@ -602,6 +602,39 @@ button:focus {
     background-color: #faa968;
     border-radius: 10px;
     padding: 20px;
+    text-align: center;
+}
+
+.group-management h2 {
+    font-size: 40px;
+}
+
+.group-management h3 {
+    padding: 10px;
+}
+
+.group-management a {
+    color: white;
+    text-decoration: none;
+    
+}
+
+.group-management img {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+.mod {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chat-member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 
