@@ -6,23 +6,19 @@
             <h1>{{chatroom.new_group_name}}</h1>
             <div id='online-count' class='offline'>
                 <span id='online_count'>0</span> online
-            </div>
+            </div> 
             <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
-        {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
+            {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
             <a href="{% url "group_management" chatroom.name %}">Manage</a>
-        {% endif %}
+            {% endif %}
+            {% if current_user != chatroom.admin %}
+            <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
+            {% endif %}
     {% else %}
         <h1>{{chatroom.name}}</h1>
         <div id='online-count' class='offline'>
             <span id='online_count'>0</span> online
         </div>
-        <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
-        {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
-        <a href="{% url "group_management" chatroom.name %}">Manage</a>
-        {% endif %}
-        {% if current_user != chatroom.admin %}
-        <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
-        {% endif %}
     {% endif %}
 
 </div>

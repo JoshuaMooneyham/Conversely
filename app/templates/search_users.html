@@ -5,12 +5,14 @@
     {% csrf_token %}
     <div class="search-bar">
         <div class="row">
-        <input type="input" placeholder="Search" autocomplete="off" name="search">
+        <input id="input-box" type="input" placeholder="Search" autocomplete="off" name="search"
+        hx-trigger="keyup changed delay:1s"
+        hx-target="#search-results">
         {% comment %} <button type="submit">Search</button> {% endcomment %}
         </div>
     </div>
 </form>
-<div class="search-results">
+<div id="search-results">
     {% if searched %}
     <ul>
     {% for result in searched %}

@@ -26,18 +26,195 @@
         </div>
         <div class="content" id="mainContent">
             {% block content %}
-            <div class = 'form-container'>
-                <p id='createGroup'>Create Group</p>
+            <div class='home_page'>
+                <h1 id='conversely_hplogo'>CONVERSELY</h1>
+                <button id='createGroup'>+ Create Group</button>
                 <div id='createGroupForm' class='hidden'>
                     {% include "create_group.html" %}
                 </div>
-                {% for group in groups  %}
-                    {% if group.new_group_name and user in group.users.all %}
-                    <div class="group"><a href="{% url "chatroom" group.name %}">{{ group.new_group_name }}</a></div>
-                    {% elif not group.is_private and not group.new_group_name and user not in group.banned_users.all %}
-                    <div class="group"><a href="{% url "chatroom" group.name %}">{{ group.name }}</a></div>
-                    {% endif %}
-                {% endfor %}
+                <div id="group_selection_table">
+                    <div id="group_select_table_header">
+                        <div id='group_table_header_name'>Group Name</div>
+                        <div id="group_table_header_privelege">Type</div>
+                    </div>
+                    <div id="group_select_scroll">
+                        {% for group in groups  %}
+                            {% if group.new_group_name and user in group.users.all %}
+                            <a href="{% url "chatroom" group.name %}" class='group_wrap'>
+                                <div class="group">
+                                    <div class='group_name'>{{ group.new_group_name }}</div>
+                                    <div class='group_privelege'><i class="fa-solid fa-lock"></i></div>
+                                </div></a>
+                            {% elif not group.is_private and not group.new_group_name and user not in group.banned_users.all %}
+                            <a href="{% url "chatroom" group.name %}" class='group_wrap'>
+                                <div class="group">
+                                    <div class="group_name">{{ group.name }}</div>
+                                    <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                                </div>
+                            </a>
+                            {% endif %}
+                        {% endfor %}
+                        {% comment %} <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a>
+
+
+                        <a class='group_wrap'>
+                            <div class="group">
+                                <div class="group_name">Testing</div>
+                                <div class="group_privelege"><i class="fa-solid fa-earth-americas"></i></div>
+                            </div>
+                        </a> {% endcomment %}
+                    </div>
+                </div>
                 <div class="friend-requests"></div>
             </div>
             {% endblock content %}
@@ -45,8 +222,12 @@
             <script>
                 let createGroup = document.getElementById('createGroup');
                 let createGroupForm = document.getElementById('createGroupForm');
+                let closeGroup = document.getElementById('close_group_form');
                 createGroup.onclick = function () {
                     createGroupForm.classList.remove('hidden');
+                }
+                close_group_form.onclick = function () {
+                    createGroupForm.classList.add('hidden')
                 }
             </script>
             
