@@ -507,6 +507,7 @@ button:focus {
     align-items: center;
     height: 100vh;
     flex-direction: column;
+    /* border: solid red; */
 }
 
 .user-profile {
@@ -556,14 +557,6 @@ button:focus {
     align-items: center;
 }
 
-
-
-
-
-
-
-/* NOT A FRONT-END GUY */
-
 .result-container {
     width: 600px;
     height: 400px;
@@ -603,6 +596,20 @@ button:focus {
     text-decoration: underline;
 }
 
+.no-friends {
+    text-align: center;
+}
+
+.no-friends a {
+    color: #f85525;
+    text-decoration: none;
+}
+
+.no-friends a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
 .model-count {
     padding: 10px;
 }
@@ -629,10 +636,13 @@ button:focus {
 
 .group-management {
     width: 600px;
+    height: 400px;
     background-color: #faa968;
     border-radius: 10px;
     padding: 20px;
     text-align: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .group-management h2 {
@@ -659,6 +669,7 @@ button:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px;
 }
 
 .chat-member {
@@ -680,6 +691,19 @@ button:focus {
     padding: 10px;
 }
 
+.back-chatroom {
+    padding: 10px;
+}
+
+.back-chatroom a {
+    color: #f85525;
+    text-decoration: none;
+}
+
+.back-chatroom a:hover {
+    color: black;
+    text-decoration: underline;
+}
 
 
 
@@ -1305,4 +1329,148 @@ button:focus {
 .make-profile-form form input[type="file"]:focus {
     outline: none;
     border-color: #01204e;
+}
+
+.profile-update-form,
+.profile-delete-form {
+    border: solid red;
+    width: 60%;
+}
+
+.profile-form {
+    max-width: 400px;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-form input[type='submit'] {
+    background-color: #faa968;
+    color: #fff;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-form input[type='submit']:hover {
+    background-color: #f69046;
+}
+
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+    background-color: #01204e;
+    border-radius: 10px;
+    padding: 2em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.413);
+}
+
+.user-card .profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-card .profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-card .user-info {
+    text-align: center;
+}
+
+.profile-pic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #6ab0c7;
+}
+
+.user-info {
+    color: #6ab0c7;
+}
+
+.user-info p {
+    margin: 0.5em 0;
+    font-size: 24px;
+}
+
+.profile-update-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 2em;
+    background-color: #2980b9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-delete-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 2em;
+    background-color: #1c6ca4;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-delete-form input[type='submit'] {
+    background-color: #d35400;
+    color: #fff;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-delete-form input[type='submit']:hover {
+    background-color: #a04000;
+}
+
+.profile-update-form input[type='submit'] {
+    background-color: #002d4b;
+    color: #fff;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-update-form input[type='submit']:hover {
+    background-color: #1c6ca4;
+}
+
+/* Styling for file input button */
+.profile-update-form input[type='file'] {
+    display: none;
+    /* Hide the original file input */
+}
+
+.profile-update-form .file-input-label {
+    width: 100%;
+    background-color: #09334e;
+    color: #fff;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 0.5em;
+}
+
+.profile-update-form .file-input-label:hover {
+    background-color: #2980b9;
 }

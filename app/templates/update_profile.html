@@ -3,64 +3,72 @@
 
 {% block content %}
 
-<div class = 'form-container'>
-<div class="profile-update-form">
-    <div class="user-card">
-        <div class="profile-pic">
-            {% if user.image %}
-                <img src="{{ user.image.url }}" alt="Profile Picture">
-            {% else %}
-                <img src="{% static "images/default-user.jpg" %}" alt="Profile Picture">
-            {% endif %}
-            
-
+<div class='form-container'>
+    <div class="profile-update-form">
+        <div class="user-card">
+            <div class="profile-pic">
+                {% if user.image %}
+                    <img src="{{ user.image.url }}" alt="Profile Picture">
+                {% else %}
+                    <img src="{% static "images/default-user.jpg" %}" alt="Profile Picture">
+                {% endif %}
+            </div>
+            <div class="user-info">
+                <p>{{ user.user }}</p>
+                <p>@{{ user.screen_name }}</p>
+            </div>
         </div>
-        <div class="user-info">
-            <p style='font-size: 1.5em'>{{ user.screen_name }}</p>
-            <p>@{{ user.user }}</p>
-        </div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="screen_name" placeholder="New Screen Name..." class="input-text">
+            </div>
+            <div class="form-group">
+                <input type="email" name="new_email" placeholder="New Email..." class="input-text">
+            </div>
+            <div class="form-group">
+                <input id="password" type="text" name="password" placeholder="Enter New Password..." class="input-text">
+            </div>
+            <div class="form-group">
+                <label for="file-upload" class="file-input-label" id="file-upload-label">Upload File</label>
+                <input type="file" id="file-upload" name="file" onchange="updateFileName(this)" />
+            </div>
+            <div class="form-group">
+                <input type="submit" name="update" value="Submit" class="btn-submit">
+            </div>
+        </form>
     </div>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            <input type="text" name="screen_name" placeholder="New Screen Name..." class="input-text">
-        </div>
-        <div class="form-group">
-            <input type="email" name="new_email" placeholder="New Email..." class="input-text">
-        </div>
-        <div class="form-group">
-            <input id="password" type="text" name="password" placeholder="Enter New Password..." class="input-text">
-        </div>
-        <div class="form-group">
-            <input type="file" name="image" class="input-file">
-        </div>
-        <div class="form-group">
-            <input type="submit" name="update" value="Submit" class="btn-submit">
-        </div>
-    </form>
-</div>
 
-<div class="profile-delete-form">
-    <form method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Delete Profile" name="delete" class="btn-delete">
-    </form>
-</div>
-
-{% if error %}
-    <div class="error-message">
-        {{ error }}
+    <div class="profile-delete-form">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Delete Profile" name="delete" class="btn-delete">
+        </form>
     </div>
-{% endif %}
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const passwordInputField = document.getElementById('password');
+    {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+    {% endif %}
 
-        passwordInputField.addEventListener('input', () => {
-            passwordInputField.type = (passwordInputField.value === '') ? 'text' : 'password';
+    <script>
+        function updateFileName(input) {
+            let label = document.getElementById('file-upload-label');
+            if (input.files.length > 0) {
+                label.innerText = input.files[0].name;
+            } else {
+                label.innerText = 'Upload File';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInputField = document.getElementById('password');
+
+            passwordInputField.addEventListener('input', () => {
+                passwordInputField.type = (passwordInputField.value === '') ? 'text' : 'password';
+            });
         });
-    });
-</script>
+    </script>
 </div>
 {% endblock content %}
