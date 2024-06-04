@@ -15,8 +15,8 @@
             {% for friend_request in friend_requests_list.all %}
             <li>
             <div class="wrapper">
-            {% if friend_request.sender.image %}
-            <img src="{{friend_request.sender.image.url}}">
+            {% if friend_request.sender.profile.image %}
+            <img src="{{friend_request.sender.profile.image.url}}">
             {% else %}
             <img src="{% static "images/default-user.jpg" %}">
             {% endif %}
