@@ -598,6 +598,20 @@ button:focus {
     text-decoration: underline;
 }
 
+.no-friends {
+    text-align: center;
+}
+
+.no-friends a {
+    color: #f85525;
+    text-decoration: none;
+}
+
+.no-friends a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
 .model-count {
     padding: 10px;
 }
@@ -624,10 +638,13 @@ button:focus {
 
 .group-management {
     width: 600px;
+    height: 400px;
     background-color: #faa968;
     border-radius: 10px;
     padding: 20px;
     text-align: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .group-management h2 {
@@ -654,6 +671,7 @@ button:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px;
 }
 
 .chat-member {
@@ -675,6 +693,19 @@ button:focus {
     padding: 10px;
 }
 
+.back-chatroom {
+    padding: 10px;
+}
+
+.back-chatroom a {
+    color: #f85525;
+    text-decoration: none;
+}
+
+.back-chatroom a:hover {
+    color: black;
+    text-decoration: underline;
+}
 
 
 

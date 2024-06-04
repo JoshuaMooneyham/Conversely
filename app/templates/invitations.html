@@ -13,16 +13,18 @@
         <div class="result-container">
             {% for invitation in invitations.all %}
             <div class="row">
-            {% if invitation.sender.image %}
-            <img src="{{invitation.sender.image.url}}">
-            {% else %}
-            <img src="{% static "images/default-user.jpg" %}">
-            {% endif %}
-            <p>{{invitation.sender}} invited you to join '{{invitation.group.new_group_name}}'</p>
-            </div>
-            <div class="btns">
-            <a href="{% url "accept_invite" invitation.group.name %}"><button>Accept</button></a>
-            <a href="{% url "decline_invite" invitation.group.name %}"><button>Decline</button></a>
+                <div class="row">
+                    {% if invitation.sender.image %}
+                    <img src="{{invitation.sender.image.url}}">
+                    {% else %}
+                    <img src="{% static "images/default-user.jpg" %}">
+                    {% endif %}
+                    <p>{{invitation.sender}} invited you to join '{{invitation.group.new_group_name}}'</p>
+                </div>
+                <div class="btns">
+                    <a href="{% url "accept_invite" invitation.group.name %}"><button>Accept</button></a>
+                    <a href="{% url "decline_invite" invitation.group.name %}"><button>Decline</button></a>
+                </div>
             </div>
             {% endfor %}
         </div>

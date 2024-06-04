@@ -21,8 +21,8 @@
             <p>{{friend_request.sender}}</p>
             </div>
             <div class="btns">
-                <button><a href="{% url "accept_friend" friend_request.sender %}">Accept</a></button>
-                <button><a href="{% url "decline_friend" friend_request.sender %}">Decline</a></button>
+                <a href="{% url "accept_friend" friend_request.sender %}"><button>Accept</button></a>
+                <a href="{% url "decline_friend" friend_request.sender %}"><button>Decline</button></a>
             </div>
             </li>
             {% endfor %}
