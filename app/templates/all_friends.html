@@ -5,7 +5,7 @@
 <p>You currently have no friends.</p>
 <a href="{% url "search_users" %}">Go find friends!</a>
 {% else %}
-    <div class="friend-list">
+    <div class="result-container">
         <ul>
             {% for friend in friend_list.friends.all %} 
             <li>
@@ -18,8 +18,8 @@
             <p>{{friend}}</p>
             </div>
             <div class="btns">
-                <button><a href="{% url "profile" friend %}">Profile</a></button>
-                <button><a href="{% url "remove_friend" friend %}">Unfriend</a></button>
+                <a href="{% url "profile" friend %}"><button>Profile</button></a>
+                <a href="{% url "remove_friend" friend %}"><button>Unfriend</button></a>
             </div>
             </li>
             {% endfor %}

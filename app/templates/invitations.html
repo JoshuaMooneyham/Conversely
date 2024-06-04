@@ -1,11 +1,29 @@
-{% extends "group_selection.html" %} {% block content %}
-{% if invitations.all.count == 0 %}
-<p>You have no new invites.</p>
-{% else %}
-    {% for invitation in invitations.all %}
-    <p>{{invitation.sender}} invited you to {{invitation.group.new_group_name}}</p>
-    <button><a href="{% url "accept_invite" invitation.group.name %}">Accept</a></button>
-    <button><a href="{% url "decline_invite" invitation.group.name %}">Decline</a></button>
-    {% endfor %}
-{% endif %}
+{% extends "group_selection.html" %}
+{% load static %}
+{% block content %}
+<div class = 'form-container'>
+    <div class="invites">
+    <h3>Invites</h3>
+    {% if invitations.all.count == 0 %}
+    <p>You have no new invites.</p>
+    {% else %}
+    <div class="result-container">
+        {% for invitation in invitations.all %}
+        <div class="row">
+        {% if invitation.sender.image %}
+        <img src="{{invitation.sender.image.url}}">
+        {% else %}
+        <img src="{% static "images/default-user.jpg" %}">
+        {% endif %}
+        <p>{{invitation.sender}} invited you to {{invitation.group.new_group_name}}</p>
+        </div>
+        <div class="btns">
+        <a href="{% url "accept_invite" invitation.group.name %}"><button>Accept</button></a>
+        <a href="{% url "decline_invite" invitation.group.name %}"><button>Decline</button></a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    </div>
+</div>
 {% endblock content %}

@@ -552,7 +552,33 @@ button:focus {
 }
 
 
-/* Friend List */
+
+
+
+
+
+/* NOT A FRONT-END GUY */
+
+.result-container {
+    width: 600px;
+    height: 400px;
+    background-color: #faa968;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    border-radius: 10px;
+}
+
+.result-container img {
+    height: 30px;
+    width: 30px;
+    border-radius: 10px;
+}
+
+.result-container .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
 .friend-lists-nav {
     margin-top: -500px;
@@ -572,20 +598,7 @@ button:focus {
     text-decoration: underline;
 }
 
-.friend-list {
-    width: 600px;
-    background-color: #faa968;
-    border-radius: 10px;
-}
-
-.friend-list .wrapper {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-
-.friend-list ul li {
+.result-container ul li {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -594,19 +607,16 @@ button:focus {
     list-style-type: none;
 }
 
-.friend-list ul li img {
+.result-container ul li img {
     height: 60px;
     width: 60px;
     border-radius: 50px;
 }
 
-.friend-list ul li a {
+.result-container ul li a {
     color: white;
     text-decoration: none;
 }
-
-
-/* Group Management */
 
 .group-management {
     width: 600px;
@@ -646,6 +656,14 @@ button:focus {
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.invites {
+    text-align: center;
+}
+
+.invites h3 {
+    font-size: 40px;
 }
 
 
@@ -747,11 +765,15 @@ button:focus {
     position: fixed;
 }
 
-#search-results ul {
+#search-results {
     width: 600px;
+    height: 400px;
     background-color: #faa968;
+    overflow-y: scroll;
+    scrollbar-width: none;
     border-radius: 10px;
 }
+
 
 #search-results ul a {
     text-decoration: none;
