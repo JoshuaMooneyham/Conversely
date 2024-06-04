@@ -60,7 +60,7 @@
                 hx-on::after-request="this.reset(), document.getElementById('submit_file_btn').classList.add('hidden')">
                 {% csrf_token %}
                 <div id='file_upload_btn'><i class="fa-solid fa-plus"></i></div>
-                <input id='file_input' type="file" name="file">
+                <input id='file_input' type="file" name="file" accepts='png, jpg'>
                 <button id='submit_file_btn' class='submit_file_btn hidden' type="submit"><i class="fa-solid fa-paper-plane"></i></button>
             </form>
         </div>
