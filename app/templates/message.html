@@ -1,4 +1,5 @@
 {% load static %}
+{% load static %}
 
 {% if message.user == user or message.user not in user.profile.blocked_users.all %}
 <div class="message_wrapper {% if user == message.user %}right{% else %}left{% endif %}" id="message_{{message.pk}}">
@@ -45,6 +46,6 @@
         {% endfor %}
     {% endif %}
     </div>
-    <p class="{% if user == message.user %}right{% else %}left{% endif %}">{{message.date_created.time}}</p>
+    <p class="{% if user == message.user %}right{% else %}left{% endif %}">{{ message.date_created}}</p>
 </div>
 {% endif %}

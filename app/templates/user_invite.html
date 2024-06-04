@@ -8,7 +8,7 @@
     <a href="{% url "search_users" %}">Go find friends!</a>
 </div>
 {% else %}
-    <h3>Invite Your Friends!</h3>
+    <h3 id='invite_header'>Invite Your Friends!</h3>
     <div class="back-chatroom">
         <a href="{% url "chatroom" chatroom.name %}">Back to the '{{chatroom.new_group_name}}' chatroom</a>
     </div>

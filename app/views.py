@@ -63,18 +63,24 @@ def profile_view(request: HttpRequest, username):
         friend_request_from_current_user = FriendRequest.objects.filter(sender=request.user, receiver=user).exists()
         friend_request_from_other_user = FriendRequest.objects.filter(sender=user, receiver=request.user).exists()
     except:
-        pass
-        
+        user = None
+        profile = None
+        friend_request_from_current_user = None
+        friend_request_from_other_user = None
+
+    if request.user == user:
+        return redirect('edit-profile')
 
     if request.method == 'POST':
-        print(request.POST)
+        
         if 'block_user' in request.POST:
             try:
                 block = User.objects.get(pk=request.POST['user_id'])
                 if block not in request.user.profile.blocked_users.all():
                     request.user.profile.blocked_users.add(block)
-                if block in request.user.profile.friends.all():
+                if block in request.user.profile.friends.all() or request.user in block.profile.friends.all():
                     request.user.profile.friends.remove(block)
+                    block.profile.friends.remove(request.user)
             except:
                 pass
         elif 'unblock_user' in request.POST:
@@ -88,7 +94,6 @@ def profile_view(request: HttpRequest, username):
             except:
                 pass
     print(user.email)
-    # context['user'] = UserProfile.objects.get(user = request.user)
     context["profile_info"] = user
     context["profile"] = profile
     context["friend_request_from_current_user"] = friend_request_from_current_user
