@@ -1675,3 +1675,8 @@ button:focus {
     border-radius: 5px;
     display: inline-block;
 }
+.message_profile_wrapper p,
+.message_profile_you,
+.chat-box-time-stamp {
+    color: #e0e0e0;
+}
