@@ -13,10 +13,10 @@
             <div class = 'mp'>
                 <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
                 {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
-                <span> | </span><a href="{% url "group_management" chatroom.name %}">Manage</a>
+                <a href="{% url "group_management" chatroom.name %}">Manage</a>
                 {% endif %}
                 {% if current_user != chatroom.admin %}
-                <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
+                <span> | </span><a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
                 {% endif %}
         </div>
 </div>
