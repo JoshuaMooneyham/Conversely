@@ -14,10 +14,10 @@
             {% for invitation in invitations.all %}
             <div class="row">
                 <div class="row">
-                    {% if invitation.sender.image %}
-                    <img src="{{invitation.sender.image.url}}">
+                    {% if invitation.sender.profile.image %}
+                    <img style='border-radius: 50%' src="{{invitation.sender.profile.image.url}}">
                     {% else %}
-                    <img src="{% static "images/default-user.jpg" %}">
+                    <img style='border-radius: 50%' src="{% static "images/default-user.jpg" %}">
                     {% endif %}
                     <p>{{invitation.sender}} invited you to join '{{invitation.group.new_group_name}}'</p>
                 </div>
