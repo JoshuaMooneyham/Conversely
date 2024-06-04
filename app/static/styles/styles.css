@@ -12,7 +12,7 @@
 }
 
 body {
-    background-color: #1d1d1d;
+    background-color: #2b2929;
 }
 
 .image-container {
@@ -107,7 +107,7 @@ body {
     display: flex;
     justify-content: center;
     position: relative;
-    background: #1d1d1d;
+    background: #2b2929;
     border-radius: .4em;
     padding: 10px;
     margin: 10px;
@@ -128,7 +128,7 @@ body {
     width: 0;
     height: 0;
     border: 20px solid transparent;
-    border-top-color: #1d1d1d;
+    border-top-color: #2b2929;
     border-bottom: 0;
 }
 
@@ -232,14 +232,14 @@ body {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 1.2em;
-    color: #1d1d1d;
+    color: #2b2929;
     display: block;
     transition: 0.3s;
 }
 
 .side-nav a:hover,
 .side-nav i:hover {
-    background-color: #1d1d1d;
+    background-color: #2b2929;
     color: aliceblue;
 }
 
@@ -271,7 +271,7 @@ body {
 
 .open-btn:hover {
     background-color: #ff87df;
-    color: #1d1d1d;
+    color: #2b2929;
 }
 
 #online-count::before {
@@ -631,7 +631,7 @@ button:focus {
     padding: 10px 20px 20px;
     gap: 10px;
     list-style-type: none;
-    border-bottom: #1d1d1d solid .5px;
+    border-bottom: #2b2929 solid .5px;
 }
 
 .result-container ul li img {
@@ -995,14 +995,14 @@ button:focus {
     color: 00072d;
     border-radius: 0;
     z-index: 2;
-    color: #1d1d1d;
+    color: #2b2929;
 }
 
 .delete-message {
     padding: 10px;
     margin: 0;
     background-color: aliceblue;
-    color: #1d1d1d;
+    color: #2b2929;
     border-radius: 0;
     z-index: 2;
 }
@@ -1010,7 +1010,7 @@ button:focus {
 .delete-message:hover,
 .edit_message:hover {
     background-color: white;
-    color: #1d1d1d;
+    color: #2b2929;
 }
 
 .home_page {
@@ -1034,7 +1034,7 @@ button:focus {
 
 #createGroup:hover {
     background-color: #ff87df;
-    color: #1d1d1d;
+    color: #2b2929;
 }
 
 #createGroupForm {
@@ -1084,7 +1084,7 @@ button:focus {
 
 #createGroupForm form button:hover {
     background-color: #ff87df;
-} 
+}
 
 #close_group_form {
     position: absolute;
@@ -1118,7 +1118,7 @@ button:focus {
     align-items: center;
     justify-content: space-between;
     font-size: 2em;
-    background-color: #1d1d1d;
+    background-color: #2b2929;
     border-bottom: 1px solid transparent;
     width: 100%;
     height: calc(25% - 1px);
@@ -1211,7 +1211,6 @@ button:focus {
     border-radius: 355px;
     color: #FFFFFF;
     scrollbar-width: none;
-    background-color: #e0e0e0;
     background-color: #00000044;
     font-family: Arial, Helvetica, sans-serif;
     border: none;
@@ -1583,7 +1582,7 @@ button:focus {
 }
 
 .profile-delete-form {
-    border-top: solid #1d1d1d 1px;
+    border-top: solid #2b2929 1px;
     max-width: 400px;
     width: 100%;
     padding: 1em 2em;
@@ -1605,7 +1604,7 @@ button:focus {
 
 .profile-delete-form input[type='submit']:hover {
     background-color: #e0e0e0;
-    color: #1d1d1d;
+    color: #2b2929;
 }
 
 .profile-update-form input[type='submit'] {
@@ -1620,7 +1619,7 @@ button:focus {
 
 .profile-update-form input[type='submit']:hover {
     background-color: #e0e0e0;
-    color: #1d1d1d;
+    color: #2b2929;
 }
 
 .profile-update-form input[type='file'] {
@@ -1644,7 +1643,7 @@ button:focus {
 
 .profile-update-form .file-input-label:hover {
     background-color: #e0e0e0;
-    color: #1d1d1d;
+    color: #2b2929;
 }
 
 .profile-update-form form {
@@ -1664,17 +1663,6 @@ button:focus {
     font-size: 4em;
 }
 
-/* .tracker-links {
-    display: flex;
-} */
-
-#notification {
-    height: 5px;
-    width: 5px;
-    background-color: #652844;
-    border-radius: 5px;
-    display: inline-block;
-}
 .message_profile_wrapper p,
 .message_profile_you,
 .chat-box-time-stamp {
