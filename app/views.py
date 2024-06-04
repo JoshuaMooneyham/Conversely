@@ -29,7 +29,6 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
     users = [i.username for i in chatroom.users.all()]
-    print(users)
 
     # Getting other user from private chat
     other_user = None
@@ -69,6 +68,8 @@ def profile_view(request: HttpRequest, username):
                 block = User.objects.get(pk=request.POST['user_id'])
                 if block not in request.user.profile.blocked_users.all():
                     request.user.profile.blocked_users.add(block)
+                if block in request.user.profile.friends.all():
+                    request.user.profile.friends.remove(block)
             except:
                 pass
         elif 'unblock_user' in request.POST:

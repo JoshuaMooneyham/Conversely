@@ -19,24 +19,49 @@ messageContainer.onscroll = (e) => {
     }
 }
 
-// let showBlockedMsg = [...document.getElementsByClassName('block-i')];
-        
-// showBlockedMsg.forEach((iTag) => {
-//     iTag.onclick = (e) => {
-//         let content = e.target.closest('div').querySelector('.blocked-content');
-//         content.classList.toggle('hidden');
-//         e.target.innerText = e.target.innerText === 'Hide' ? 'Show' : 'Hide' ;
-//         }
-//     }
-// )
-
 TBB.onclick = () => {scrollToBottom('smooth')};
+
+function handleHover() {
+    buttons.style.display = 'flex';
+}
+
+function handleUnhover() {
+    buttons.style.display = 'none';
+
+}
+
 
 let messageObserver = new MutationObserver((e) => {
     // console.log(e);
     if (!scrollLock) {
         scrollToBottom()
     }
+
+// DELETE
+    let messages = [...document.getElementsByClassName('message_wrapper')];
+    messages.forEach((msg) => {
+        let buttons = msg.querySelector('.message_buttons');
+        msg.removeEventListener('mouseover', handleHover)
+        msg.removeEventListener('mouseleave', handleUnhover)
+        msg.addEventListener('mouseover', (e) => {
+            buttons.style.display = 'flex';
+        })
+        msg.addEventListener('mouseleave', (e) => {
+            buttons.style.display = 'none';
+        })
+    })
+})
+
+// DELETE
+let messages = [...document.getElementsByClassName('message_wrapper')];
+messages.forEach((msg) => {
+    let buttons = msg.querySelector('.message_buttons');
+    msg.addEventListener('mouseover', (e) => {
+        buttons.style.display = 'flex';
+    })
+    msg.addEventListener('mouseleave', (e) => {
+        buttons.style.display = 'none';
+    })
 })
 
 messageObserver.observe(messageContainer, {childList: true})
@@ -46,8 +71,6 @@ function scrollToBottom(behavior) {
 }
 
 scrollToBottom();
-// document.addEventListener('DOMContentLoaded', () => {
-// })
 
 messageContainer.onchange = (e) => {
     console.log(e)
@@ -77,7 +100,7 @@ addEventListener("htmx:wsAfterSend", () => {
 
 addEventListener("click", (e) => {
     if (e.target.classList.contains('edit_message')) {
-        message = e.target.closest('div');
+        message = e.target.closest('div').parentElement;
         if (updateMsgForm.classList.contains('hidden')) {
             swapBars()
         }
