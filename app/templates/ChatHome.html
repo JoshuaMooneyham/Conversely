@@ -32,31 +32,28 @@
             </div>
             <button id='to-bottom-btn'><i class="fa-solid fa-chevron-down"></i></button>
         </div>
-        <div>
-            <form id='send-message'
+        <div id='textboxes'>
+            <form id='send-message' class='textboxtest'
                 hx-ext="ws"
                 ws-connect="/ws/group/{{channel}}"
                 ws-send
                 hx-trigger='keydown[code=="Enter" && !shiftKey]'>
                 {% csrf_token %}
                 {{ form.text }}
-                {% comment %} <input type="text" name='text' id='id_text'> {% endcomment %}
-                {% comment %} <button id='submit' name='submit'><i class="fa-solid fa-paper-plane"></i></button> {% endcomment %}
             </form>
             <form id="update-message"
                 hx-post="{% url "update_message" %}"
                 hx-target=""
                 hx-trigger='keydown[code=="Enter" && !shiftKey]'
                 hx-on::after-request="swapBars(); this.reset()"
-                class='hidden'>
+                class='textboxtest hidden'>
                 {% csrf_token %}
                 {{ form.text }}
-                {% comment %} <input type="text" name='text' id='id_text'> {% endcomment %}
                 <input type="hidden" id='update_message_id' value='' name='message_id'>
                 <input type="hidden" value="{{channel}}" name='channel'>
-                {% comment %} <div><i class="fa-solid fa-x"></i></div> {% endcomment %}
+                <div id='close_message_edit'>X</div>
             </form>
-            <form enctype="multipart/form-data"
+            <form id='file_input_form' enctype="multipart/form-data"
                 hx-post="{% url "chat-file-upload" channel %}"
                 hx-target="#messages_container"
                 hx-swap="beforeend"
@@ -67,7 +64,7 @@
             </form>
         </div>
 </div>
-        <div id='account' class='hidden'></div>
+        <div id='account' class='account-plate-styles hidden'></div>
     </div>
     <script>
         addEventListener('htmx:configRequest', (e) => {
