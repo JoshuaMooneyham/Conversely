@@ -1,0 +1,41 @@
+{% extends "friend_management.html" %} 
+{% load static %}
+{% block friends %}
+<form method=POST>
+    {% csrf_token %}
+    <div class="search-bar">
+        <div class="row">
+        <input id="input-box" type="input" placeholder="Search" autocomplete="off" name="search"
+        hx-trigger="keyup changed delay:1s"
+        hx-target="#search-results">
+        {% comment %} <button type="submit">Search</button> {% endcomment %}
+        </div>
+    </div>
+</form>
+<div id="search-results">
+    {% if searched %}
+    <ul>
+    {% for result in searched %}
+    <a href="{% url "profile" result.profile.user %}">
+        <li>
+            {% if result.profile.image %}
+            <img src="{{result.profile.image.url}}">
+            {% else %}
+            <img src="{% static "images/default-user.jpg" %}">
+            {% endif %}
+            {% if result.profile.user %}
+            <div class="profile-name">
+            <p>{{result.profile.screen_name}}</p>
+            <p>@{{result.profile.user}}</p>
+            </div>
+            {% endif %}
+        </li>
+        </a>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p>No users containing that exists...</p>
+    {% endif %} 
+</div>
+<script src="search_autocomplete.js"></script>
+{% endblock friends %}

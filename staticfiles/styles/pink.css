@@ -11,7 +11,7 @@
 }
 
 body {
-    background-color: #586AE2;
+    background-color: #ffcad6;
 }
 
 .image-container {
@@ -54,7 +54,7 @@ body {
 }
 
 #messages_container {
-    background-color: #E0D9F6;
+    background-color: #f856255e;
     height: 70vh;
     overflow-y: scroll;
     scrollbar-width: none;
@@ -80,8 +80,7 @@ body {
     border-radius: 50%;
     border: none;
     transition: .3s;
-    background-color: #cdc0fa;
-    color: #2a2356;
+    background-color: #f8bb88;
 }
 
 #to-bottom-btn:hover {
@@ -103,13 +102,13 @@ body {
     display: flex;
     justify-content: center;
     position: relative;
-    background: #586ae2;
+    background: #079cac;
     border-radius: .4em;
     padding: 10px;
     margin: 10px;
     height: fit-content;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.329);
-    color: #2a2356;
+    color: whitesmoke;
 }
 
 .speech-bubble:after {
@@ -119,7 +118,7 @@ body {
     width: 0;
     height: 0;
     border: 20px solid transparent;
-    border-top-color: #586ae2;
+    border-top-color: #079cac;
     border-bottom: 0;
 }
 
@@ -131,11 +130,11 @@ body {
 .right .speech-bubble:after {
     right: 0;
     border-right: 0;
-    border-top-color: #6ecbf5;
+    border-top-color: #b1a591;
 }
 
 .right .speech-bubble {
-    background-color: #6ecbf5;
+    background-color: #b1a591;
 }
 
 .right {
@@ -150,7 +149,7 @@ body {
 }
 
 .message_profile_wrapper a {
-    color: #6ecbf5;
+    color: #b1a591;
 }
 
 .message_profile_you {
@@ -191,7 +190,7 @@ body {
     bottom: 1px;
     resize: none;
     height: 60px;
-    background-color: #e0d9f6a5;
+    background-color: #079caca5;
     border-radius: 355px;
     color: white;
 }
@@ -203,7 +202,7 @@ body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #2a2356;
+    background-color: #322431;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 60px;
@@ -213,14 +212,14 @@ body {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 1.2em;
-    color: #e0d9f6;
+    color: #ffcad6;
     display: block;
     transition: 0.3s;
 }
 
 .side-nav a:hover {
-    background-color: #e0d9f6;
-    color: #2e90bd;
+    background-color: #ffcad6;
+    color: #322431;
 }
 
 .side-nav .close-btn {
@@ -230,7 +229,7 @@ body {
     font-size: 2em;
     margin-left: 50px;
     cursor: pointer;
-    color: #586ae2;
+    color: #f594b7;
 }
 
 .open-btn {
@@ -242,13 +241,13 @@ body {
     padding: 0.1em .5em;
     border: none;
     border-radius: 5px;
-    background-color: #283483;
+    background-color: #f594b7;
     color: white;
     transition: background-color 0.3s, color 0.3s;
 }
 
 .open-btn:hover {
-    background-color: #2a2356;
+    background-color: #322431;
     color: #fff;
 }
 
@@ -257,7 +256,7 @@ body {
     display: inline-block;
     width: 10px;
     height: 10px;
-    background-color: #2a2356;
+    background-color: #322431;
     border-radius: 50%;
     margin-right: 5px;
     vertical-align: middle;
@@ -267,7 +266,7 @@ body {
 #online-count.online::before {
 
 
-    background-color: #586ae2;
+    background-color: #f594b7;
 }
 
 .login-template,
@@ -275,9 +274,9 @@ body {
     max-width: 400px;
     width: 100%;
     padding: 1em;
-    box-shadow: 1px 1px #2a2356;
+    box-shadow: 1px 1px #322431;
     border-radius: 5px;
-    background-color: #c252e1;
+    background-color: #df6f93;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -289,9 +288,9 @@ body {
     max-width: 400px;
     width: 100%;
     padding: 1em;
-    box-shadow: 1px 1px #2a2356;
+    box-shadow: 1px 1px #322431;
     /* border-radius: 5px; */
-    background-color: #c252e1;
+    background-color: #028391;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -310,7 +309,7 @@ body {
 
 .profile-update-form input[type='submit']:hover,
 .profile-delete-form input[type='submit']:hover {
-    background-color: #586ae2;
+    background-color: #f594b7;
 }
 
 .login-template input[type="text"],
@@ -324,8 +323,8 @@ body {
     padding: 0.5em;
     margin: 0.5em 0;
     box-sizing: border-box;
-    /* border: 1px solid #586ae2; */
-    color: #6ecbf5;
+    /* border: 1px solid #f594b7; */
+    color: #b1a591;
 }
 
 
@@ -339,20 +338,20 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #2a2356;
+    background-color: #322431;
     transition: background-color 0.3s;
 }
 
 .login-template a,
 .signup-template a {
-    color: #2a2356;
+    color: #322431;
     text-decoration: none;
 }
 
 .login-template a:hover,
 .signup-template a:hover {
     text-decoration: underline;
-    color: #586ae2;
+    color: #f594b7;
 }
 
 .login-template input[type="submit"]:hover,
@@ -372,7 +371,7 @@ body {
 
 .login-template input:hover,
 .signup-template input[type='submit']:hover {
-    background-color: #586ae2;
+    background-color: #f594b7;
 }
 
 .login-template form,
@@ -389,7 +388,7 @@ body {
 
 #chatroom_head h1 {
     margin-bottom: 0;
-    color: #2A2356;
+    color: #f594b7;
 }
 
 .app-name {
@@ -400,7 +399,7 @@ body {
 .app-name h1 {
     margin: 0;
     font-size: 2.5em;
-    color: #2a2356;
+    color: #322431;
     animation: fadeIn 1.5s ease-in-out forwards;
 }
 
@@ -427,7 +426,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #586ae2;
+    background-color: #f594b7;
     border-radius: 50%;
     margin: 10px;
 }
@@ -442,19 +441,19 @@ body {
 .user-info {
     padding: 1em;
     flex-grow: 1;
-    color: #586ae2;
+    color: #f594b7;
 }
 
 .user-info p {
     margin: 0.5em 0;
-    color: #586ae2;
+    color: #f594b7;
 }
 
 .user-card {
     width: 100%;
-    border: 1px solid #2a2356;
+    border: 1px solid #322431;
     border-radius: 5px;
-    background-color: #c252e1;
+    background-color: #f594b7;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -467,18 +466,18 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #2a2356;
+    background-color: #322431;
     color: white;
     transition: background-color 0.3s, color 0.3s;
 }
 
 button:hover {
     color: whitesmoke;
-    background-color: #6ecbf5;
+    background-color: #b1a591;
 }
 
 button:focus {
-    background-color: #586ae2;
+    background-color: #f594b7;
     color: white;
 }
 
@@ -508,22 +507,22 @@ button:focus {
 .user-profile {
     height: 60vh;
     width: 35%;
-    border: 2px solid #2a2356;
+    border: 2px solid #322431;
     border-radius: 10px;
     padding: 1em;
-    background-color: #c252e1;
+    background-color: #f594b7;
     color: white;
 }
 
 .user-profile div {
-    border: 2px solid #2a2356;
+    border: 2px solid #322431;
     border-radius: 5px;
     padding: 0.5em;
     margin-bottom: 1em;
 }
 
 .profile-buttons {
-    background: #2a2356;
+    background: #322431;
     color: white;
     border: none;
     padding: 0.5em 1em;
@@ -548,4 +547,8 @@ button:focus {
 
 #account img {
     height: 200px;
+}
+
+.side-nav a {
+    font-family: 'VT323', monospace;
 }

@@ -1,6 +1,29 @@
-{% extends "friend_management.html" %} {% block friends %}
-{% for friend in friend_list.friends.all %}
-<p>{{friend}}</p>
-<button><a href="{% url "remove_friend" friend %}">Remove Friend</a></button>
-{% endfor %}
+{% extends "friend_management.html" %}
+{% load static %}
+{% block friends %}
+{% if friend_list.friends.all.count == 0 %}
+<p>You currently have no friends.</p>
+<a href="{% url "search_users" %}">Go find friends!</a>
+{% else %}
+    <div class="friend-list">
+        <ul>
+            {% for friend in friend_list.friends.all %} 
+            <li>
+            <div class="wrapper">
+            {% if friend.profile.image %}
+            <img src="{{friend.profile.image.url}}">
+            {% else %}
+            <img src="{% static "images/default-user.jpg" %}">
+            {% endif %}
+            <p>{{friend}}</p>
+            </div>
+            <div class="btns">
+                <button><a href="{% url "profile" friend %}">Profile</a></button>
+                <button><a href="{% url "remove_friend" friend %}">Unfriend</a></button>
+            </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
 {% endblock friends %}

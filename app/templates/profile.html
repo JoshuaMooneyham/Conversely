@@ -3,20 +3,6 @@
 
 {% block content %}
 <div class = 'form-container'>
-{% comment %} <div class="user-card">
-  <div class="profile-pic">
-      {% if user.image %}
-          <img src="{{ user.image.url }}" alt="Profile Picture">
-      {% else %}
-          <img src="{% static "images/default-user.jpg" %}" alt="Profile Picture">
-      {% endif %}
-  </div>
-</div>
-  <div class="user-info">
-      <p>{{ user.user }}</p>
-      <p>{{ user.screen_name }}</p>
-  </div>
-</div> {% endcomment %}
 <div class = 'user-profile'>
 <div><h3 class = 'center image'>{{profile}}</h3></div>
 <div class = 'center-image'>
@@ -31,9 +17,6 @@
 <div class = 'profile-buttons'>
 {% if user != profile.user %}
   {% if user not in profile.blocked_users.all and profile.user not in user.profile.blocked_users.all %}
-    <div class="chat-btn">
-      <a href="{% url "private_chat" profile.user %}">Start Chatting</a>
-    </div>
     {% if user not in profile.friends.all and friend_request_from_current_user == False and friend_request_from_other_user == False %}
       <div class="add-friend-btn">
         <a href="{% url "add_friend" profile.user %}">Add Friend</a>
@@ -76,6 +59,7 @@
   {% endif %}
 {% else %}
 {% endif %}
+{% comment %} <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-primary">Go Back</a> {% endcomment %}
 </div>
 </div>
 </div>

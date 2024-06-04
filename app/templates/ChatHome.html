@@ -2,23 +2,27 @@
 
 {% block content %}
 <div id = 'chatroom_head'>
-    <h1>Conversely</h1>
-    <div id='online-count' class='offline'>
-        <span id='online_count'>0</span> online
-    </div>
+    {% if chatroom.new_group_name != None %}
+            <h1>{{chatroom.new_group_name}}</h1>
+            <div id='online-count' class='offline'>
+                <span id='online_count'>0</span> online
+            </div> 
+            <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
+            {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
+            <a href="{% url "group_management" chatroom.name %}">Manage</a>
+            {% endif %}
+            {% if current_user != chatroom.admin %}
+            <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
+            {% endif %}
+    {% else %}
+        <h1>{{chatroom.name}}</h1>
+        <div id='online-count' class='offline'>
+            <span id='online_count'>0</span> online
+        </div>
+    {% endif %}
+
 </div>
 <div class ='container'>
-
-    {% if chatroom.new_group_name %}
-    <h2>{{chatroom.new_group_name}}</h2>
-    <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
-        {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
-        <a href="{% url "group_management" chatroom.name %}">Manage</a>
-        {% endif %}
-        {% if current_user != chatroom.admin %}
-        <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
-        {% endif %}
-    {% endif %}
 
         <div id='test_wrapper'>
             <div id='messages_container'>
@@ -28,8 +32,8 @@
             </div>
             <button id='to-bottom-btn'><i class="fa-solid fa-chevron-down"></i></button>
         </div>
-        <div>
-            <form id='send-message'
+        <div id='textboxes'>
+            <form id='send-message' class='textboxtest'
                 hx-ext="ws"
                 ws-connect="/ws/group/{{channel}}"
                 ws-send
@@ -42,13 +46,14 @@
                 hx-target=""
                 hx-trigger='keydown[code=="Enter" && !shiftKey]'
                 hx-on::after-request="swapBars(); this.reset()"
-                class='hidden'>
+                class='textboxtest hidden'>
                 {% csrf_token %}
                 {{ form.text }}
                 <input type="hidden" id='update_message_id' value='' name='message_id'>
                 <input type="hidden" value="{{channel}}" name='channel'>
+                <div id='close_message_edit'>X</div>
             </form>
-            <form enctype="multipart/form-data"
+            <form id='file_input_form' enctype="multipart/form-data"
                 hx-post="{% url "chat-file-upload" channel %}"
                 hx-target="#messages_container"
                 hx-swap="beforeend"
@@ -59,7 +64,7 @@
             </form>
         </div>
 </div>
-        <div id='account'></div>
+        <div id='account' class='account-plate-styles hidden'></div>
     </div>
     <script>
         addEventListener('htmx:configRequest', (e) => {

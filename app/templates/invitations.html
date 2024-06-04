@@ -1,7 +1,11 @@
 {% extends "group_selection.html" %} {% block content %}
-{% for invitation in invitations %}
-<p>{{invitation.sender}} invited you to {{invitation.group.new_group_name}}</p>
-<button><a href="{% url "accept_invite" invitation.group.name %}">Accept</a></button>
-<button><a href="{% url "decline_invite" invitation.group.name %}">Decline</a></button>
-{% endfor %}
+{% if invitations.all.count == 0 %}
+<p>You have no new invites.</p>
+{% else %}
+    {% for invitation in invitations.all %}
+    <p>{{invitation.sender}} invited you to {{invitation.group.new_group_name}}</p>
+    <button><a href="{% url "accept_invite" invitation.group.name %}">Accept</a></button>
+    <button><a href="{% url "decline_invite" invitation.group.name %}">Decline</a></button>
+    {% endfor %}
+{% endif %}
 {% endblock content %}

@@ -1,28 +1,63 @@
 {% extends "group_selection.html" %} 
-
+{% load static %}
 {% block content %}
-<h2>{{chatroom.new_group_name}}</h2>
-    {% if current_user == chatroom.admin %}
-    <button><a href="{% url "update_group" chatroom.name %}">Edit</a></button>
-    <button><a href="{% url "delete_group" chatroom.name %}">Delete</a></button>
-    {% elif current_user in chatroom.moderators.all %}
-    <button><a href="{% url "update_group" chatroom.name %}">Edit</a></button>
-    {% endif %}
-    <h3>Admin</h3>
-    <p>{{chatroom.admin}}</p>
-    <h3>Moderators</h3>
-    {% for moderator in chatroom.moderators.all %}
-        <p>{{moderator}}</p>
-        {% if current_user == chatroom.admin %}
-            <button><a href="{% url "remove_moderators" chatroom.name moderator %}">Remove Role</a></button>
-        {% endif %}
-    {% endfor %}
-    <h3>Other Users</h3>
-    {% for user in users %}
-        {% if user not in chatroom.moderators.all and user != chatroom.admin %}
-            <p>{{user}}</p>
-            <button><a href="{% url "appoint_moderators" chatroom.name user %}">Appoint as Moderator</a></button>
-        {% endif %}
-    {% endfor %}
-
+<div class = 'form-container'>
+    <div class="group-management">
+        <h2>{{chatroom.new_group_name}}</h2>
+            {% if current_user == chatroom.admin %}
+            <div class="group-btns">
+                <a href="{% url "update_group" chatroom.name %}"><button>Edit</button></a>
+                <a href="{% url "delete_group" chatroom.name %}"><button>Delete</button></a>
+            </div>
+            {% elif current_user in chatroom.moderators.all %}
+            <a href="{% url "update_group" chatroom.name %}"><button>Edit</button></a>
+            {% endif %}
+            <h3>Admin</h3>
+            <div class="admin">
+            {% if admin.profile.image %}
+            <img src="{{admin.profile.image.url}}">
+            {% else %}
+            <img src="{% static "images/default-user.jpg" %}">
+            {% endif %}
+            <p>{{chatroom.admin}}</p>
+            </div>
+            <h3>Moderators</h3>
+            {% for moderator in chatroom.moderators.all %}
+                <div class="mod">
+                    <div class="chat-member">
+                    {% if moderator.profile.image %}
+                    <img src="{{moderator.profile.image.url}}">
+                    {% else %}
+                    <img src="{% static "images/default-user.jpg" %}">
+                    {% endif %}
+                <p>{{moderator}}</p>
+                </div>
+                {% if current_user == chatroom.admin %}
+                <div class="btn">
+                    <a href="{% url "remove_moderators" chatroom.name moderator %}"><button>Remove Role</button></a>
+                </div>
+                {% endif %}
+                </div>
+            {% endfor %}
+            <h3>Other Users</h3>
+            {% for user in users %}
+                {% if user not in chatroom.moderators.all and user != chatroom.admin %}
+                    <div class="mod">
+                        <div class="chat-member">
+                            {% if user.profile.image %}
+                            <img src="{{user.profile.image.url}}">
+                            {% else %}
+                            <img src="{% static "images/default-user.jpg" %}">
+                            {% endif %}
+                            <p>{{user}}</p>   
+                        </div>
+                        <div class="btn">
+                            <a href="{% url "appoint_moderators" chatroom.name user %}"><button>Promote</button></a>
+                        </div>
+                    
+                    </div>
+                {% endif %}
+            {% endfor %}
+    </div>
+</div>
 {% endblock content %}

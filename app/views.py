@@ -9,6 +9,7 @@ from app.models import *
 from app.forms import *
 from app.decorators import *
 from app.decorators import *
+from json import dumps
 
 
 # Create your views here.
@@ -28,7 +29,6 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context["messages"] = chatroom.messages.all()
     form = SendMessage()
     users = [i.username for i in chatroom.users.all()]
-    print(users)
 
     # Getting other user from private chat
     other_user = None
@@ -39,6 +39,11 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
             if user != req.user:
                 other_user = user
                 break
+
+    if req.htmx:
+        if req.method == "POST":
+            form = SendMessage(req.POST)
+            print(form)
 
     context["form"] = form
     context["current_user"] = req.user
@@ -68,6 +73,8 @@ def profile_view(request: HttpRequest, username):
                 block = User.objects.get(pk=request.POST['user_id'])
                 if block not in request.user.profile.blocked_users.all():
                     request.user.profile.blocked_users.add(block)
+                if block in request.user.profile.friends.all():
+                    request.user.profile.friends.remove(block)
             except:
                 pass
         elif 'unblock_user' in request.POST:
@@ -174,8 +181,16 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
-    groups = Group.objects.all()
+    context = {}
+
     form = Create_Group_Form()
+
+    try:
+        groups = Group.objects.all()
+        
+    except:
+        pass
+
 
     if request.method == "POST":
         form = Create_Group_Form(request.POST)
@@ -186,6 +201,8 @@ def group_selection_view(request: HttpRequest):
             new_group_chat.users.add(request.user)
             return redirect("chatroom", new_group_chat.name)
 
+    context["form"] = form 
+    context["groups"] = groups
     return render(request, "group_selection.html", {'groups':groups, 'form': form})
 
 @unauthenticated_user
@@ -268,6 +285,25 @@ def edit_profile_view(request: HttpRequest):
             return redirect("login")
 
     return render(request, "update_profile.html", {"user": user_profile})
+
+
+@login_required(login_url="login")
+def create_group_view(request: HttpRequest):
+    context = {}
+    form = Create_Group_Form()
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST)
+        if form.is_valid():
+            new_group_chat = form.save(commit=False)
+            new_group_chat.admin = request.user
+            new_group_chat.new_group_name = request.POST.get('new_group_name')
+            new_group_chat.save()
+            new_group_chat.users.add(request.user)
+            return redirect("chatroom", new_group_chat.name)
+
+    context["form"] = form
+    return render(request, "create_group.html", context)
 
 @admin_or_moderators_update_group
 @login_required(login_url="login")
@@ -630,3 +666,14 @@ def unban_user(request: HttpRequest, userId: int, channel: str):
         }
         async_to_sync(channel_layer.group_send)(channel, event)
         return HttpResponse()
+    
+def search_users_view(request: HttpRequest):
+    context = {}
+    if request.method == "POST":
+        search = request.POST['search']
+        searched = User.objects.filter(username__contains=search)
+    
+        context["search"] = search
+        context["searched"] = searched
+    return render(request, "search_users.html", context)
+    

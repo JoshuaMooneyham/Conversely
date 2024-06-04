@@ -1,7 +1,31 @@
-{% extends "friend_management.html" %} {% block friends %}
-{% for friend_request in friend_requests_list %}
-<p>{{friend_request.sender}}</p>
-<button><a href="{% url "accept_friend" friend_request.sender %}">Accept</a></button>
-<button><a href="{% url "decline_friend" friend_request.sender %}">Decline</a></button>
-{% endfor %}
+{% extends "friend_management.html" %} 
+{% load static %}
+{% block friends %}
+<div class = 'form-container>'>
+{% if friend_requests_list.all.count == 0 %}
+<p>You have no pending friend requests.</p>
+{% else %}
+
+    <div class="friend-list">
+        <ul>
+            {% for friend_request in friend_requests_list.all %}
+            <li>
+            <div class="wrapper">
+            {% if friend_request.sender.image %}
+            <img src="{{friend_request.sender.image.url}}">
+            {% else %}
+            <img src="{% static "images/default-user.jpg" %}">
+            {% endif %}
+            <p>{{friend_request.sender}}</p>
+            </div>
+            <div class="btns">
+                <button><a href="{% url "accept_friend" friend_request.sender %}">Accept</a></button>
+                <button><a href="{% url "decline_friend" friend_request.sender %}">Decline</a></button>
+            </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+</div>
 {% endblock friends %}
