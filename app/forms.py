@@ -26,3 +26,6 @@ class Create_Group_Form(forms.ModelForm):
     class Meta:
         model = Group
         fields = ["new_group_name"]
+        widgets = {
+            'new_group_name': forms.TextInput(attrs={'required': 'required'})
+        }

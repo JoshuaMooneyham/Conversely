@@ -9,7 +9,7 @@
         <h2>{{chatroom.new_group_name}}</h2>
             {% if current_user == chatroom.admin %}
             <div class="group-btns">
-                <a href="{% url "update_group" chatroom.name %}"><button>Edit</button></a>
+                <button id='editGroup'>Edit</button>
                 <a href="{% url "delete_group" chatroom.name %}"><button>Delete</button></a>
             </div>
             {% elif current_user in chatroom.moderators.all %}
@@ -67,4 +67,22 @@
             {% endfor %}
     </div>
 </div>
+
+<div id='createGroupForm' class='hidden'>
+    {% include "create_group.html" %}
+</div>
+
+<script>
+    let createGroup = document.getElementById('editGroup');
+    let createGroupForm = document.getElementById('createGroupForm');
+    let closeGroup = document.getElementById('close_group_form');
+    createGroup.onclick = function () {
+        createGroupForm.classList.remove('hidden');
+    }
+    close_group_form.onclick = function () {
+        createGroupForm.classList.add('hidden')
+    }
+    document.querySelector('button[type="submit"]').innerText = 'Update Group';
+</script>
+
 {% endblock content %}
