@@ -56,14 +56,16 @@ body {
 } */
 
 #messages_container {
-    background-color: #ff87df47;
-    height: 70vh;
+    background-color: #af330d5e;
+    /* background-color: #0000007a; */
+    height: calc(100vh - 170px);
     overflow-y: scroll;
     scrollbar-width: none;
     display: flex;
     flex-direction: column;
     padding: 0px 50px;
     margin: 10px 20px;
+    border-radius: 5px;
 }
 
 .message_wrapper {
@@ -304,6 +306,35 @@ body {
     align-items: center;
 }
 
+.profile-update-form,
+.profile-delete-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 1em;
+    box-shadow: 1px 1px #f85525;
+    /* border-radius: 5px; */
+    background-color: #00646f;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-update-form {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.profile-delete-form {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.profile-update-form input[type='submit']:hover,
+.profile-delete-form input[type='submit']:hover {
+    background-color: #faa968;
+}
+
 .login-template input[type="text"],
 .login-template input[type="password"],
 .signup-template input[type="text"],
@@ -409,6 +440,52 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.3em;
+    height: 50px;
+    border-bottom: 1px solid rgb(230, 230, 230);
+}
+
+.profile-pic {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #faa968;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.profile-pic img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-info {
+    padding: 1em;
+    flex-grow: 1;
+    color: #faa968;
+}
+
+.user-info p {
+    margin: 0.5em 0;
+    color: #faa968;
+}
+
+.user-card {
+    width: 100%;
+    border: 2px solid #f85525;
+    border-radius: 5px;
+    background-color: #028391;
+    /* background-color: #00646f; */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
 }
 
 button {
@@ -437,6 +514,7 @@ button:focus {
     align-items: center;
     height: 100vh;
     flex-direction: column;
+    /* border: solid red; */
     /* border: solid red; */
 }
 
@@ -528,6 +606,20 @@ button:focus {
     text-decoration: underline;
 }
 
+.no-friends {
+    text-align: center;
+}
+
+.no-friends a {
+    color: #f85525;
+    text-decoration: none;
+}
+
+.no-friends a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
 .model-count {
     padding: 10px;
     color: #e0e0e0;
@@ -556,10 +648,13 @@ button:focus {
 
 .group-management {
     width: 600px;
+    height: 400px;
     background-color: #a63446;
     border-radius: 10px;
     padding: 20px;
     text-align: center;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .group-management h2 {
@@ -586,6 +681,7 @@ button:focus {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px;
 }
 
 .chat-member {
@@ -607,6 +703,33 @@ button:focus {
 .result-container .row {
     padding: 10px;
 }
+
+.back-chatroom {
+    padding: 10px;
+}
+
+.back-chatroom a {
+    color: #f85525;
+    text-decoration: none;
+}
+
+.back-chatroom a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* DELETE IF YOU WANT */
 
 .account-plate-styles {
     display: flex;
@@ -783,6 +906,7 @@ button:focus {
 
 .home_page {
     height: 100vh;
+    /* width: 100vw; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -805,11 +929,11 @@ button:focus {
 }
 
 #createGroupForm {
+    top: 0;
     position: absolute;
     height: 100vh;
     width: 100vw;
     backdrop-filter: blur(3px);
-    /* transition: .3s; */
 }
 
 #createGroupForm form {
@@ -925,7 +1049,7 @@ button:focus {
     appearance: none;
     text-decoration: none;
     /* padding: 100px 10px 10px 10px; */
-    height: 200px;
+    /* height: 200px; */
     font-size: 20px;
     color: rgb(222, 222, 222);
     background-color: red;
@@ -961,17 +1085,6 @@ button:focus {
     /* background-color: #0c6291; */
 }
 
-
-/* #send-message textarea,
-#update-message textarea {
-    width: 70%;
-    margin: auto;
-    resize: none;
-    height: 40px;
-    border-radius: 5px;
-    color: white;
-} */
-
 #send-message textarea,
 #update-message textarea {
     width: 100%;
@@ -985,13 +1098,11 @@ button:focus {
     color: 00072d;
     scrollbar-width: none;
     background-color: #e0e0e0;
+    background-color: #00000044;
     font-family: Arial, Helvetica, sans-serif;
+    border: none;
+    outline: none;
 }
-
-/* input::-webkit-file-upload-button {
-    height: 40px;
-    width: 40px;
-} */
 
 .textboxtest {
     display: flex;
@@ -1007,15 +1118,12 @@ button:focus {
     position: relative;
 }
 
-.hidden {
-    display: none;
-}
-
 #close_message_edit {
     position: absolute;
-    right: 15px;
+    right: 20px;
     top: 8px;
     background-color: #662542;
+    background-color: #079cac;
     width: 45px;
     height: 45px;
     display: flex;
@@ -1028,13 +1136,150 @@ button:focus {
     cursor: pointer;
 }
 
-#close_message_edit:hover {
+#close_message_edit:hover,
+#file_upload_btn:hover,
+#submit_file_btn:hover {
     color: whitesmoke;
     background-color: #00072d;
 }
 
 #file_input_form {
-    margin-top: 20px;
+    position: absolute;
+    width: 70%;
+    /* background-color: rgba(255, 0, 0, 0.219); */
+    height: 1px;
+}
+
+#file_input_form input {
+    position: relative;
+    left: -99999999999999px;
+}
+
+#file_upload_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background-color: #079cac;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: .3s;
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    font-size: 20px;
+}
+
+.submit_file_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background-color: #079cac;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: .3s;
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    font-size: 20px;
+}
+
+#submit_file_btn .fa-paper-plane {
+    position: relative;
+    right: 1.5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.container {
+    height: calc(100% - 100px);
+}
+
+.mp a,
+.mp span {
+    color: #f85525;
+    text-decoration: none;
+}
+
+.mp a:hover {
+    color: #01204e;
+    text-decoration: underline;
+}
+
+.make-profile {
+    border: 2px solid #f85525;
+    background-color: #eac78a;
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.first-time-user {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+.make-profile-form form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.make-profile-form form div {
+    margin-bottom: 15px;
+    margin: auto;
+}
+
+.make-profile-form form button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #01204e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.make-profile-form form button:hover {
+    background-color: #f85525;
+}
+
+.make-profile-form form button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.make-profile-form form input[type="text"],
+.make-profile-form form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #b02f12;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.make-profile-form form input[type="text"]:focus,
+.make-profile-form form input[type="file"]:focus {
+    outline: none;
+    border-color: #01204e;
 }
 
 #file_input_form button:hover {
@@ -1120,7 +1365,13 @@ button:focus {
 .make-profile-form form input[type="text"]:focus,
 .make-profile-form form input[type="file"]:focus {
     outline: none;
-    border-color: 00072d;
+    border-color: #01204e;
+}
+
+.profile-update-form,
+.profile-delete-form {
+    border: solid red;
+    width: 60%;
 }
 
 .profile-form {

@@ -305,27 +305,6 @@ def create_group_view(request: HttpRequest):
     context["form"] = form
     return render(request, "create_group.html", context)
 
-@admin_or_moderators_update_group
-@login_required(login_url="login")
-def update_group_view(request: HttpRequest, channel):
-    context = {}
-
-    try:
-        chatroom = Group.objects.get(name=channel)
-    except:
-        chatroom = None
-
-    form = Create_Group_Form(instance=chatroom)
-
-    if request.method == "POST":
-        form = Create_Group_Form(request.POST, instance=chatroom)
-        if form.is_valid():
-            form.save()
-            return redirect("group_management", chatroom.name)
-
-    context["form"] = form
-    return render(request, "create_group.html", context)
-
 @admin_only_delete_group
 @login_required(login_url="login")
 def delete_group_view(request: HttpRequest, channel):
@@ -465,11 +444,18 @@ def group_management_view(request: HttpRequest, channel):
         chatroom = None
         users = None
 
+    form = Create_Group_Form(instance=chatroom)
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST, instance=chatroom)
+        if form.is_valid():
+            form.save()
+
+    context["form"] = form
     context["chatroom"] = chatroom
     context["users"] = users
     context["current_user"] = request.user
     return render(request, "group_management.html", context)
-
 
 @admin_only_moderator_manager
 @login_required(login_url="login")

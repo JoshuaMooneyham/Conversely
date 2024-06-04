@@ -2,8 +2,10 @@
 {% load static %}
 {% block friends %}
 {% if friend_list.friends.all.count == 0 %}
-<p>You currently have no friends.</p>
-<a href="{% url "search_users" %}">Go find friends!</a>
+<div class="no-friends">
+    <p>You currently have no friends.</p>
+    <a href="{% url "search_users" %}">Go find friends!</a>
+</div>
 {% else %}
 <div class="model-count">
     <p>TOTAL FRIENDS - {{friend_list.friends.all.count}}</p>

@@ -37,7 +37,6 @@ urlpatterns = [
 
     # Group Management
     path("<str:channel>/manage", group_management_view, name="group_management"),
-    path("update/<str:channel>/", update_group_view, name="update_group"),
     path("delete/<str:channel>/", delete_group_view, name="delete_group"),
     path("make-moderator/<str:channel>/<str:username>/", appoint_moderators_view, name="appoint_moderators"),
     path("remove-moderator/<str:channel>/<str:username>/", remove_moderators_view, name="remove_moderators"),
