@@ -1668,3 +1668,11 @@ button:focus {
 .chat-box-time-stamp {
     color: #e0e0e0;
 }
+
+#notification {
+    height: 5px;
+    width: 5px;
+    background-color: #652844;
+    border-radius: 5px;
+    display: inline-block;
+}
