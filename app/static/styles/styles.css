@@ -6,6 +6,10 @@
     font-family: 'VT323', monospace;
 }
 
+html {
+    overflow: hidden;
+}
+
 .content {
     height: 100vh;
 }
@@ -191,7 +195,7 @@ body {
     resize: none;
     height: 60px;
     background-color: #079caca5;
-    border-radius: 355px;
+    /* border-radius: 355px; */
     color: white;
 }
 
@@ -238,7 +242,7 @@ body {
     position: fixed;
     top: 10px;
     left: 10px;
-    padding: 0.1em .5em;
+    padding: 0 .2em;
     border: none;
     border-radius: 5px;
     background-color: #faa968;
@@ -725,6 +729,7 @@ button:focus {
     border-radius: 0;
 }
 
-.message_wrapper:hover + .message_buttons, .message_buttons:hover {
+.message_wrapper:hover+.message_buttons,
+.message_buttons:hover {
     display: flex;
 }
