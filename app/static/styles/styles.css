@@ -55,7 +55,8 @@ body {
 } */
 
 #messages_container {
-    background-color: #f856255e;
+    background-color: #af330d5e;
+    /* background-color: #0000007a; */
     height: 70vh;
     overflow-y: scroll;
     scrollbar-width: none;
@@ -63,6 +64,7 @@ body {
     flex-direction: column;
     padding: 0px 50px;
     margin: 10px 20px;
+    border-radius: 5px;
 }
 
 .message_wrapper {
@@ -305,7 +307,7 @@ body {
     padding: 1em;
     box-shadow: 1px 1px #f85525;
     /* border-radius: 5px; */
-    background-color: #028391;
+    background-color: #00646f;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -466,9 +468,10 @@ body {
 
 .user-card {
     width: 100%;
-    border: 1px solid #f85525;
+    border: 2px solid #f85525;
     border-radius: 5px;
     background-color: #028391;
+    /* background-color: #00646f; */
     overflow: hidden;
     display: flex;
     justify-content: center;
