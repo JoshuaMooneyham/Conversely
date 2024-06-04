@@ -175,8 +175,16 @@ def logout_view(request: HttpRequest):
 
 @login_required(login_url="login")
 def group_selection_view(request: HttpRequest):
-    groups = Group.objects.all()
+    context = {}
+
     form = Create_Group_Form()
+
+    try:
+        groups = Group.objects.all()
+        
+    except:
+        pass
+
 
     if request.method == "POST":
         form = Create_Group_Form(request.POST)
@@ -187,6 +195,8 @@ def group_selection_view(request: HttpRequest):
             new_group_chat.users.add(request.user)
             return redirect("chatroom", new_group_chat.name)
 
+    context["form"] = form 
+    context["groups"] = groups
     return render(request, "group_selection.html", {'groups':groups, 'form': form})
 
 @unauthenticated_user

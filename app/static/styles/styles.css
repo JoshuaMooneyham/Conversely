@@ -576,18 +576,18 @@ button:focus {
     color: white;
 }
 
-.search-results ul {
+#search-results ul {
     width: 600px;
     background-color: #faa968;
     border-radius: 10px;
 }
 
-.search-results ul a {
+#search-results ul a {
     text-decoration: none;
     color: black;
 }
 
-.search-results ul li {
+#search-results ul li {
     display: flex;
     align-items: center;
     padding: 10px 20px 20px;
@@ -595,12 +595,12 @@ button:focus {
     list-style-type: none;
 }
 
-.search-results ul li:hover {
+#search-results ul li:hover {
     background-color: #028391;
     border-radius: 10px;
 }
 
-.search-results ul li img {
+#search-results ul li img {
     height: 60px;
     width: 60px;
     border-radius: 50px;
