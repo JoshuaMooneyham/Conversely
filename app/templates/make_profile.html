@@ -12,7 +12,7 @@
                 <p>Select your screen name: {{ user.screen_name }}</p>
             </div>
             <div class="make-profile-form">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div>{{ form.screen_name }}</div>
                     <div>{{ form.image }}</div>
