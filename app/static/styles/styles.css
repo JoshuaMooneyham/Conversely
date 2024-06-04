@@ -537,6 +537,63 @@ button:focus {
 }
 
 
+/* Friend List */
+
+.friend-lists-nav {
+    margin-top: -500px;
+    margin-bottom: 20px;
+    position: fixed;
+}
+
+
+.friend-lists-nav a {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+    padding: 20px 10px;
+}
+
+.friend-lists-nav a:hover {
+   text-decoration: underline;
+}
+
+.friend-list {
+    width: 600px;
+    background-color: #faa968;
+    border-radius: 10px;
+}
+
+.friend-list .wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* .friend-list .btns {
+    float: right;
+} */
+
+.friend-list ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px 20px;
+    gap: 10px;
+    list-style-type: none;
+}
+
+.friend-list ul li img {
+    height: 60px;
+    width: 60px;
+    border-radius: 50px;
+}
+
+.friend-list ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+
 
 
 
@@ -568,9 +625,12 @@ button:focus {
 
 .search-bar {
     width: 600px;
+    height: 40px;
     background-color: #f85525;
     border-radius: 30px;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .search-bar .row {
@@ -591,6 +651,7 @@ button:focus {
     outline: 0;
     font-size: 18px;
     color: white;
+    position: fixed;
 }
 
 #search-results ul {
