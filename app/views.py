@@ -227,22 +227,22 @@ def registration_view(request: HttpRequest):
 
     return render(request, "registration.html", {"form": form})
 
-
-def make_profile_view(request: HttpRequest):
-    # if request.user.is_authenticated:
-    #     return redirect('group_selection')
-    # else:
+@login_required(login_url="login")
+def make_profile_view(request):
+    if UserProfile.objects.filter(user=request.user).exists():
+        return redirect('group_selection')
+    else:
         if request.method == "POST":
-            form = Make_Profile_Form(request.POST)
+            form = Make_Profile_Form(request.POST, request.FILES)
             if form.is_valid():
                 screen_name = form.cleaned_data["screen_name"]
                 image = form.cleaned_data["image"]
-                create_user_profile(request.user, screen_name, image)
+                profile = create_user_profile(request.user, screen_name, image)
                 return redirect("group_selection")
         else:
             form = Make_Profile_Form()
 
-        return render(request, "make_profile.html", {"form": form, 'user':User.objects.get(username = request.user)})
+        return render(request, "make_profile.html", {"form": form})
 
 
 @login_required(login_url="login")

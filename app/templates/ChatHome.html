@@ -4,34 +4,21 @@
 <div id = 'chatroom_head'>
     {% if chatroom.new_group_name != None %}
             <h1>{{chatroom.new_group_name}}</h1>
-            <div id='online-count' class='offline'>
-                <span id='online_count'>0</span> online
-            </div> 
-            <div class = 'mp'>
-            <a href="{% url "invite_users" chatroom.name %}">Invite Users</a><span> | </span>
-            {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
-            <a href="{% url "group_management" chatroom.name %}">Manage</a>
-            {% endif %}
-            {% if current_user != chatroom.admin %}
-            <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
-            {% endif %}
-            <div>
     {% else %}
         <h1>{{chatroom.name}}</h1>
-        <div id='online-count' class='offline'>
-            <span id='online_count'>0</span> online
-        </div>
-        <div class = 'mp'>
-            <a href="{% url "invite_users" chatroom.name %}">Invite Users</a><span> | </span>
-            {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
-            <a href="{% url "group_management" chatroom.name %}">Manage</a>
-            {% endif %}
-            {% if current_user != chatroom.admin %}
-            <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
-            {% endif %}
-        </div>
     {% endif %}
-
+        <div id='online-count' class='offline'>
+                <span id='online_count'>0</span> online
+        </div> 
+            <div class = 'mp'>
+                <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
+                {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
+                <span> | </span><a href="{% url "group_management" chatroom.name %}">Manage</a>
+                {% endif %}
+                {% if current_user != chatroom.admin %}
+                <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
+                {% endif %}
+        </div>
 </div>
 <div class ='container'>
 

@@ -298,34 +298,6 @@ body {
     align-items: center;
 }
 
-.profile-update-form,
-.profile-delete-form {
-    max-width: 400px;
-    width: 100%;
-    padding: 1em;
-    box-shadow: 1px 1px #f85525;
-    /* border-radius: 5px; */
-    background-color: #028391;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.profile-update-form {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-
-.profile-delete-form {
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-.profile-update-form input[type='submit']:hover,
-.profile-delete-form input[type='submit']:hover {
-    background-color: #faa968;
-}
 
 .login-template input[type="text"],
 .login-template input[type="password"],
@@ -434,48 +406,6 @@ body {
     justify-content: center;
 }
 
-.profile-pic {
-    flex-shrink: 0;
-    width: 100px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #faa968;
-    border-radius: 50%;
-    margin: 10px;
-}
-
-.profile-pic img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.user-info {
-    padding: 1em;
-    flex-grow: 1;
-    color: #faa968;
-}
-
-.user-info p {
-    margin: 0.5em 0;
-    color: #faa968;
-}
-
-.user-card {
-    width: 100%;
-    border: 1px solid #f85525;
-    border-radius: 5px;
-    background-color: #028391;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1em;
-}
-
 button {
     padding: 10px 20px;
     border: none;
@@ -502,6 +432,7 @@ button:focus {
     align-items: center;
     height: 100vh;
     flex-direction: column;
+    border: solid red;
 }
 
 .user-profile {
@@ -550,14 +481,6 @@ button:focus {
     justify-content: center;
     align-items: center;
 }
-
-
-
-
-
-
-
-/* NOT A FRONT-END GUY */
 
 .result-container {
     width: 600px;
@@ -665,20 +588,6 @@ button:focus {
 .invites h3 {
     font-size: 40px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* DELETE IF YOU WANT */
 
 .account-plate-styles {
     display: flex;
@@ -1170,4 +1079,148 @@ button:focus {
 .make-profile-form form input[type="file"]:focus {
     outline: none;
     border-color: #01204e;
+}
+
+.profile-update-form,
+.profile-delete-form {
+    border: solid red;
+    width: 60%;
+}
+
+.profile-form {
+    max-width: 400px;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-form input[type='submit'] {
+    background-color: #faa968;
+    color: #fff;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-form input[type='submit']:hover {
+    background-color: #f69046;
+}
+
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+    background-color: #01204e;
+    border-radius: 10px;
+    padding: 2em;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.413);
+}
+
+.user-card .profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.user-card .profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-card .user-info {
+    text-align: center;
+}
+
+.profile-pic {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #6ab0c7;
+}
+
+.user-info {
+    color: #6ab0c7;
+}
+
+.user-info p {
+    margin: 0.5em 0;
+    font-size: 24px;
+}
+
+.profile-update-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 2em;
+    background-color: #2980b9;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-delete-form {
+    max-width: 400px;
+    width: 100%;
+    padding: 2em;
+    background-color: #1c6ca4;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-delete-form input[type='submit'] {
+    background-color: #d35400;
+    color: #fff;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-delete-form input[type='submit']:hover {
+    background-color: #a04000;
+}
+
+.profile-update-form input[type='submit'] {
+    background-color: #002d4b;
+    color: #fff;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-update-form input[type='submit']:hover {
+    background-color: #1c6ca4;
+}
+
+/* Styling for file input button */
+.profile-update-form input[type='file'] {
+    display: none;
+    /* Hide the original file input */
+}
+
+.profile-update-form .file-input-label {
+    width: 100%;
+    background-color: #09334e;
+    color: #fff;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    margin-bottom: 0.5em;
+}
+
+.profile-update-form .file-input-label:hover {
+    background-color: #2980b9;
 }
