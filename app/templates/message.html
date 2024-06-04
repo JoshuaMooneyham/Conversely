@@ -14,16 +14,16 @@
         <p class='popup_account'>{{message.user.profile.screen_name}}</p>
         <div class="image-container" style="position: relative; display: inline-block;">
             {% if message.user.profile.image %}
-            <img src="{{message.user.profile.image.url}}" class="profile-image" style='height: 30px'>
+            <img src="{{message.user.profile.image.url}}" class="profile-image">
             {% else %}
-            <img src="{% static "images/default-user.jpg" %}" alt="" class="profile-image" style='height: 30px'>
+            <img src="{% static "images/default-user.jpg" %}" alt="" class="profile-image">
             {% endif %}
         </div>
     </div>
     {% else %}
             <p class='message_profile_you'>You</p>
     {% endif %}
-    {% comment %} <div class='message_buttons'> {% endcomment %}
+    <div class='message_buttons'>
     {% if message.user == user %}
         <button class='delete-message'
             hx-post="{% url "delete_message" channel message.pk %}"
@@ -44,7 +44,7 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    {% comment %} </div> {% endcomment %}
-    <p>{{message.date_created.time}}</p>
+    </div>
+    <p class="{% if user == message.user %}right{% else %}left{% endif %}">{{message.date_created.time}}</p>
 </div>
 {% endif %}
