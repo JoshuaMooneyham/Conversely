@@ -3,10 +3,12 @@
 {% block content %}
 <div class = 'form-container'>
     <div class="invites">
-        <h3>Invites</h3>
         {% if invitations.all.count == 0 %}
-        <p>You have no new invites.</p>
+        <div class="no_recent_updates">
+            <p>You have no new invites.</p>
+        </div>
         {% else %}
+        <h3>Invites</h3>
         <div class="model-count">
             <p>Total Invites - {{invitations.all.count}}</p>
         </div>

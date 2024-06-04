@@ -3,7 +3,9 @@
 {% block friends %}
 <div class = 'form-container'>
 {% if friend_requests_list.all.count == 0 %}
-<p id='no_pending_requests'>You have no pending friend requests.</p>
+<div class="no_recent_updates">
+    <p>You have no pending friend requests.</p>
+</div>
 {% else %}
 <div class="model-count">
     <p>TOTAL PENDING - {{friend_requests_list.all.count}}</p>

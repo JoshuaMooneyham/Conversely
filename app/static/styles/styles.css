@@ -57,7 +57,7 @@ body {
 
 #messages_container {
     background-color: #ff87df42;
-    /* background-color: #0000007a; */
+    /* background-color: #f0000007a; */
     height: calc(100vh - 170px);
     overflow-y: scroll;
     scrollbar-width: none;
@@ -704,6 +704,10 @@ button:focus {
     padding: 10px;
 }
 
+.send-invites {
+    text-align: center;
+}
+
 .result-container .row {
     padding: 10px;
 }
@@ -810,7 +814,7 @@ button:focus {
     text-decoration: none;
 }
 
-#no_pending_requests {
+.no_recent_updates {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -821,6 +825,17 @@ button:focus {
     height: 50px;
     font-size: 1.6em;
     color: white;
+}
+
+#no_friends_search_link {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+}
+
+#no_friends_search_link:hover {
+    color: #662542;
+    text-decoration: underline;
 }
 
 /* DELETE IF YOU WANT */

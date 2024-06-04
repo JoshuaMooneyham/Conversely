@@ -2,42 +2,44 @@
 {% load static %}
 {% block content %}
 <div class = 'form-container'>
-{% if user.profile.friends.all.count == 0 %}
-<div class="no-friends">
-    <p>You have no friends to invite.</p>
-    <a href="{% url "search_users" %}">Go find friends!</a>
-</div>
-{% else %}
-    <h3 id='invite_header'>Invite Your Friends!</h3>
-    <div class="back-chatroom">
-        <a href="{% url "chatroom" chatroom.name %}">Back to the '{{chatroom.new_group_name}}' chatroom</a>
-    </div>
-    <div class="result-container">
-        <ul>
-            {% for friend, active_invite in friend_invites.items %}
-            <li>
-                <div class="wrapper">
-                    {% if friend not in chatroom.users.all %}
-                    {% if friend.profile.image %}
-                    <img src="{{friend.profile.image.url}}">
-                    {% else %}
-                    <img src="{% static "images/default-user.jpg" %}">
-                    {% endif %}
-                    <p>{{friend}}</p>
-                </div>
-                    <div class="btns">
-                        <a href="{% url "profile" friend %}"><button>Profile</button></a>
-                        {% if active_invite == False %}
-                        <a href="{% url "send_invite" chatroom.name friend %}"><button>Invite</button></a>
-                        {% else %}
-                        <a href="{% url "cancel_invite" chatroom.name friend %}"><button>Cancel</button></a>
+    <div class="send-invites">
+        {% if user.profile.friends.all.count == 0 %}
+        <div class="no_recent_updates">
+            <p>You have no friends to invite.</p>
+        </div>
+        <a id="no_friends_search_link" href="{% url "search_users" %}">Go find friends!</a>
+     </div>
+        {% else %}
+            <h3 id='invite_header'>Invite Your Friends!</h3>
+            <div class="back-chatroom">
+                <a href="{% url "chatroom" chatroom.name %}">Back to the '{{chatroom.new_group_name}}' chatroom</a>
+            </div>
+            <div class="result-container">
+                <ul>
+                    {% for friend, active_invite in friend_invites.items %}
+                    <li>
+                        <div class="wrapper">
+                            {% if friend not in chatroom.users.all %}
+                            {% if friend.profile.image %}
+                            <img src="{{friend.profile.image.url}}">
+                            {% else %}
+                            <img src="{% static "images/default-user.jpg" %}">
+                            {% endif %}
+                            <p>{{friend}}</p>
+                        </div>
+                            <div class="btns">
+                                <a href="{% url "profile" friend %}"><button>Profile</button></a>
+                                {% if active_invite == False %}
+                                <a href="{% url "send_invite" chatroom.name friend %}"><button>Invite</button></a>
+                                {% else %}
+                                <a href="{% url "cancel_invite" chatroom.name friend %}"><button>Cancel</button></a>
+                                {% endif %}
+                            </div>
                         {% endif %}
-                    </div>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
-{% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
 </div>
 {% endblock content %}
