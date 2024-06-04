@@ -2,35 +2,31 @@
 {% load static %}
 
 {% block content %}
-    <div>
-        <div class="user-card">
-            <div class="profile-pic">
-                {% if user.image %}
-                    <img src="{{ user.image.url }}" alt="Profile Picture">
-                {% else %}
-                    <img src="{% static "images/default-user.jpg" %}" alt="Profile Picture">
-                {% endif %}
-                
-    
+    <div class="form-container">
+        <div class="make-profile">
+            <div class="first-time-user">
+                <div class="logo-container">
+                    <img src="{% static "images/logo.png" %}" alt="Logo">
+                </div>                
+                <p>Welcome, {{ user }}</p>
+                <p>Select your screen name: {{ user.screen_name }}</p>
             </div>
-            <div class="user-info">
-                <p>{{ user.user }}</p>
-                <p>{{ user.screen_name }}</p>
+            <div class="make-profile-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>{{ form.screen_name }}</div>
+                    <div>{{ form.image }}</div>
+                    <button type="submit">Submit</button>
+                </form>
             </div>
         </div>
-        <form method="post">
-            {% csrf_token %}
-            <div>{{ form.screen_name }}</div>
-            <div>{{form.image}}</div>
-            <button type="submit">Submit</button>
-        </form>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let screen_name = document.getElementsByName('screen_name')[0];
             
-            screen_name.placeholder = 'Screen Name...'
+            screen_name.placeholder = 'Screen Name...';
         });
     </script>
 {% endblock content %}

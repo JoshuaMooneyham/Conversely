@@ -2,11 +2,14 @@
 {% load static %}
 {% block content %}
 <div class = 'form-container'>
+    <div class="back-chatroom">
+        <a href="{% url "chatroom" chatroom.name %}">Back to the '{{chatroom.new_group_name}}' chatroom</a>
+    </div>
     <div class="group-management">
         <h2>{{chatroom.new_group_name}}</h2>
             {% if current_user == chatroom.admin %}
             <div class="group-btns">
-                <a href="{% url "update_group" chatroom.name %}"><button>Edit</button></a>
+                <button id='editGroup'>Edit</button>
                 <a href="{% url "delete_group" chatroom.name %}"><button>Delete</button></a>
             </div>
             {% elif current_user in chatroom.moderators.all %}
@@ -22,6 +25,7 @@
             <p>{{chatroom.admin}}</p>
             </div>
             <h3>Moderators</h3>
+            <div class="moderator-list">
             {% for moderator in chatroom.moderators.all %}
                 <div class="mod">
                     <div class="chat-member">
@@ -33,12 +37,14 @@
                 <p>{{moderator}}</p>
                 </div>
                 {% if current_user == chatroom.admin %}
-                <div class="btn">
-                    <a href="{% url "remove_moderators" chatroom.name moderator %}"><button>Remove Role</button></a>
+                <div class="btns">
+                    <a href="{% url "profile" moderator %}"><button>Profile</button></a>
+                    <a href="{% url "remove_moderators" chatroom.name moderator %}"><button>Demote</button></a>
                 </div>
                 {% endif %}
                 </div>
             {% endfor %}
+            </div>
             <h3>Other Users</h3>
             {% for user in users %}
                 {% if user not in chatroom.moderators.all and user != chatroom.admin %}
@@ -51,7 +57,8 @@
                             {% endif %}
                             <p>{{user}}</p>   
                         </div>
-                        <div class="btn">
+                        <div class="btns">
+                            <a href="{% url "profile" user %}"><button>Profile</button></a>
                             <a href="{% url "appoint_moderators" chatroom.name user %}"><button>Promote</button></a>
                         </div>
                     
@@ -60,4 +67,22 @@
             {% endfor %}
     </div>
 </div>
+
+<div id='createGroupForm' class='hidden'>
+    {% include "create_group.html" %}
+</div>
+
+<script>
+    let createGroup = document.getElementById('editGroup');
+    let createGroupForm = document.getElementById('createGroupForm');
+    let closeGroup = document.getElementById('close_group_form');
+    createGroup.onclick = function () {
+        createGroupForm.classList.remove('hidden');
+    }
+    close_group_form.onclick = function () {
+        createGroupForm.classList.add('hidden')
+    }
+    document.querySelector('button[type="submit"]').innerText = 'Update Group';
+</script>
+
 {% endblock content %}

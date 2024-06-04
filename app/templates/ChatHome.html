@@ -1,36 +1,46 @@
 {% extends "group_selection.html" %}
 
 {% block content %}
-<div id = 'chatroom_head'>
-    {% if chatroom.new_group_name != None %}
+    <div id = 'chatroom_head'>
+        {% if chatroom.new_group_name != None %}
             <h1>{{chatroom.new_group_name}}</h1>
             <div id='online-count' class='offline'>
                 <span id='online_count'>0</span> online
             </div> 
-            <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
-            {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
-            <a href="{% url "group_management" chatroom.name %}">Manage</a>
-            {% endif %}
-            {% if current_user != chatroom.admin %}
-            <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
-            {% endif %}
-    {% else %}
-        <h1>{{chatroom.name}}</h1>
-        <div id='online-count' class='offline'>
-            <span id='online_count'>0</span> online
-        </div>
-    {% endif %}
-
-</div>
-<div class ='container'>
-
-        <div id='test_wrapper'>
-            <div id='messages_container'>
-                {% for message in messages %}
-                    {% include "message.html" %}
-                {% endfor %}
+            <div class = 'mp'>
+                <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
+                {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
+                <span> | </span>
+                <a href="{% url "group_management" chatroom.name %}">Manage</a>
+                {% endif %}
+                {% if current_user != chatroom.admin %}
+                <span> | </span><a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
+                {% endif %}
             </div>
-            <button id='to-bottom-btn'><i class="fa-solid fa-chevron-down"></i></button>
+        {% elif chatroom.is_private %}
+            {% for other_user in chatroom.users.all %}
+                {% if user != other_user %}
+                    <h1>{{other_user}}</h1>
+                {% endif %}
+            {% endfor %}
+            <div id='online-count' class='offline'>
+                <span id='online_count'>0</span> online
+            </div>
+        {% else %}
+            <h1>{{chatroom.name}}</h1>
+            <div id='online-count' class='offline'>
+                <span id='online_count'>0</span> online
+            </div>
+        {% endif %}
+    </div>
+<div class ='container'>
+    <div id='test_wrapper'>
+        <div id='messages_container'>
+            {% for message in messages %}
+                {% include "message.html" %}
+            {% endfor %}
+        </div>
+        <button class='hidden' id='to-bottom-btn'><i class="fa-solid fa-chevron-down"></i></button>
         </div>
         <div id='textboxes'>
             <form id='send-message' class='textboxtest'
@@ -57,15 +67,16 @@
                 hx-post="{% url "chat-file-upload" channel %}"
                 hx-target="#messages_container"
                 hx-swap="beforeend"
-                hx-on::after-request="this.reset()">
+                hx-on::after-request="this.reset(), document.getElementById('submit_file_btn').classList.add('hidden')">
                 {% csrf_token %}
-                <input type="file" name="file">
-                <button type="submit">Submit File</button>
+                <div id='file_upload_btn'><i class="fa-solid fa-plus"></i></div>
+                <input id='file_input' type="file" name="file" accepts='png, jpg'>
+                <button id='submit_file_btn' class='submit_file_btn hidden' type="submit"><i class="fa-solid fa-paper-plane"></i></button>
             </form>
         </div>
-</div>
-        <div id='account' class='account-plate-styles hidden'></div>
     </div>
+    <div id='account' class='account-plate-styles hidden'></div>
+</div>
     <script>
         addEventListener('htmx:configRequest', (e) => {
             e.detail.headers['X-CSRFToken'] = "{{ csrf_token }}";

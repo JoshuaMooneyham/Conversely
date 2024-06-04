@@ -63,18 +63,24 @@ def profile_view(request: HttpRequest, username):
         friend_request_from_current_user = FriendRequest.objects.filter(sender=request.user, receiver=user).exists()
         friend_request_from_other_user = FriendRequest.objects.filter(sender=user, receiver=request.user).exists()
     except:
-        pass
-        
+        user = None
+        profile = None
+        friend_request_from_current_user = None
+        friend_request_from_other_user = None
+
+    if request.user == user:
+        return redirect('edit-profile')
 
     if request.method == 'POST':
-        print(request.POST)
+        
         if 'block_user' in request.POST:
             try:
                 block = User.objects.get(pk=request.POST['user_id'])
                 if block not in request.user.profile.blocked_users.all():
                     request.user.profile.blocked_users.add(block)
-                if block in request.user.profile.friends.all():
+                if block in request.user.profile.friends.all() or request.user in block.profile.friends.all():
                     request.user.profile.friends.remove(block)
+                    block.profile.friends.remove(request.user)
             except:
                 pass
         elif 'unblock_user' in request.POST:
@@ -88,7 +94,6 @@ def profile_view(request: HttpRequest, username):
             except:
                 pass
     print(user.email)
-    # context['user'] = UserProfile.objects.get(user = request.user)
     context["profile_info"] = user
     context["profile"] = profile
     context["friend_request_from_current_user"] = friend_request_from_current_user
@@ -227,17 +232,17 @@ def registration_view(request: HttpRequest):
 
     return render(request, "registration.html", {"form": form})
 
-
-def make_profile_view(request: HttpRequest):
-    # if request.user.is_authenticated:
-    #     return redirect('group_selection')
-    # else:
+@login_required(login_url="login")
+def make_profile_view(request):
+    if UserProfile.objects.filter(user=request.user).exists():
+        return redirect('group_selection')
+    else:
         if request.method == "POST":
-            form = Make_Profile_Form(request.POST)
+            form = Make_Profile_Form(request.POST, request.FILES)
             if form.is_valid():
                 screen_name = form.cleaned_data["screen_name"]
                 image = form.cleaned_data["image"]
-                create_user_profile(request.user, screen_name, image)
+                profile = create_user_profile(request.user, screen_name, image)
                 return redirect("group_selection")
         else:
             form = Make_Profile_Form()
@@ -301,27 +306,6 @@ def create_group_view(request: HttpRequest):
             new_group_chat.save()
             new_group_chat.users.add(request.user)
             return redirect("chatroom", new_group_chat.name)
-
-    context["form"] = form
-    return render(request, "create_group.html", context)
-
-@admin_or_moderators_update_group
-@login_required(login_url="login")
-def update_group_view(request: HttpRequest, channel):
-    context = {}
-
-    try:
-        chatroom = Group.objects.get(name=channel)
-    except:
-        chatroom = None
-
-    form = Create_Group_Form(instance=chatroom)
-
-    if request.method == "POST":
-        form = Create_Group_Form(request.POST, instance=chatroom)
-        if form.is_valid():
-            form.save()
-            return redirect("group_management", chatroom.name)
 
     context["form"] = form
     return render(request, "create_group.html", context)
@@ -465,11 +449,18 @@ def group_management_view(request: HttpRequest, channel):
         chatroom = None
         users = None
 
+    form = Create_Group_Form(instance=chatroom)
+
+    if request.method == "POST":
+        form = Create_Group_Form(request.POST, instance=chatroom)
+        if form.is_valid():
+            form.save()
+
+    context["form"] = form
     context["chatroom"] = chatroom
     context["users"] = users
     context["current_user"] = request.user
     return render(request, "group_management.html", context)
-
 
 @admin_only_moderator_manager
 @login_required(login_url="login")

@@ -1,12 +1,14 @@
 {% extends "friend_management.html" %} 
 {% load static %}
 {% block friends %}
-<div class = 'form-container>'>
+<div class = 'form-container'>
 {% if friend_requests_list.all.count == 0 %}
-<p>You have no pending friend requests.</p>
+<p id='no_pending_requests'>You have no pending friend requests.</p>
 {% else %}
-
-    <div class="friend-list">
+<div class="model-count">
+    <p>TOTAL PENDING - {{friend_requests_list.all.count}}</p>
+</div>
+    <div class="result-container">
         <ul>
             {% for friend_request in friend_requests_list.all %}
             <li>
@@ -19,8 +21,8 @@
             <p>{{friend_request.sender}}</p>
             </div>
             <div class="btns">
-                <button><a href="{% url "accept_friend" friend_request.sender %}">Accept</a></button>
-                <button><a href="{% url "decline_friend" friend_request.sender %}">Decline</a></button>
+                <a href="{% url "accept_friend" friend_request.sender %}"><button>Accept</button></a>
+                <a href="{% url "decline_friend" friend_request.sender %}"><button>Decline</button></a>
             </div>
             </li>
             {% endfor %}
