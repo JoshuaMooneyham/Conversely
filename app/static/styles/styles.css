@@ -627,17 +627,14 @@ button:focus {
     font-family: 'VT323', monospace;
 }
 
-
-
-.message_wrapper {
+/* .message_wrapper {
     display: flex;
     flex-direction: column;
     position: relative;
 }
 
 .message_buttons {
-    display: none;
-    /* position: absolute; */
+    display: flex;
     bottom: 15px;
     right: 15px;
     border-radius: .3rem;
@@ -655,6 +652,7 @@ button:focus {
     background-color: aliceblue;
     color: #01204e;
     border-radius: 0;
+    z-index: 2;
 }
 
 .delete-message {
@@ -662,8 +660,17 @@ button:focus {
     margin: 0;
     background-color: rgb(194, 15, 15);
     border-radius: 0;
+    z-index: 2;
 }
 
-.message_wrapper:hover + .message_buttons, .message_buttons:hover {
-    display: flex;
-}
+#send-message input {
+    width: calc(90% - 100px);
+    margin-left: 5%;
+    resize: none;
+    height: 40px;
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+    padding: 0px 50px;
+    font-size: 1.3em;
+} */
