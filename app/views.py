@@ -242,7 +242,7 @@ def make_profile_view(request: HttpRequest):
         else:
             form = Make_Profile_Form()
 
-        return render(request, "make_profile.html", {"form": form})
+        return render(request, "make_profile.html", {"form": form, 'user':User.objects.get(username = request.user)})
 
 
 @login_required(login_url="login")

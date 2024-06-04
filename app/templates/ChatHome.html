@@ -1,36 +1,38 @@
 {% extends "group_selection.html" %}
 
 {% block content %}
-<div id = 'chatroom_head'>
-    {% if chatroom.new_group_name != None %}
+    <div id = 'chatroom_head'>
+        {% if chatroom.new_group_name != None %}
             <h1>{{chatroom.new_group_name}}</h1>
             <div id='online-count' class='offline'>
                 <span id='online_count'>0</span> online
             </div> 
-            <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
-            {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
-            <a href="{% url "group_management" chatroom.name %}">Manage</a>
-            {% endif %}
-            {% if current_user != chatroom.admin %}
-            <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
-            {% endif %}
-    {% else %}
-        <h1>{{chatroom.name}}</h1>
-        <div id='online-count' class='offline'>
-            <span id='online_count'>0</span> online
-        </div>
-    {% endif %}
-
-</div>
-<div class ='container'>
-
-        <div id='test_wrapper'>
-            <div id='messages_container'>
-                {% for message in messages %}
-                    {% include "message.html" %}
-                {% endfor %}
+            <div class = 'mp'>
+                <a href="{% url "invite_users" chatroom.name %}">Invite Users</a>
+                {% if current_user == chatroom.admin or current_user in chatroom.moderators.all %}
+                    <span> | </span>
+                    <a href="{% url "group_management" chatroom.name %}">Manage</a>
+                {% endif %}
+                {% if current_user != chatroom.admin %}
+                    <span> | </span>
+                    <a href="{% url "leave_chatroom" chatroom.name%}">Leave Chatroom</a>
+                {% endif %}
             </div>
-            <button id='to-bottom-btn'><i class="fa-solid fa-chevron-down"></i></button>
+        {% else %}
+            <h1>{{chatroom.name}}</h1>
+            <div id='online-count' class='offline'>
+                <span id='online_count'>0</span> online
+            </div>
+        {% endif %}
+    </div>
+<div class ='container'>
+    <div id='test_wrapper'>
+        <div id='messages_container'>
+            {% for message in messages %}
+                {% include "message.html" %}
+            {% endfor %}
+        </div>
+        <button class='hidden' id='to-bottom-btn'><i class="fa-solid fa-chevron-down"></i></button>
         </div>
         <div id='textboxes'>
             <form id='send-message' class='textboxtest'
@@ -65,8 +67,8 @@
             </form>
         </div>
     </div>
-        <div id='account' class='account-plate-styles hidden'></div>
-    </div>
+    <div id='account' class='account-plate-styles hidden'></div>
+</div>
     <script>
         addEventListener('htmx:configRequest', (e) => {
             e.detail.headers['X-CSRFToken'] = "{{ csrf_token }}";

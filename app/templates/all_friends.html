@@ -5,6 +5,9 @@
 <p>You currently have no friends.</p>
 <a href="{% url "search_users" %}">Go find friends!</a>
 {% else %}
+<div class="model-count">
+    <p>TOTAL FRIENDS - {{friend_list.friends.all.count}}</p>
+</div>
     <div class="result-container">
         <ul>
             {% for friend in friend_list.friends.all %} 
