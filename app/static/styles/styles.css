@@ -82,7 +82,7 @@ body {
     border-radius: 50%;
     border: none;
     transition: .3s;
-    background-color: #f8bb88;
+    background-color: #f85625cc;
 }
 
 #to-bottom-btn:hover {
@@ -595,7 +595,7 @@ button:focus {
 }
 
 .friend-lists-nav a:hover {
-   text-decoration: underline;
+    text-decoration: underline;
 }
 
 .model-count {
@@ -641,7 +641,7 @@ button:focus {
 .group-management a {
     color: white;
     text-decoration: none;
-    
+
 }
 
 .group-management img {
@@ -710,7 +710,8 @@ button:focus {
     border-radius: 50%;
 }
 
-#acc_popup_user, #acc_popup_display {
+#acc_popup_user,
+#acc_popup_display {
     color: whitesmoke;
     font-size: 2em;
 }
@@ -946,7 +947,7 @@ button:focus {
     align-items: center;
     justify-content: space-between;
     font-size: 2em;
-    background-color:#f6dcac ;
+    background-color: #f6dcac;
     border-bottom: 1px solid transparent;
     width: 100%;
     height: calc(25% - 1px);
@@ -981,7 +982,7 @@ button:focus {
 
 #group_select_scroll::-webkit-scrollbar-thumb {
     appearance: none;
-    background-color: #cacaca55; 
+    background-color: #cacaca55;
     width: 3px;
     /* border-radius: 10px; */
     /* overflow: hidden; */
@@ -1050,6 +1051,7 @@ button:focus {
     border-radius: 355px;
     color: #01204e;
     scrollbar-width: none;
+    background-color: #079cac9a;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -1100,4 +1102,86 @@ button:focus {
 
 #file_input_form {
     margin-top: 20px;
+}
+
+.mp a,
+.mp span {
+    color: #f85525;
+    text-decoration: none;
+}
+
+.mp a:hover {
+    color: #01204e;
+    text-decoration: underline;
+}
+
+.make-profile {
+    border: 2px solid #f85525;
+    background-color: #eac78a;
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.first-time-user {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+.make-profile-form form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.make-profile-form form div {
+    margin-bottom: 15px;
+    margin: auto;
+}
+
+.make-profile-form form button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #01204e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.make-profile-form form button:hover {
+    background-color: #f85525;
+}
+
+.make-profile-form form button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.make-profile-form form input[type="text"],
+.make-profile-form form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #b02f12;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.make-profile-form form input[type="text"]:focus,
+.make-profile-form form input[type="file"]:focus {
+    outline: none;
+    border-color: #01204e;
 }
