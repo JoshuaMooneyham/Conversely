@@ -21,7 +21,7 @@
             <a href="{% url 'edit-profile' %}"><i class="fas fa-user-edit"></i> Profile</a>
             <a href="{% url "friend_list" %}"><i class="fas fa-user-friends"></i> Friends</a>
             <a href="{% url "invitations" %}"><i class= "fas fa-envelope-open"></i> Invites</a>
-            <a href="{% url 'edit-profile' %}"><i class="fas fa-paint-brush"></i>  Theme</a>
+            {% comment %}<a href="{% url 'edit-profile' %}"><i class="fas fa-paint-brush"></i>  Theme</a> {% endcomment %}
             <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
         <div class="content" id="mainContent">
