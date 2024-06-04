@@ -40,6 +40,11 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
                 other_user = user
                 break
 
+    if req.htmx:
+        if req.method == "POST":
+            form = SendMessage(req.POST)
+            print(form)
+
     context["form"] = form
     context["current_user"] = req.user
     context["other_user"] = other_user

@@ -37,32 +37,32 @@ let messageObserver = new MutationObserver((e) => {
         scrollToBottom()
     }
 
-// DELETE
-    let messages = [...document.getElementsByClassName('message_wrapper')];
-    messages.forEach((msg) => {
-        let buttons = msg.querySelector('.message_buttons');
-        msg.removeEventListener('mouseover', handleHover)
-        msg.removeEventListener('mouseleave', handleUnhover)
-        msg.addEventListener('mouseover', (e) => {
-            buttons.style.display = 'flex';
-        })
-        msg.addEventListener('mouseleave', (e) => {
-            buttons.style.display = 'none';
-        })
-    })
+// // DELETE
+//     let messages = [...document.getElementsByClassName('message_wrapper')];
+//     messages.forEach((msg) => {
+//         let buttons = msg.querySelector('.message_buttons');
+//         msg.removeEventListener('mouseover', handleHover)
+//         msg.removeEventListener('mouseleave', handleUnhover)
+//         msg.addEventListener('mouseover', (e) => {
+//             buttons.style.display = 'flex';
+//         })
+//         msg.addEventListener('mouseleave', (e) => {
+//             buttons.style.display = 'none';
+//         })
+//     })
 })
 
-// DELETE
-let messages = [...document.getElementsByClassName('message_wrapper')];
-messages.forEach((msg) => {
-    let buttons = msg.querySelector('.message_buttons');
-    msg.addEventListener('mouseover', (e) => {
-        buttons.style.display = 'flex';
-    })
-    msg.addEventListener('mouseleave', (e) => {
-        buttons.style.display = 'none';
-    })
-})
+// // DELETE
+// let messages = [...document.getElementsByClassName('message_wrapper')];
+// messages.forEach((msg) => {
+//     let buttons = msg.querySelector('.message_buttons');
+//     msg.addEventListener('mouseover', (e) => {
+//         buttons.style.display = 'flex';
+//     })
+//     msg.addEventListener('mouseleave', (e) => {
+//         buttons.style.display = 'none';
+//     })
+// })
 
 messageObserver.observe(messageContainer, {childList: true})
 
@@ -100,7 +100,8 @@ addEventListener("htmx:wsAfterSend", () => {
 
 addEventListener("click", (e) => {
     if (e.target.classList.contains('edit_message')) {
-        message = e.target.closest('div').parentElement;
+        message = e.target.closest('div');
+        console.log(message)
         if (updateMsgForm.classList.contains('hidden')) {
             swapBars()
         }

@@ -1,5 +1,6 @@
 <div class = 'form-container'>
   <form method="POST">
+    <i id='close_group_form' class="fa-solid fa-xmark"></i>
     {% csrf_token %}
     {{ form }}
     <button type="submit">Create Group</button>

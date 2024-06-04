@@ -45,11 +45,14 @@ class Consumer(WebsocketConsumer):
         self.send(text_data=html)
 
     def update_message(self, event):
-        message = Message.objects.get(pk=event['message_id'])
-        message.text = event['text']
-        message.save()
-        html = render_to_string('message.html', context={'message': message, "user": self.user, "channel": self.group_name})
-        self.send(text_data=html)
+        try:
+            message = Message.objects.get(pk=event['message_id'])
+            message.text = event['text']
+            message.save()
+            html = render_to_string('message.html', context={'message': message, "user": self.user, "channel": self.group_name})
+            self.send(text_data=html)
+        except: 
+            pass
 
     def update_online_count(self):
         users_online = [i.username for i in self.group.users_online.all()]
