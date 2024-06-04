@@ -1,11 +1,13 @@
 {% extends "friend_management.html" %} 
 {% load static %}
 {% block friends %}
-<div class = 'form-container>'>
+<div class = 'form-container'>
 {% if friend_requests_list.all.count == 0 %}
 <p>You have no pending friend requests.</p>
 {% else %}
-
+<div class="model-count">
+    <p>TOTAL PENDING - {{friend_requests_list.all.count}}</p>
+</div>
     <div class="result-container">
         <ul>
             {% for friend_request in friend_requests_list.all %}

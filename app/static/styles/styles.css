@@ -521,6 +521,10 @@ button:focus {
     text-decoration: underline;
 }
 
+.model-count {
+    padding: 10px;
+}
+
 .result-container ul li {
     display: flex;
     justify-content: space-between;
@@ -587,6 +591,11 @@ button:focus {
 
 .invites h3 {
     font-size: 40px;
+    padding: 10px;
+}
+
+.result-container .row {
+    padding: 10px;
 }
 
 .account-plate-styles {
@@ -706,6 +715,11 @@ button:focus {
     height: 60px;
     width: 60px;
     border-radius: 50px;
+}
+
+.no-users {
+    text-align: center;
+    padding: 10px;
 }
 
 .side-nav a {
