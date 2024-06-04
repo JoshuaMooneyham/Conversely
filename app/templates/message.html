@@ -46,11 +46,13 @@
         {% endfor %}
     {% endif %}
     </div>
+   <div class = 'chat-box-time-stamp'>
     {%now "Y-m-d" as today%}
     {% if message.date_created|date:"Y-m-d" == today %}
         <p class="{% if user == message.user %}right{% else %}left{% endif %}">{{ message.date_created|date:"g:i a" }}</p>
     {% else %}
         <p class="{% if user == message.user %}right{% else %}left{% endif %}">{{ message.date_created|date:"D, m-d g:i a" }}</p>
     {% endif %}
+    </div>
 </div>
 {% endif %}

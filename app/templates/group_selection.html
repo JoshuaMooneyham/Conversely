@@ -19,8 +19,16 @@
             <a href="#" class="close-btn" id="closeBtn">&times;</a>
             <a href="{% url 'group_selection' %}"><i class="fas fa-home"></i> Home</a>
             <a href="{% url 'edit-profile' %}"><i class="fas fa-user-edit"></i> Profile</a>
-            <a href="{% url "friend_list" %}"><i class="fas fa-user-friends"></i> Friends</a>
-            <a href="{% url "invitations" %}"><i class= "fas fa-envelope-open"></i> Invites</a>
+            <a href="{% url "friend_list" %}"><i class="fas fa-user-friends"></i> Friends
+                {% if friend_requests_list.all.count != 0 %}
+                <span id="notification"></span>
+                {% endif %}
+            </a>
+            <a href="{% url "invitations" %}"><i class= "fas fa-envelope-open"></i> Invites
+                {% if invites.all.count != 0 %}
+                <span id="notification"></span>
+                {% endif %}
+            </a>
             {% comment %}<a href="{% url 'edit-profile' %}"><i class="fas fa-paint-brush"></i>  Theme</a> {% endcomment %}
             <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>

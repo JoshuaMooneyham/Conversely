@@ -20,6 +20,8 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context = {}
     try:
         chatroom = Group.objects.get(name=channel)
+        friend_requests_list = FriendRequest.objects.filter(receiver=req.user)
+        invites = InviteNotification.objects.filter(receiver=req.user)
     except:
         return redirect("group_selection")  # Send home if bad group request
     
@@ -50,6 +52,9 @@ def chat_view(req: HttpRequest, channel: str = "Cohort2") -> HttpResponse:
     context["other_user"] = other_user
     context["channel"] = channel
     context["chatroom"] = chatroom
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
+
     return render(req, "ChatHome.html", context)
 
 
@@ -62,6 +67,8 @@ def profile_view(request: HttpRequest, username):
         profile = UserProfile.objects.get(user=user)
         friend_request_from_current_user = FriendRequest.objects.filter(sender=request.user, receiver=user).exists()
         friend_request_from_other_user = FriendRequest.objects.filter(sender=user, receiver=request.user).exists()
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
     except:
         user = None
         profile = None
@@ -98,6 +105,8 @@ def profile_view(request: HttpRequest, username):
     context["profile"] = profile
     context["friend_request_from_current_user"] = friend_request_from_current_user
     context["friend_request_from_other_user"] = friend_request_from_other_user
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
 
     return render(request, "profile.html", context)
 
@@ -192,6 +201,8 @@ def group_selection_view(request: HttpRequest):
 
     try:
         groups = Group.objects.all()
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
         
     except:
         pass
@@ -208,7 +219,9 @@ def group_selection_view(request: HttpRequest):
 
     context["form"] = form 
     context["groups"] = groups
-    return render(request, "group_selection.html", {'groups':groups, 'form': form})
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
+    return render(request, "group_selection.html", context)
 
 @unauthenticated_user
 def registration_view(request: HttpRequest):
@@ -252,9 +265,16 @@ def make_profile_view(request):
 
 @login_required(login_url="login")
 def edit_profile_view(request: HttpRequest):
+    context = {}
     user_profile = UserProfile.objects.get(user=request.user)
     user = User.objects.get(username=request.user)
     user_profile = UserProfile.objects.get(user = request.user)
+
+    try:
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
+    except:
+        pass
 
     if request.method == "POST":
         new_screen_name = (
@@ -288,8 +308,12 @@ def edit_profile_view(request: HttpRequest):
         elif "delete" in request.POST:
             delete_user_profile(request.user)
             return redirect("login")
+    
+    context["user"] = user_profile
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
 
-    return render(request, "update_profile.html", {"user": user_profile})
+    return render(request, "update_profile.html", context)
 
 
 @login_required(login_url="login")
@@ -354,6 +378,8 @@ def invite_user_list_view(request: HttpRequest, channel):
         chatroom = Group.objects.get(name=channel)
         my_profile = UserProfile.objects.get(user=request.user)
         friends = my_profile.friends.all()
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
     except:
         pass
 
@@ -367,6 +393,8 @@ def invite_user_list_view(request: HttpRequest, channel):
 
     context["chatroom"] = chatroom
     context["friend_invites"] = friend_invites
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
     return render(request, "user_invite.html", context)
 
 
@@ -429,11 +457,13 @@ def invitations_view(request: HttpRequest):
     context = {}
 
     try:
-        invitations = InviteNotification.objects.filter(receiver=request.user)
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
     except:
         pass
-
-    context["invitations"] = invitations
+    
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
     return render(request, "invitations.html", context)
 
 
@@ -445,6 +475,8 @@ def group_management_view(request: HttpRequest, channel):
     try:
         chatroom = Group.objects.get(name=channel)
         users = chatroom.users.exclude(username=request.user)
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
     except:
         chatroom = None
         users = None
@@ -460,6 +492,8 @@ def group_management_view(request: HttpRequest, channel):
     context["chatroom"] = chatroom
     context["users"] = users
     context["current_user"] = request.user
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
     return render(request, "group_management.html", context)
 
 @admin_only_moderator_manager
@@ -609,10 +643,14 @@ def all_friends_view(request: HttpRequest):
 
     try:
         friend_list = UserProfile.objects.get(user=request.user)
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
     except:
         friend_list = None
 
     context["friend_list"] = friend_list
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
     return render(request, "all_friends.html", context)
 
 
@@ -622,10 +660,12 @@ def friend_requests_view(request: HttpRequest):
 
     try:
         friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
     except:
         friend_requests_list = None
 
     context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
     return render(request, "friend_requests.html", context)
 
 def get_user_account(request: HttpRequest, userId: int, channel: str):
@@ -660,11 +700,21 @@ def unban_user(request: HttpRequest, userId: int, channel: str):
     
 def search_users_view(request: HttpRequest):
     context = {}
+
+    try:
+        friend_requests_list = FriendRequest.objects.filter(receiver=request.user)
+        invites = InviteNotification.objects.filter(receiver=request.user)
+    except:
+        pass
+
     if request.method == "POST":
         search = request.POST['search']
         searched = User.objects.filter(username__contains=search)
     
         context["search"] = search
         context["searched"] = searched
+        
+    context["friend_requests_list"] = friend_requests_list
+    context["invites"] = invites
     return render(request, "search_users.html", context)
     

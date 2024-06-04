@@ -3,15 +3,17 @@
 {% block content %}
 <div class = 'form-container'>
     <div class="invites">
-        <h3>Invites</h3>
-        {% if invitations.all.count == 0 %}
-        <p>You have no new invites.</p>
+        {% if invites.all.count == 0 %}
+        <div class="no_recent_updates">
+            <p>You have no new invites.</p>
+        </div>
         {% else %}
+        <h3>Invites</h3>
         <div class="model-count">
             <p>Total Invites - {{invitations.all.count}}</p>
         </div>
         <div class="result-container">
-            {% for invitation in invitations.all %}
+            {% for invitation in invites.all %}
             <div class="row">
                 <div class="row">
                     {% if invitation.sender.profile.image %}
